@@ -51,8 +51,13 @@ pnpm install --frozen-lockfile
 pnpm run check
 ```
 
-`pnpm run check` runs typecheck, docs lint, offline publication validation,
-build, and stable public-behavior tests against `dist/`.
+`pnpm run check` runs:
+
+1. `astro check`
+2. offline publication validation (`scripts/validate-publication.mjs`)
+3. `astro build`
+4. `nimbus-docs lint` (after build — `internal-link` needs `.nimbus/routes.json`)
+5. stable public-behavior tests (`scripts/test-public-behavior.mjs`)
 
 Preview deploy (unindexed):
 
@@ -62,6 +67,12 @@ pnpm run deploy
 
 Indexing stays disabled until M3 custom-domain verification. Do not set
 `SITE_INDEXABLE=true` before that gate.
+
+## Homepage routing
+
+Use `src/pages/index.astro` for `/`. Current Nimbus maps
+`src/content/docs/index.mdx` to `/index`, so do not reintroduce a content
+index at the docs root unless that upstream behavior changes.
 
 ## File layout
 
