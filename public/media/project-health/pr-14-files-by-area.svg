@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420" role="img" aria-labelledby="title desc">
+  <title id="title">PR #14 changed files by area</title>
+  <desc id="desc">Bar chart of the 63 frozen PR #14 paths grouped into five mutually exclusive areas derived from pr14-path-classification.v1.json.</desc>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="64" y="36" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#1d1d1f">PR #14 changed files by area</text>
+  <text x="64" y="58" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6b6b6b">Counts are computed from derived classification records; total must equal 63.</text>
+  <line x1="64" y1="348" x2="884" y2="348" stroke="#1d1d1f" stroke-width="1.5"/>
+  
+      <g>
+        <rect x="64.00" y="297.82" width="144.80" height="50.18" fill="#0066cc" />
+        <text x="136.40" y="287.82" text-anchor="middle" font-size="16" font-weight="600" fill="#1d1d1f">4</text>
+        <text x="136.40" y="376.00" text-anchor="middle" font-size="13" fill="#1d1d1f">Product code</text>
+      </g>
+      <g>
+        <rect x="232.80" y="159.82" width="144.80" height="188.18" fill="#0066cc" />
+        <text x="305.20" y="149.82" text-anchor="middle" font-size="16" font-weight="600" fill="#1d1d1f">15</text>
+        <text x="305.20" y="376.00" text-anchor="middle" font-size="13" fill="#1d1d1f">Canonical docs</text>
+      </g>
+      <g>
+        <rect x="401.60" y="109.64" width="144.80" height="238.36" fill="#0066cc" />
+        <text x="474.00" y="99.64" text-anchor="middle" font-size="16" font-weight="600" fill="#1d1d1f">19</text>
+        <text x="474.00" y="376.00" text-anchor="middle" font-size="13" fill="#1d1d1f">Decision governance</text>
+      </g>
+      <g>
+        <rect x="570.40" y="72.00" width="144.80" height="276.00" fill="#0066cc" />
+        <text x="642.80" y="62.00" text-anchor="middle" font-size="16" font-weight="600" fill="#1d1d1f">22</text>
+        <text x="642.80" y="376.00" text-anchor="middle" font-size="13" fill="#1d1d1f">Agent / tooling</text>
+      </g>
+      <g>
+        <rect x="739.20" y="310.36" width="144.80" height="37.64" fill="#0066cc" />
+        <text x="811.60" y="300.36" text-anchor="middle" font-size="16" font-weight="600" fill="#1d1d1f">3</text>
+        <text x="811.60" y="376.00" text-anchor="middle" font-size="13" fill="#1d1d1f">CI / dependencies</text>
+      </g>
+</svg>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="582" viewBox="0 0 980 582" role="img" aria-labelledby="title desc">
+  <title id="title">Decomposition timeline: PR #14 close and #15–#20 merges</title>
+  <desc id="desc">Vertical timeline of PR #14 create/close and replacement PR create/merge timestamps taken from decomposition-timeline.v1.json raw snapshot identifiers.</desc>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="28" y="34" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#1d1d1f">Decomposition timeline: PR #14 close and #15–#20 merges</text>
+  <text x="28" y="56" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#6b6b6b">Each event timestamp and rawRef come from committed derived timeline records.</text>
+  <line x1="38" y1="70" x2="38" y2="520" stroke="#c7c7cc" stroke-width="2"/>
+  
+      <g>
+        <circle cx="38" cy="78" r="6" fill="#0066cc"/>
+        <text x="56" y="83" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-25T02:33:59Z — PR #14 opened (pullRequests[number=14].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="112" r="6" fill="#0066cc"/>
+        <text x="56" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T03:37:40Z — PR #15 opened (pullRequests[number=15].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="146" r="6" fill="#0066cc"/>
+        <text x="56" y="151" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T03:53:58Z — PR #16 opened (pullRequests[number=16].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="180" r="6" fill="#0066cc"/>
+        <text x="56" y="185" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T04:02:54Z — PR #17 opened (pullRequests[number=17].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="214" r="6" fill="#b91c1c"/>
+        <text x="56" y="219" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T04:03:45Z — PR #14 closed without merge (pullRequests[number=14].closedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="248" r="6" fill="#0066cc"/>
+        <text x="56" y="253" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T04:32:36Z — PR #18 opened (pullRequests[number=18].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="282" r="6" fill="#0066cc"/>
+        <text x="56" y="287" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T04:42:36Z — PR #19 opened (pullRequests[number=19].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="316" r="6" fill="#0066cc"/>
+        <text x="56" y="321" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T04:44:46Z — PR #20 opened (pullRequests[number=20].createdAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="350" r="6" fill="#047857"/>
+        <text x="56" y="355" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T13:56:59Z — PR #15 merged (pullRequests[number=15].mergedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="384" r="6" fill="#047857"/>
+        <text x="56" y="389" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T13:59:19Z — PR #16 merged (pullRequests[number=16].mergedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="418" r="6" fill="#047857"/>
+        <text x="56" y="423" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T14:04:38Z — PR #20 merged (pullRequests[number=20].mergedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="452" r="6" fill="#047857"/>
+        <text x="56" y="457" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T14:09:19Z — PR #17 merged (pullRequests[number=17].mergedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="486" r="6" fill="#047857"/>
+        <text x="56" y="491" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T14:20:44Z — PR #19 merged (pullRequests[number=19].mergedAt)</text>
+      </g>
+      <g>
+        <circle cx="38" cy="520" r="6" fill="#047857"/>
+        <text x="56" y="525" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#1d1d1f">2026-07-26T14:42:35Z — PR #18 merged (pullRequests[number=18].mergedAt)</text>
+      </g>
+</svg>

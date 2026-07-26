@@ -1,0 +1,263 @@
+---
+title: "Eazy Review Project Health Review: What PR #14 Revealed About Scope, Reviewability, and AI-Assisted Development"
+description: Frozen evidence review of PR #14’s scope, recorded closure reasons, and replacement coverage through PRs #15–#20.
+draft: true
+aiGenerated: true
+kind: report
+project: eazy-review
+tags:
+  - project-health
+  - pull-requests
+  - evidence
+featured: true
+sidebar:
+  order: 1
+  label: PR #14 project health
+sourceRefs:
+  - label: "PR #14"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/14
+  - label: "PR #15"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/15
+  - label: "PR #16"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/16
+  - label: "PR #17"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/17
+  - label: "PR #18"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/18
+  - label: "PR #19"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/19
+  - label: "PR #20"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/20
+  - label: "PR #14 head commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/68a2911183b4e99455a0ea71940b66ec30f41dd5
+  - label: "Integrated result commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/9eb485cd9b6207b52ff4408ee89647f32faae436
+---
+
+## Executive summary
+
+[PR #14](https://github.com/tyson-hu/Eazy-Review/pull/14) accumulated a large,
+cross-cutting planning and tooling change set—63 paths and `+4,665/-912`—then
+closed without merge. The recorded close comment preserved the head at
+[`68a2911183b4e99455a0ea71940b66ec30f41dd5`](https://github.com/tyson-hu/Eazy-Review/commit/68a2911183b4e99455a0ea71940b66ec30f41dd5)
+and pointed reviewers at replacement PRs [#15](https://github.com/tyson-hu/Eazy-Review/pull/15)–[#20](https://github.com/tyson-hu/Eazy-Review/pull/20).
+
+A frozen path-coverage calculation shows **61** of those 63 paths are represented
+in at least one replacement PR and **2** paths were intentionally superseded.
+Seventeen represented paths appear in more than one replacement PR, so
+replacement file counts cannot be added together.
+
+This report establishes sequence, scope, ownership, overlap, preservation, and
+reviewability from committed evidence. It does **not** claim that decomposition
+eliminated bugs, made AI review more accurate, or improved code quality beyond
+what the frozen evidence can show.
+
+## Scope and evidence freeze
+
+| Field | Frozen value |
+| --- | --- |
+| Repository | `tyson-hu/Eazy-Review` |
+| PR #14 | https://github.com/tyson-hu/Eazy-Review/pull/14 |
+| Title | Plan packetized Supabase foundation and skill-wrapper validation |
+| State | Closed without merge |
+| Created | `2026-07-25T02:33:59Z` |
+| Closed | `2026-07-26T04:03:45Z` |
+| Base SHA | [`6c86dc735064734d1eda250b471ab7bea7dc2d4f`](https://github.com/tyson-hu/Eazy-Review/commit/6c86dc735064734d1eda250b471ab7bea7dc2d4f) |
+| Head SHA | [`68a2911183b4e99455a0ea71940b66ec30f41dd5`](https://github.com/tyson-hu/Eazy-Review/commit/68a2911183b4e99455a0ea71940b66ec30f41dd5) |
+| Diff | 63 changed paths, `+4,665/-912` |
+| Integrated app commit | [`9eb485cd9b6207b52ff4408ee89647f32faae436`](https://github.com/tyson-hu/Eazy-Review/commit/9eb485cd9b6207b52ff4408ee89647f32faae436) (PR #18 merge commit) |
+| Raw snapshot | `src/data/project-health/raw/github-prs-14-20.v1.json` |
+| Snapshot generated at | `2026-07-26T21:39:21.807Z` |
+| Source-freeze date | 2026-07-26 (raw revision 1) |
+
+Publication date is intentionally unset while `draft: true`. Evidence used by a
+published version of this report must not be silently refreshed.
+
+## Methodology
+
+1. **Observed facts** come from the immutable raw snapshot created by
+   `pnpm evidence:refresh` (GitHub PR metadata, changed paths, commits, checks,
+   issue comments, and reviews actually fetched).
+2. **Derived calculations** live in separate files under
+   `src/data/project-health/derived/` and declare lineage to raw revision `1`.
+3. **Interpretation** in this article is limited to sequence, scope, ownership,
+   overlap, preservation, and reviewability.
+4. **Invariant tests** prove every PR #14 path is classified once, coverage is
+   61 represented / 2 superseded, and timeline events match raw timestamps.
+5. **Charts** are generated only from derived records; adjacent tables repeat
+   the same numbers.
+
+Ambiguous classification choices are documented in
+`src/data/project-health/README.md`.
+
+## What accumulated in PR #14
+
+The frozen PR #14 diff touched five mutually exclusive areas. Counts are
+computed from `pr14-path-classification.v1.json`, not hand-entered chart totals.
+
+![Bar chart of PR #14 changed files by area: product code 4, canonical docs 15, decision governance 19, agent/tooling 22, CI/dependencies 3.](/media/project-health/pr-14-files-by-area.svg)
+
+**Takeaway:** Agent/tooling and decision-governance paths dominate the PR #14
+surface area; only four paths are product runtime code.
+
+| Area | Paths |
+| --- | ---: |
+| Product code | 4 |
+| Canonical product/data documents | 15 |
+| Decision governance | 19 |
+| Agent / tooling | 22 |
+| CI / dependencies | 3 |
+| **Total** | **63** |
+
+That mix—planning docs, ADR restructure, skill wrappers, CI, and a small Browse
+currency code path—explains why a single review surface was hard to keep focused
+even before judging any individual review comment’s correctness.
+
+## Recorded reasons PR #14 was closed
+
+The raw snapshot includes the issue comment authored by `tyson-hu` at
+`2026-07-26T04:03:36Z` (immediately before close). That comment is the frozen
+record of why the PR closed. In summary it states:
+
+- PR #14 is closed as **superseded**, with head
+  `68a2911183b4e99455a0ea71940b66ec30f41dd5` preserved for reference.
+- Work continues through replacement PRs **#15–#20**, each owning a focused
+  topic.
+- Only two PR #14 paths are absent from replacements:
+  `scripts/check-skill-wrappers.cjs` and the corresponding direct `yaml` entry
+  in `package-lock.json`, both intentionally superseded by PR #17’s
+  manifest-based generator.
+- No PR #14 commit was cherry-picked wholesale to move the branch head.
+
+This report does not invent additional motives beyond that recorded comment and
+the observable GitHub state (closed, not merged).
+
+## How work was decomposed
+
+Replacement topics observed in the raw snapshot:
+
+| PR | Title | Merged at (UTC) | Merge commit |
+| --- | --- | --- | --- |
+| [#15](https://github.com/tyson-hu/Eazy-Review/pull/15) | Display Browse prices with their currency | `2026-07-26T13:56:59Z` | [`6cae7f923a165c3fe8a678d239289712965f1023`](https://github.com/tyson-hu/Eazy-Review/commit/6cae7f923a165c3fe8a678d239289712965f1023) |
+| [#16](https://github.com/tyson-hu/Eazy-Review/pull/16) | Define Task 11–12 Supabase security foundation | `2026-07-26T13:59:19Z` | [`0f3a47311d88c411dce0d4293585d265e17a370b`](https://github.com/tyson-hu/Eazy-Review/commit/0f3a47311d88c411dce0d4293585d265e17a370b) |
+| [#20](https://github.com/tyson-hu/Eazy-Review/pull/20) | Define agent and MCP database authority | `2026-07-26T14:04:38Z` | [`5f548ba937b612742ceb97e0771d69384b0dfca2`](https://github.com/tyson-hu/Eazy-Review/commit/5f548ba937b612742ceb97e0771d69384b0dfca2) |
+| [#17](https://github.com/tyson-hu/Eazy-Review/pull/17) | Generate skill discovery wrappers from a manifest | `2026-07-26T14:09:19Z` | [`639d509cb07204789aca499ce11271d5550f1a7a`](https://github.com/tyson-hu/Eazy-Review/commit/639d509cb07204789aca499ce11271d5550f1a7a) |
+| [#19](https://github.com/tyson-hu/Eazy-Review/pull/19) | Define connected Tasks 13–18 contracts | `2026-07-26T14:20:44Z` | [`6a6bf48ed8fdbba15fc2d5037277b5ad6b9b514c`](https://github.com/tyson-hu/Eazy-Review/commit/6a6bf48ed8fdbba15fc2d5037277b5ad6b9b514c) |
+| [#18](https://github.com/tyson-hu/Eazy-Review/pull/18) | Adopt generated ADR decision governance | `2026-07-26T14:42:35Z` | [`9eb485cd9b6207b52ff4408ee89647f32faae436`](https://github.com/tyson-hu/Eazy-Review/commit/9eb485cd9b6207b52ff4408ee89647f32faae436) |
+
+![Timeline of PR #14 create/close and replacement PR create/merge events with raw snapshot identifiers.](/media/project-health/decomposition-timeline.svg)
+
+**Takeaway:** Replacement PRs opened while PR #14 was still open; merges landed
+after the close, finishing with PR #18’s merge commit as the integrated result.
+
+| Timestamp (UTC) | Event | Raw identifier |
+| --- | --- | --- |
+| `2026-07-25T02:33:59Z` | PR #14 opened | `pullRequests[number=14].createdAt` |
+| `2026-07-26T03:37:40Z` | PR #15 opened | `pullRequests[number=15].createdAt` |
+| `2026-07-26T03:53:58Z` | PR #16 opened | `pullRequests[number=16].createdAt` |
+| `2026-07-26T04:02:54Z` | PR #17 opened | `pullRequests[number=17].createdAt` |
+| `2026-07-26T04:03:45Z` | PR #14 closed without merge | `pullRequests[number=14].closedAt` |
+| `2026-07-26T04:32:36Z` | PR #18 opened | `pullRequests[number=18].createdAt` |
+| `2026-07-26T04:42:36Z` | PR #19 opened | `pullRequests[number=19].createdAt` |
+| `2026-07-26T04:44:46Z` | PR #20 opened | `pullRequests[number=20].createdAt` |
+| `2026-07-26T13:56:59Z` | PR #15 merged | `pullRequests[number=15].mergedAt` |
+| `2026-07-26T13:59:19Z` | PR #16 merged | `pullRequests[number=16].mergedAt` |
+| `2026-07-26T14:04:38Z` | PR #20 merged | `pullRequests[number=20].mergedAt` |
+| `2026-07-26T14:09:19Z` | PR #17 merged | `pullRequests[number=17].mergedAt` |
+| `2026-07-26T14:20:44Z` | PR #19 merged | `pullRequests[number=19].mergedAt` |
+| `2026-07-26T14:42:35Z` | PR #18 merged | `pullRequests[number=18].mergedAt` |
+
+## What decomposition changed in scope and reviewability
+
+### Observed / calculated
+
+- Each replacement PR presents a smaller topical surface than the combined PR #14
+  packet (raw `changedFiles`: 6, 10, 32, 47, 12, and 6 respectively).
+- Path ownership is explicit in `replacement-coverage.v1.json`: 61 paths carry
+  one or more replacement PR numbers; 2 are marked superseded with written
+  rationales.
+- 17 represented paths have overlapping owners (more than one replacement PR).
+  Overlap is recorded as non-additive.
+
+### Interpretation (bounded)
+
+Splitting the work changes **what a reviewer is asked to hold in one pass**: a
+Browse currency diff, a Task 11–12 security-foundation packet, a skill-wrapper
+generator change, an ADR governance change, Tasks 13–18 contracts, or agent/MCP
+database authority. That is a reviewability claim about scope boundaries, not a
+claim that review accuracy or defect rates improved.
+
+## Remaining overlap and integration risks
+
+- Shared docs such as `docs/API_CONTRACTS.md`, `docs/TASKS.md`, and
+  `docs/DECISIONS.md` appear in multiple replacement PRs. Integrating them
+  required composition order; the recorded close comment specified review and
+  merge sequencing ending with PR #18.
+- Stacked bases are visible in raw refs (for example PR #20 based on PR #16’s
+  merge commit; PR #19 based on PR #17’s merge commit; PR #18 based on PR #19’s
+  merge commit).
+- Supersession of the YAML skill-wrapper checker means CI behavior in master is
+  not a line-for-line restore of PR #14’s checker script.
+
+## Implications for future AI-assisted work
+
+When an AI-assisted branch accumulates planning docs, governance rewrites,
+tooling generators, and product code together, the frozen evidence shows the
+team’s chosen remedy was **topic-scoped replacement PRs** plus an explicit close
+record—not silent squash of the oversized branch. Future packets should keep
+those boundaries visible early so path ownership and supersession rationales do
+not have to be reconstructed after the fact.
+
+Product vocabulary in downstream work remains exact: **Eazy Score**,
+**Community Score**, and **My Rating**.
+
+## Limitations
+
+- Automated review bodies (28 PR #14 review records in the raw snapshot) are
+  stored as fetched observations; this report does not grade their correctness
+  or treat them as a bug inventory.
+- Check data is limited to what the refresh command fetched for each head SHA.
+- Coverage is path-level presence in replacement PR file lists, not a line-level
+  semantic equivalence proof.
+- No controlled before/after quality metric is in the freeze, so quality and
+  reviewer-accuracy conclusions are out of scope.
+- This article remains a draft (`draft: true`, `aiGenerated: true`) until human
+  publication metadata is set.
+
+## Recommendations
+
+1. Keep large AI-assisted planning work split by topic before review, matching
+   the #15–#20 pattern.
+2. When superseding tooling, write the rationale beside the path (as in the two
+   superseded coverage records) instead of leaving gaps unexplained.
+3. Treat overlapping canonical docs as integration surfaces with an explicit
+   merge order.
+4. Preserve immutable raw snapshots for any published lab report; refresh only
+   into a new revision.
+
+## Sources and reproducibility
+
+Committed evidence:
+
+- `src/data/project-health/raw/github-prs-14-20.v1.json`
+- `src/data/project-health/derived/pr14-path-classification.v1.json`
+- `src/data/project-health/derived/replacement-coverage.v1.json`
+- `src/data/project-health/derived/decomposition-timeline.v1.json`
+- `src/data/project-health/README.md`
+- `public/media/project-health/pr-14-files-by-area.svg`
+- `public/media/project-health/decomposition-timeline.svg`
+
+Offline checks:
+
+```bash
+pnpm validate:project-health
+pnpm test:project-health
+pnpm check:generated-assets
+pnpm run check
+```
+
+Manual networked refresh (not part of build/check):
+
+```bash
+pnpm evidence:refresh
+```

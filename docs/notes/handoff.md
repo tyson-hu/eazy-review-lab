@@ -2,196 +2,133 @@
 
 > Prepared: 2026-07-26  
 > M1 completed: 2026-07-26  
+> M2 status: **implemented — stop for editorial approval before publish/deploy**  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M1 complete — review fixes committed and redeployed; stop before M2**
+> State: **M2 draft ready for Tyson Hu review; do not begin M3**
 
 ## Start Here
 
 Read `PLAN.md` completely before taking action.
 
-**M1 is done.** Do not begin M2 (evidence collection, derived data, charts, or
-the flagship report) or M3 (feeds, GitHub Actions, Workers Builds, custom
-domain, personal-blog integration) unless the user explicitly authorizes the
-next milestone.
+**M2 implementation is present but not publication-complete.** The flagship report
+remains `draft: true` / `aiGenerated: true` until Tyson Hu explicitly approves
+publication metadata. Do not deploy a new preview, mark M2 complete, or begin M3
+(feeds, GitHub Actions, Workers Builds, custom domain, personal-blog integration)
+without that approval.
 
-## Preview (unindexed)
+## Preview (unindexed) — still the M1 deployment until post-approval redeploy
 
 - Worker: `eazy-review-lab`
 - URL: https://eazy-review-lab.tyson-ec2.workers.dev
 - Version ID: `f2e8aaa2-00c0-4e3d-9298-ca7d6046a2b0`
 - Indexing: `noindex, nofollow` meta + `robots.txt` `Disallow: /`
 - Canonical metadata still points to `https://lab.tianzhe.me` (not attached)
-- Operational Markdown / agent links are path-absolute (reachable on this host)
 - Keep this URL unshared except with reviewers
 
-## M1.1 Preflight (recorded)
+## M2 deliverables (awaiting editorial gate)
 
-| Check | Result |
-| --- | --- |
-| Lab contents before scaffold | `PLAN.md`, `docs/notes/handoff.md`, `.DS_Store` only |
-| Lab Git | Not a repository (initialized during M1) |
-| Adjacent top-level | `/Users/tysonhu/Documents/EazyCopProjects/eazy-review` |
-| Adjacent origin | `https://github.com/tyson-hu/Eazy-Review.git` |
-| Frozen commits present | `6c86dc7…`, `68a2911…`, `9eb485c…` as commit objects |
-| Adjacent HEAD / branch | `9eb485cd9b6207b52ff4408ee89647f32faae436` on `master`, clean |
-| GitHub `tyson-hu/eazy-review-lab` | Does not exist |
-| Toolchain | Node `v26.5.0`, pnpm `11.17.0`, Git `2.50.1` |
-| Implementation authority | Explicit M1-only authorization in session |
+### Raw snapshot provenance
 
-No stop conditions.
+- Path: `src/data/project-health/raw/github-prs-14-20.v1.json`
+- Created by: `pnpm evidence:refresh`
+- `generatedAt`: `2026-07-26T21:39:21.807Z`
+- `snapshotRevision`: `1`
+- Repository: `tyson-hu/Eazy-Review`
+- Frozen refs verified:
+  - PR #14 base `6c86dc735064734d1eda250b471ab7bea7dc2d4f`
+  - PR #14 head `68a2911183b4e99455a0ea71940b66ec30f41dd5`
+  - Integrated result `9eb485cd9b6207b52ff4408ee89647f32faae436`
+- PR #14: closed without merge; 63 paths; `+4,665/-912`
+- Fetched observations include PR metadata, files, commits, checks, issue
+  comments, and reviews actually returned by GitHub for PRs #14–#20
+- No credentials/tokens stored in the snapshot
+- Refresh refuses to overwrite existing snapshot files or published consumers
 
-## Scaffold decisions
+### Derived methodology
 
-Live CLI help (`npx @cloudflare/create-nimbus-docs@latest --help`):
+- `derived/pr14-path-classification.v1.json` — mutually exclusive categories
+- `derived/replacement-coverage.v1.json` — 61 represented / 2 superseded
+- `derived/decomposition-timeline.v1.json` — events keyed to raw timestamps
+- Ambiguities documented in `src/data/project-health/README.md`
+- Invariants enforced by `pnpm validate:project-health` and table-driven tests
 
-```text
-Usage: create-nimbus-docs [dir] [flags]
-  --deploy <target>      cloudflare | other (default: cloudflare)
-  --content <mode>       starter | empty   (default: starter)
-  --yes, -y
-  --skip-install
-  --package-manager <pm> npm | pnpm | yarn | bun
-  --no-git
-```
+Category totals (sum 63): product code 4; canonical product/data documents 15;
+decision governance 19; agent/tooling 22; CI/dependencies 3.
 
-Exact command used:
+Superseded paths (intentional):
 
-```bash
-NPM_CONFIG_CACHE=/tmp/eazy-review-lab-npm-cache \
-XDG_CACHE_HOME=/tmp/eazy-review-lab-xdg-cache \
-npx --yes @cloudflare/create-nimbus-docs@latest _nimbus_scaffold \
-  --content empty \
-  --deploy cloudflare \
-  --package-manager pnpm \
-  --skip-install \
-  --no-git
-```
+1. `scripts/check-skill-wrappers.cjs`
+2. `package-lock.json`
 
-Notes:
+### Report draft
 
-- `.` as the target directory is rejected by the live CLI (“Choose a new
-  subdirectory name”). Scaffolded into `_nimbus_scaffold`, then moved to the
-  lab root while preserving `PLAN.md` and `docs/notes/handoff.md`.
-- Docs say “full/empty”; CLI flag is `--content starter | empty`.
-- Untouched scaffold passed `typecheck`, `lint:docs`, and `build` before
-  customization (duplicate-root warning present while both
-  `src/pages/index.astro` and `src/content/docs/index.mdx` existed).
+- `src/content/docs/reports/pr-14-project-health.mdx`
+- Frontmatter: `draft: true`, `aiGenerated: true`
+- Exact planned title and required headings present
+- No `humanReviewedAt` / `reviewedBy` / AI disclosure until approval
 
-### Homepage routing decision
+### Visuals
 
-Current Nimbus maps `src/content/docs/index.mdx` → `/index`, not `/`.
-M1 therefore keeps a custom editorial homepage at `src/pages/index.astro` (`/`)
-and does **not** keep a content `index.mdx` (avoids `/index` and the duplicate
-warning). Section pages remain content-driven under `src/content/docs/`.
+- `public/media/project-health/pr-14-files-by-area.svg`
+- `public/media/project-health/decomposition-timeline.svg`
+- Generated by `pnpm visuals:project-health` from derived data only
+- Freshness checked by `pnpm check:generated-assets`
 
-## Installed versions (lockfile)
-
-| Package | Version |
-| --- | --- |
-| `@cloudflare/create-nimbus-docs` (scaffold) | `0.6.3` / `templates-v0.6.3` |
-| `@cloudflare/nimbus-docs` | `0.8.2` |
-| Astro | `7.1.3` |
-| Wrangler | `4.114.0` |
-| Pagefind | `1.5.2` |
-| `packageManager` | `pnpm@11.17.0` |
-| Frame registry component | `frame@0.8.2` (via `nimbus-docs add frame`) |
-
-## What M1 delivered
-
-- Site identity: title, description, canonical `lab.tianzhe.me`, Worker name
-  `eazy-review-lab`, GitHub links, sidebar order + App Source external link
-- Homepage + Project / Journal / Reports / Decisions / Experiments sections
-- Published decision: `/decisions/independent-nimbus-lab/`
-- Draft fixture: `journal/m1-fixture-draft` (excluded from production surfaces)
-- Extended schema in `src/content.config.ts`
-- Eazy Review palette in `src/styles/globals.css`
-- Custom 404 with `not_found_handling: "404-page"`
-- Preview indexing guards (`SITE_INDEXABLE` unset ⇒ noindex + disallow)
-- Templates under `templates/`
-- Customized root `AGENT.md`
-- `pnpm run check` suite
-
-### `pnpm run check` order
-
-```text
-astro check
-→ validate-publication.mjs (offline)
-→ astro build
-→ nimbus-docs lint   # after build: internal-link needs .nimbus/routes.json
-→ test-public-behavior.mjs (dist + Wrangler 404)
-```
-
-Lint is intentionally after build because `nimbus/internal-link` requires
-`.nimbus/routes.json` from `astro build`.
-
-## Validation evidence
-
-Clean install:
+## Validation evidence (M2 pre-approval)
 
 ```bash
-rm -rf node_modules dist .astro .nimbus
 pnpm install --frozen-lockfile
 pnpm run check
+git diff --check
 ```
 
-Result: **passed** (typecheck hints only for deprecated Zod `.url()` /
-`.datetime()` helpers; 0 errors).
+Result: **passed** after clean install (2026-07-26).
 
-Stable-behavior checks: homepage + five sections, known Markdown alternate,
-Pagefind public-API discovery, `/llms.txt` + `llms-full.txt` + section
-`decisions/llms.txt`, draft absence, sitemap canonical URL, preview
-noindex/robots, Wrangler custom 404.
+Also passed:
 
-Preview smoke (2026-07-26, version `f2e8aaa2…`):
+- `pnpm validate:project-health`
+- `pnpm test:project-health` (15 tests)
+- `pnpm check:generated-assets`
+- draft report absent from `dist` production surfaces
+- Wrangler custom 404 under unrestricted local execution
 
-- Sections return 200 with trailing slash
-- Markdown alternate 200; operational links path-absolute on workers.dev
-- Agent surfaces present (`/llms.txt`, `/llms-full.txt`, section index)
-- Custom 404 body confirmed; draft fixture 404
-- Published decision shows Published date, tags, and Sources; no Edit/GitHub chrome
-- Section pages render exactly one Updated label
-- Search finds “Independent Nimbus lab” via Pagefind UI
-- Skip link, focus-ring styling, and reduced-motion CSS present
-- Product terms preserved exactly
-- Adjacent app repository unchanged at `9eb485c…`
-
-## Git
-
-- Branch: `main`
-- Commits:
-  - `0ba1954` — `docs: mark PLAN.md status as M1 complete`
-  - `ece7a39` — `fix: close M1 review defects for validation, preview URLs, and metadata`
-  - `d87659d` — `docs: record M1 review-fix commit in handoff`
-  - `4eca068` — `docs: record redeployed M1 preview smoke evidence`
-- Remote: **not created** (deferred to M3)
-- No destructive Git operations used
-- Deployed preview version: `f2e8aaa2-00c0-4e3d-9298-ca7d6046a2b0`
+Note: Wrangler’s loopback 404 check can time out under sandbox restrictions; run
+`pnpm run check` with unrestricted permissions for that step.
 
 ## Adjacent application repository
 
 Still read-only. HEAD remained
-`9eb485cd9b6207b52ff4408ee89647f32faae436` after M1. Product terms
-**Eazy Score**, **Community Score**, and **My Rating** are preserved in lab
-copy.
+`9eb485cd9b6207b52ff4408ee89647f32faae436` after M2 implementation. Product
+terms **Eazy Score**, **Community Score**, and **My Rating** preserved.
 
-## Limitations / follow-ups for reviewers
+## Lab remote / domain
 
-1. Dual robots meta on some pages (`noindex` from layout path + site-wide
-   `noindex, nofollow`) — both deny indexing; can be cleaned in M3.
-2. Lab GitHub header glyph and “Edit this page” are gated off until the
-   M3 remote exists (`github` / `editPattern` are null).
-3. Homepage is `src/pages/index.astro`, so it has no Markdown alternate twin
-   (section/decision pages do).
-4. `SITE_INDEXABLE=true` must remain unused until M3 custom-domain verification.
-5. Before M3 indexing: one static build cannot make `lab.tianzhe.me` indexable
-   while leaving the same Worker’s `workers.dev` noindexed. Prefer disabling
-   `workers.dev` or using a separate staging Worker/environment.
-6. Do not create the GitHub remote, attach `lab.tianzhe.me`, or start M2/M3
-   without explicit authorization.
+- Lab GitHub remote: **not created**
+- Custom domain: **not attached**
+- Indexing: still disabled
 
-## Next milestone (not started)
+## Editorial review packet — open questions for Tyson Hu
 
-**M2** — manual evidence refresh, raw/derived snapshots, flagship PR #14
-report, deterministic charts, human editorial approval on the unindexed
-preview.
+1. Approve factual claims, causal boundaries, tables, charts, and accessibility?
+2. Any classification/coverage note that should change before publish?
+3. On explicit approval, set `draft: false`, `humanReviewedAt` (actual timestamp),
+   `reviewedBy: Tyson Hu`, add the AI disclosure, rerun checks, deploy unindexed
+   preview, and smoke-test as specified in PLAN.md M2.7–M2.8.
+
+## Limitations already called in the draft
+
+- Path-level coverage ≠ line-level semantic equivalence
+- Automated review bodies stored but not graded as a bug inventory
+- No frozen before/after quality metric
+- Check observations limited to fetched head-SHA check runs
+
+## M3 stop boundary
+
+Do **not** begin M3: no feeds, GitHub Actions, Workers Builds, custom domain,
+lab remote creation, or indexing enablement from this M2 stop.
+
+## Next action
+
+Await Tyson Hu’s explicit publication approval. Until then, keep the report draft
+and do not redeploy solely to publish M2.

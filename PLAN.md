@@ -1,15 +1,17 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M1 complete — stop for review before M2  
+> Status: M2 implemented — awaiting Tyson Hu editorial approval before publish/deploy  
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
 > M1 completed: 2026-07-26  
+> M2 evidence revision: `github-prs-14-20.v1` (generated `2026-07-26T21:39:21.807Z`)  
+> M2 report state: `draft: true`, `aiGenerated: true` (no `humanReviewedAt` yet)  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Selected architecture: Option B — an independent Nimbus repository  
 > Planned production URL: `https://lab.tianzhe.me`  
 > Adjacent application source: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review`
-> Unindexed preview: `https://eazy-review-lab.tyson-ec2.workers.dev`
+> Unindexed preview: `https://eazy-review-lab.tyson-ec2.workers.dev` (M1 version until post-approval redeploy)
 
 ## 1. Objective
 
