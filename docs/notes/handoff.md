@@ -156,7 +156,7 @@ Preview smoke (2026-07-26):
 ## Git
 
 - Branch: `main`
-- Commit: `36d9f40` — `feat: complete M1 Eazy Review Lab site foundation`
+- Commit: `0ba1954` — `docs: mark PLAN.md status as M1 complete`
 - Remote: **not created** (deferred to M3)
 - No destructive Git operations used
 
@@ -171,12 +171,15 @@ copy.
 
 1. Dual robots meta on some pages (`noindex` from layout path + site-wide
    `noindex, nofollow`) — both deny indexing; can be cleaned in M3.
-2. Header GitHub glyph may render as a non-brand icon depending on Phosphor
-   asset resolution; link target is correct.
+2. Lab GitHub header glyph and “Edit this page” are gated off until the
+   M3 remote exists (`github` / `editPattern` are null).
 3. Homepage is `src/pages/index.astro`, so it has no Markdown alternate twin
    (section/decision pages do).
 4. `SITE_INDEXABLE=true` must remain unused until M3 custom-domain verification.
-5. Do not create the GitHub remote, attach `lab.tianzhe.me`, or start M2/M3
+5. Before M3 indexing: one static build cannot make `lab.tianzhe.me` indexable
+   while leaving the same Worker’s `workers.dev` noindexed. Prefer disabling
+   `workers.dev` or using a separate staging Worker/environment.
+6. Do not create the GitHub remote, attach `lab.tianzhe.me`, or start M2/M3
    without explicit authorization.
 
 ## Next milestone (not started)

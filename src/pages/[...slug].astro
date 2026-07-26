@@ -40,9 +40,17 @@ const lastUpdated = entry.data.lastUpdated ?? await getLastUpdated(entry);
 // ever sees its options object (or undefined), never `false`.
 const tocConfig = entry.data.tableOfContents;
 const toc = tocOn && tocConfig !== false ? getTOC(headings, tocConfig) : false;
-const markdownPath = `/${entry.id}/index.md`;
-const markdownUrl = Astro.site ? new URL(markdownPath, Astro.site).href : markdownPath;
+// Operational links stay site-relative so workers.dev (and any preview host)
+// can reach Markdown / copy targets. Canonical metadata still uses Astro.site.
+const markdownUrl = `/${entry.id}/index.md`;
 const socialImage = entry.data.socialImage ?? `/og/${entry.id}.png`;
+const publishedAt = entry.data.publishedAt
+  ? entry.data.publishedAt instanceof Date
+    ? entry.data.publishedAt
+    : new Date(entry.data.publishedAt)
+  : undefined;
+const tags = entry.data.tags ?? [];
+const sourceRefs = entry.data.sourceRefs ?? [];
 ---
 
 <DocsLayout
@@ -60,6 +68,9 @@ const socialImage = entry.data.socialImage ?? `/og/${entry.id}.png`;
   markdownUrl={markdownUrl}
   socialImage={socialImage}
   lastUpdated={lastUpdated}
+  publishedAt={publishedAt}
+  tags={tags}
+  sourceRefs={sourceRefs}
   editUrl={editUrl}
   draft={entry.data.draft}
   audience={entry.data.audience}

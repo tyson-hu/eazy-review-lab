@@ -17,8 +17,10 @@ const nimbusConfig = defineNimbusConfig({
   description:
     "The public build journal, engineering reports, and product decisions behind Eazy Review.",
   locale: "en",
-  github: "https://github.com/tyson-hu/eazy-review-lab",
-  editPattern: "https://github.com/tyson-hu/eazy-review-lab/edit/main/{path}",
+  // Lab GitHub remote is deferred to M3 — omit until the repo exists so the
+  // header glyph and "Edit this page" do not 404 on every page.
+  github: null,
+  editPattern: null,
   socialImageAlt: "Eazy Review Lab",
   head: siteIndexable
     ? []

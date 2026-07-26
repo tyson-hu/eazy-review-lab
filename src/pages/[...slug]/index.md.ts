@@ -59,7 +59,7 @@ export async function GET({ props }: { props: SlugProps }) {
     "---",
     "",
     "> Documentation Index",
-    `> Fetch the complete documentation index at: ${new URL("/llms.txt", config.site).href}`,
+    `> Fetch the complete documentation index at: /llms.txt`,
     "> Use this file to discover all available pages before exploring further.",
     "",
     `# ${title}`,
@@ -68,7 +68,8 @@ export async function GET({ props }: { props: SlugProps }) {
     "",
     // Point at the authored source (`.mdx` twin) when it exists — the
     // `.md` alternate referencing itself was a placeholder.
-    `Source: ${new URL(sourceUrl ?? markdownUrl, config.site).href}`,
+    // Path-absolute so preview hosts remain reachable.
+    `Source: ${sourceUrl ?? markdownUrl}`,
     "",
   ].join("\n");
 

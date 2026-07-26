@@ -445,9 +445,10 @@ component code.
 Create a composable `pnpm run check` command. At M1 it runs:
 
 1. `astro check`;
-2. Nimbus documentation linting;
-3. offline publication-metadata validation;
-4. `astro build`; and
+2. offline publication-metadata validation;
+3. `astro build`;
+4. Nimbus documentation linting (after build — `nimbus/internal-link`
+   needs `.nimbus/routes.json`); and
 5. stable public-behavior tests against `dist/`.
 
 The offline validator may check source references only for:

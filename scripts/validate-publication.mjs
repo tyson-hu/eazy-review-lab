@@ -60,9 +60,12 @@ function parseFrontmatter(raw) {
     }
     const key = m[1];
     let value = m[2];
-    if (value === "" || value === "|" || value === ">") {
-      // skip complex blocks; validator focuses on scalar/list fields we own
+    if (value === "|" || value === ">") {
+      // skip folded/literal scalars; validator focuses on scalar/list fields we own
       i += 1;
+      while (i < lines.length && (lines[i] === "" || /^\s/.test(lines[i]))) {
+        i += 1;
+      }
       continue;
     }
     if (value.startsWith("[") && value.endsWith("]")) {
@@ -75,12 +78,12 @@ function parseFrontmatter(raw) {
       continue;
     }
     if (value === "") {
-      // possible nested list for sourceRefs
+      // Nested list — e.g. block-style sourceRefs / tags
       const items = [];
       i += 1;
       while (i < lines.length && /^\s+-/.test(lines[i])) {
-        const item = {};
         if (/^\s+-\s+label:/.test(lines[i])) {
+          const item = {};
           item.label = lines[i].replace(/^\s+-\s+label:\s*/, "").replace(/^["']|["']$/g, "");
           i += 1;
           if (i < lines.length && /^\s+url:/.test(lines[i])) {
@@ -88,6 +91,12 @@ function parseFrontmatter(raw) {
             i += 1;
           }
           items.push(item);
+          continue;
+        }
+        const scalar = lines[i].replace(/^\s+-\s*/, "").replace(/^["']|["']$/g, "");
+        if (scalar && !/^[A-Za-z0-9_]+:\s*/.test(scalar)) {
+          items.push(scalar);
+          i += 1;
           continue;
         }
         i += 1;
@@ -158,8 +167,10 @@ function validateUrl(url, file, field) {
       }
     }
     if (parts[2] === "commit" || parts[2] === "blob" || parts[2] === "tree") {
-      if (parts[3] && FULL_SHA.test(parts[3]) === false && parts[3].length === 40) {
-        errors.push(`${file}: ${field} commit-like ref is not a full SHA: ${url}`);
+      if (!parts[3] || !FULL_SHA.test(parts[3])) {
+        errors.push(
+          `${file}: ${field} commit/blob/tree ref must be a full 40-character SHA: ${url}`,
+        );
       }
     }
   }
@@ -186,6 +197,11 @@ for (const file of walk(docsRoot)) {
     errors.push(
       `${rel}: claims published state but fails publishable rule (aiGenerated requires humanReviewedAt + reviewedBy)`,
     );
+  }
+
+  // publishedAt is optional only for drafts and section pages
+  if (claimsPublished && articleKinds.has(kind) && !data.publishedAt) {
+    errors.push(`${rel}: published article requires publishedAt`);
   }
 
   if (data.humanReviewedAt && !data.reviewedBy) {

@@ -17,7 +17,6 @@
  */
 
 import { getIndexedTopLevel, type IndexedEntry } from "@cloudflare/nimbus-docs";
-import { config } from "virtual:nimbus/config";
 
 export const prerender = true;
 
@@ -52,7 +51,8 @@ export async function GET({ props }: { props: SectionProps }) {
   for (const item of members) {
     const description = item.description ? ` — ${item.description}` : "";
     lines.push(
-      `- [${item.title}](${new URL(item.markdownUrl, config.site).href})${description}`,
+      // Path-absolute links resolve against the serving host (preview or production).
+      `- [${item.title}](${item.markdownUrl})${description}`,
     );
   }
 

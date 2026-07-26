@@ -12,7 +12,7 @@ export async function GET() {
     "",
     config.description ?? "Documentation index for AI agents.",
     "",
-    `Full corpus (all pages, one document): ${new URL("/llms-full.txt", config.site).href}`,
+    `Full corpus (all pages, one document): /llms-full.txt`,
     "",
     "## Pages",
     "",
@@ -26,7 +26,8 @@ export async function GET() {
     const description = leaf.description ? ` — ${leaf.description}` : "";
     rows.push({
       key: leaf.url,
-      line: `- [${leaf.title}](${new URL(leaf.markdownUrl, config.site).href})${description}`,
+      // Path-absolute links resolve against the serving host (preview or production).
+      line: `- [${leaf.title}](${leaf.markdownUrl})${description}`,
     });
   }
 
@@ -35,7 +36,7 @@ export async function GET() {
     if (group.kind === "version") continue;
     rows.push({
       key: `/${group.slug}`,
-      line: `- [${group.label}](${new URL(`/${group.slug}/llms.txt`, config.site).href})`,
+      line: `- [${group.label}](/${group.slug}/llms.txt)`,
     });
   }
 

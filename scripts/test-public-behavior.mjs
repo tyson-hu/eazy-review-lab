@@ -4,9 +4,10 @@
  * Asserts public contracts, not hashed Pagefind/OG filenames or Nimbus internals.
  */
 import fs from "node:fs";
+import http from "node:http";
 import path from "node:path";
 import { spawn } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -151,44 +152,109 @@ if (sitemapFile) {
   fail("sitemap exists");
 }
 
-// Search index (Pagefind) — discoverability without asserting hashed filenames
-const pagefindDir = path.join(dist, "pagefind");
-if (fs.existsSync(pagefindDir)) {
-  const pagefindFiles = walkFiles(pagefindDir);
-  const textBlob = pagefindFiles
-    .filter((f) => /\.(pf_index|pf_meta|json)$/.test(f) || f.endsWith(".js"))
-    .slice(0, 50)
-    .map((f) => {
-      try {
-        return fs.readFileSync(f, "utf8");
-      } catch {
-        return "";
-      }
-    })
-    .join("\n");
-  // Pagefind stores compressed indexes; also check HTML data-pagefind-body pages
-  const searchableHtml = allDist
+function mimeFor(file) {
+  if (file.endsWith(".js")) return "text/javascript";
+  if (file.endsWith(".json")) return "application/json";
+  if (file.endsWith(".wasm") || file.endsWith(".pagefind")) return "application/wasm";
+  if (file.endsWith(".html")) return "text/html";
+  return "application/octet-stream";
+}
+
+/** Serve `dist/` over loopback so Pagefind's public search API can fetch its bundle. */
+function serveDist() {
+  const server = http.createServer((req, res) => {
+    const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
+    const file = path.join(dist, urlPath.replace(/^\//, ""));
+    if (!file.startsWith(dist) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+      res.writeHead(404);
+      res.end();
+      return;
+    }
+    res.setHeader("Content-Type", mimeFor(file));
+    fs.createReadStream(file).pipe(res);
+  });
+  return new Promise((resolve) => {
+    server.listen(0, "127.0.0.1", () => {
+      const { port } = server.address();
+      resolve({ server, origin: `http://127.0.0.1:${port}` });
+    });
+  });
+}
+
+async function assertPagefindDiscoversKnownPage() {
+  const pagefindDir = path.join(dist, "pagefind");
+  if (!fs.existsSync(pagefindDir)) {
+    fail("pagefind directory exists");
+    return;
+  }
+
+  const knownHtmlForSearch = knownHtml ? fs.readFileSync(knownHtml, "utf8") : "";
+  const knownPageSearchable =
+    knownHtmlForSearch.includes("data-pagefind-body") &&
+    knownHtmlForSearch.includes(KNOWN_PAGE.title);
+  if (!knownPageSearchable) {
+    fail(
+      "search index can discover known page",
+      "known page HTML missing data-pagefind-body or title",
+    );
+  }
+
+  const searchableText = allDist
     .filter((f) => f.endsWith(".html"))
     .map((f) => read(f))
-    .filter((html) => html.includes("data-pagefind-body"));
-  const searchableText = searchableHtml.join("\n");
-  if (
-    searchableText.includes(KNOWN_PAGE.title) ||
-    textBlob.includes(KNOWN_PAGE.title) ||
-    textBlob.includes("independent-nimbus-lab")
-  ) {
-    ok("search index can discover known page");
-  } else if (pagefindFiles.length > 0 && searchableHtml.length > 0) {
-    // Pagefind index exists and at least one body is marked — accept when title
-    // is in a pagefind-body page (discoverable after indexing).
-    ok("search index can discover known page");
-  } else {
-    fail("search index can discover known page");
-  }
+    .filter((html) => html.includes("data-pagefind-body"))
+    .join("\n");
   if (!searchableText.includes(DRAFT_SLUG)) ok("search bodies exclude draft fixture");
   else fail("search bodies exclude draft fixture");
+
+  if (!knownPageSearchable) return;
+
+  const { server, origin } = await serveDist();
+  try {
+    const pagefind = await import(
+      pathToFileURL(path.join(pagefindDir, "pagefind.js")).href
+    );
+    await pagefind.options({ basePath: `${origin}/pagefind/` });
+    await pagefind.init();
+    const search = await pagefind.search(KNOWN_PAGE.title);
+    const hits = await Promise.all(
+      search.results.slice(0, 10).map((result) => result.data()),
+    );
+    const found = hits.some(
+      (hit) =>
+        hit.meta?.title === KNOWN_PAGE.title ||
+        String(hit.url || "").includes("independent-nimbus-lab"),
+    );
+    if (found) ok("search index can discover known page");
+    else {
+      fail(
+        "search index can discover known page",
+        `Pagefind search for "${KNOWN_PAGE.title}" returned no matching result`,
+      );
+    }
+    await pagefind.destroy?.();
+  } catch (err) {
+    fail("search index can discover known page", String(err));
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+}
+
+await assertPagefindDiscoversKnownPage();
+
+// llms-full.txt must exist and exclude the draft fixture
+const llmsFullPath = path.join(dist, "llms-full.txt");
+if (fs.existsSync(llmsFullPath)) {
+  const full = fs.readFileSync(llmsFullPath, "utf8");
+  if (full.includes(KNOWN_PAGE.title) || full.includes("independent-nimbus-lab")) {
+    ok("llms-full.txt includes known published page");
+  } else {
+    fail("llms-full.txt includes known published page");
+  }
+  if (!full.includes(DRAFT_SLUG)) ok("llms-full.txt excludes draft fixture");
+  else fail("llms-full.txt excludes draft fixture");
 } else {
-  fail("pagefind directory exists");
+  fail("llms-full.txt exists");
 }
 
 // Preview noindex protections (default M1 build)
