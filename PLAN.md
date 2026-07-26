@@ -1,19 +1,23 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M2 complete — stop for review before M3  
+> Status: M3 nearly complete — Workers Builds Git connect remaining  
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
 > M1 completed: 2026-07-26  
 > M2 completed: 2026-07-26  
+> M3 code/domain/indexing completed: 2026-07-26  
 > M2 evidence revision: `github-prs-14-20.v1` (generated `2026-07-26T21:39:21.807Z`)  
 > M2 approval timestamp: `2026-07-26T18:02:09-04:00`  
 > M2 preview version: `1d6cd50a-9c4f-466f-9193-8880564eb587`  
+> M3 production version: `a4916303-3036-4845-bae6-c561a17f36d3`  
+> Lab GitHub: https://github.com/tyson-hu/eazy-review-lab  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Selected architecture: Option B — an independent Nimbus repository  
-> Planned production URL: `https://lab.tianzhe.me`  
+> Production URL: `https://lab.tianzhe.me`  
 > Adjacent application source: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review`
-> Unindexed preview: `https://eazy-review-lab.tyson-ec2.workers.dev`
+> Preview: `https://eazy-review-lab.tyson-ec2.workers.dev` (always noindexed via host guard)
+
 
 ## 1. Objective
 
@@ -939,6 +943,26 @@ M3 is complete when:
 - the production host is indexable;
 - all review/preview hosts remain noindexed; and
 - the personal-blog feed contract is documented.
+
+#### M3 execution record (2026-07-26)
+
+Completed:
+
+- `/feed.xml` + `/feed.json` with publishable journal/report/experiment entries
+- dual robots-meta cleanup + `workers/host-indexing.js` preview guard
+- GitHub repo `tyson-hu/eazy-review-lab` + Actions quality workflow (green)
+- custom domain `lab.tianzhe.me` + TLS
+- production indexing via `SITE_INDEXABLE=true` deploy version
+  `a4916303-3036-4845-bae6-c561a17f36d3`
+- personal-blog contract at `docs/notes/personal-blog-feed-contract.md`
+- M2 evidence revision 1 preserved unchanged
+
+Remaining for M3.7:
+
+- Connect Workers Builds to `tyson-hu/eazy-review-lab` (see
+  `docs/notes/workers-builds.md`). Wrangler OAuth cannot configure Builds;
+  dashboard GitHub App authorize + Connect is required. Builds listed: 0.
+
 
 ## 9. Content Templates
 

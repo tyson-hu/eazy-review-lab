@@ -3,93 +3,106 @@
 > Prepared: 2026-07-26  
 > M1 completed: 2026-07-26  
 > M2 completed: 2026-07-26  
+> M3 status: **implementation complete except Workers Builds connect**  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
-> Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M2 complete on unindexed preview — stop before M3**
+> Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`
 
 ## Start Here
 
 Read `PLAN.md` completely before taking action.
 
-**M2 is done.** Do not begin M3 (feeds, GitHub Actions, Workers Builds, custom
-domain, personal-blog integration, lab remote creation, or indexing) unless the
-user explicitly authorizes that milestone.
+**M3 code, GitHub remote, custom domain, and production indexing are done.**
+Workers Builds is **not** connected yet (0 builds). Completing that one-time
+dashboard/GitHub App connect is the remaining M3.7 gate.
 
-## Preview (unindexed)
+## Production (indexable)
 
 - Worker: `eazy-review-lab`
+- Custom domain: https://lab.tianzhe.me
+- Version ID: `a4916303-3036-4845-bae6-c561a17f36d3`
+- Feeds: https://lab.tianzhe.me/feed.json · https://lab.tianzhe.me/feed.xml
+- Report: https://lab.tianzhe.me/reports/pr-14-project-health/
+- HTML: no `noindex` meta on publishable pages
+- `robots.txt` origin section: `Allow: /` + `Sitemap: https://lab.tianzhe.me/sitemap-index.xml`
+  (Cloudflare zone Managed Content Signals prefix still appears above the origin
+  section on the custom domain)
+- TLS: OK (certificate covers `lab.tianzhe.me` / `*.tianzhe.me`)
+- Desktop `1440×900` and mobile `393×852` smoke via Playwright: homepage + report OK
+
+## Preview (`workers.dev`, must remain denied)
+
 - URL: https://eazy-review-lab.tyson-ec2.workers.dev
-- Version ID: `1d6cd50a-9c4f-466f-9193-8880564eb587`
-- Report: https://eazy-review-lab.tyson-ec2.workers.dev/reports/pr-14-project-health/
-- Indexing: `noindex, nofollow` meta + `robots.txt` `Disallow: /`
-- Canonical metadata still points to `https://lab.tianzhe.me` (not attached)
-- Keep this URL unshared except with reviewers
+- Edge host guard (`workers/host-indexing.js`) forces
+  `noindex, nofollow` + `Disallow: /` on non-`lab.tianzhe.me` hosts
+- Confirmed after indexable production deploy
 
-## M2 publication metadata
+## GitHub
 
-- Report: `src/content/docs/reports/pr-14-project-health.mdx`
-- `draft: false`
-- `aiGenerated: true`
-- `publishedAt` / `humanReviewedAt`: `2026-07-26T18:02:09-04:00`
-- `reviewedBy`: `Tyson Hu`
-- Disclosure: `Drafted with AI, reviewed by Tyson Hu.`
-- Evidence revision: `github-prs-14-20.v1` (`generatedAt` `2026-07-26T21:39:21.807Z`)
+- Public repository: https://github.com/tyson-hu/eazy-review-lab
+- HEAD: `072c286` (`chore(m3): attach lab.tianzhe.me as Worker custom domain`)
+- M3 commits since M2 `eaf8d9b`:
+  - `57cdbff` feat(m3): feeds, host-aware noindex, stable feed tests
+  - `c9260a1` chore(m3): GitHub quality controls + blog feed contract
+  - `072c286` chore(m3): attach lab.tianzhe.me custom domain
+- Actions (success):
+  - https://github.com/tyson-hu/eazy-review-lab/actions/runs/30222694303
+  - https://github.com/tyson-hu/eazy-review-lab/actions/runs/30223352857
 
-## Editorial fixes applied before publish
+## Workers Builds (remaining)
 
-1. Quoted frontmatter `description` so `#14` is not treated as a YAML comment
-2. Replaced draft-only publication-date wording with freeze-neutral language
-3. Replaced “remains a draft” limitation with durable AI/human-review note
+- Worker tag: `5247c67273e54070b39cb2b516c65731`
+- Builds listed: **0** (Git repository not connected)
+- Wrangler OAuth lacks Workers Builds Configuration Edit; dashboard login required
+- Exact settings: `docs/notes/workers-builds.md`
 
-## Validation
+Required one-time action:
 
-```bash
-pnpm run check
-git diff --check
-```
+1. Cloudflare dashboard → Worker `eazy-review-lab` → Settings → Builds → Connect
+2. Authorize Cloudflare Workers & Pages GitHub App for `tyson-hu/eazy-review-lab`
+3. Set:
+   - production branch `main`
+   - build `pnpm run check`
+   - deploy `pnpm exec wrangler deploy`
+   - non-production deploy `pnpm exec wrangler versions upload`
+   - production env `SITE_INDEXABLE=true`
+4. Trigger a build and confirm success
 
-Passed after publication metadata. Clean prior validation also passed (15/15
-tests, invariants, asset freshness).
+## M2 evidence (unchanged)
 
-## Smoke (version `1d6cd50a…`)
-
-- Report HTML + Markdown alternates: 200
-- Full description rendered (includes PR #14…)
-- Charts load; 4 tables present; alt text present
-- Pagefind finds exact report title
-- `/reports/llms.txt` + `/llms-full.txt` include the report
-- Draft fixture still 404
-- `noindex, nofollow` + robots disallow
-- Custom 404 confirmed
-- Mobile `393×852` and desktop `1440×900` checked
-- Skip link, focus-visible CSS, reduced-motion CSS, dark mode present
-- Source links use exact PR URLs and full commit SHAs
-- Transient CDN 404 on SVG shortly after deploy resolved to 200
+- Revision `github-prs-14-20.v1` / `generatedAt` `2026-07-26T21:39:21.807Z`
+- Not refreshed or rewritten during M3
 
 ## Adjacent application repository
 
-Still read-only at `9eb485cd9b6207b52ff4408ee89647f32faae436`. Product terms
-**Eazy Score**, **Community Score**, and **My Rating** preserved.
+Still read-only and clean at `9eb485cd9b6207b52ff4408ee89647f32faae436`.
 
-## Lab remote / domain
+## Documentation impact
 
-- Lab GitHub remote: **not created**
-- Custom domain: **not attached**
-- Indexing: still disabled
+- Personal-blog contract: `docs/notes/personal-blog-feed-contract.md` (lab-owned only; blog repo untouched)
+- Workers Builds notes: `docs/notes/workers-builds.md`
+- Dual robots-meta resolved in `BaseLayout` (single robots owner)
+- Host-aware preview noindex via Worker even when production build is indexable
 
-## Limitations carried forward
+## Validation commands used
 
-- Path-level coverage ≠ line-level semantic equivalence
-- Automated review bodies stored but not graded as a bug inventory
-- No frozen before/after quality metric
-- Dual robots meta on some pages (both deny indexing; cleanup deferred to M3)
+```bash
+pnpm install --frozen-lockfile
+pnpm run check
+git diff --check
+pnpm run deploy          # phase 1: domain attach, indexing off
+pnpm run deploy:indexable # phase 2: SITE_INDEXABLE=true
+```
 
-## M3 stop boundary
+## M3.7 checklist
 
-Do **not** begin M3 without explicit authorization: no feeds, GitHub Actions,
-Workers Builds, custom domain, lab remote, or production indexing.
-
-## Next milestone (not started)
-
-**M3** — RSS/JSON feeds, GitHub quality workflow, Workers Builds,
-`lab.tianzhe.me`, and personal-blog feed contract.
+| Criterion | Status |
+| --- | --- |
+| Feeds + stable public-behavior tests | Pass |
+| GitHub Actions from clean install | Pass |
+| Workers Builds from clean install | **Blocked — connect repo** |
+| Draft/unapproved absent from production surfaces | Pass |
+| App repository unchanged | Pass |
+| TLS + canonical at `lab.tianzhe.me` | Pass |
+| Production indexable | Pass |
+| Preview/workers.dev noindexed | Pass |
+| Personal-blog feed contract documented | Pass |
