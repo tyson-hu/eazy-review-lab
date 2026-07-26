@@ -4,7 +4,7 @@
 > M1 completed: 2026-07-26  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M1 complete — stop for review before M2**
+> State: **M1 complete — review fixes committed and redeployed; stop before M2**
 
 ## Start Here
 
@@ -19,9 +19,10 @@ next milestone.
 
 - Worker: `eazy-review-lab`
 - URL: https://eazy-review-lab.tyson-ec2.workers.dev
-- Version ID: `24470fd0-f694-45ea-9e99-0e6aceb83593`
+- Version ID: `f2e8aaa2-00c0-4e3d-9298-ca7d6046a2b0`
 - Indexing: `noindex, nofollow` meta + `robots.txt` `Disallow: /`
 - Canonical metadata still points to `https://lab.tianzhe.me` (not attached)
+- Operational Markdown / agent links are path-absolute (reachable on this host)
 - Keep this URL unshared except with reviewers
 
 ## M1.1 Preflight (recorded)
@@ -138,18 +139,20 @@ Result: **passed** (typecheck hints only for deprecated Zod `.url()` /
 `.datetime()` helpers; 0 errors).
 
 Stable-behavior checks: homepage + five sections, known Markdown alternate,
-Pagefind discovery, `/llms.txt` + section `decisions/llms.txt`, draft absence,
-sitemap canonical URL, preview noindex/robots, Wrangler custom 404.
+Pagefind public-API discovery, `/llms.txt` + `llms-full.txt` + section
+`decisions/llms.txt`, draft absence, sitemap canonical URL, preview
+noindex/robots, Wrangler custom 404.
 
-Preview smoke (2026-07-26):
+Preview smoke (2026-07-26, version `f2e8aaa2…`):
 
-- Sections return 200 with trailing slash (307 redirect from non-slash)
-- Markdown alternate 200
-- Agent surfaces present
-- Custom 404 body confirmed
-- Mobile `393×852` and desktop `1440×900` layouts reviewed
-- Search finds “Independent Nimbus lab” via Pagefind
-- Skip link, focus ring token `#0071e3`, reduced-motion CSS present
+- Sections return 200 with trailing slash
+- Markdown alternate 200; operational links path-absolute on workers.dev
+- Agent surfaces present (`/llms.txt`, `/llms-full.txt`, section index)
+- Custom 404 body confirmed; draft fixture 404
+- Published decision shows Published date, tags, and Sources; no Edit/GitHub chrome
+- Section pages render exactly one Updated label
+- Search finds “Independent Nimbus lab” via Pagefind UI
+- Skip link, focus-ring styling, and reduced-motion CSS present
 - Product terms preserved exactly
 - Adjacent app repository unchanged at `9eb485c…`
 
@@ -159,8 +162,10 @@ Preview smoke (2026-07-26):
 - Commits:
   - `0ba1954` — `docs: mark PLAN.md status as M1 complete`
   - `ece7a39` — `fix: close M1 review defects for validation, preview URLs, and metadata`
+  - `d87659d` — `docs: record M1 review-fix commit in handoff`
 - Remote: **not created** (deferred to M3)
 - No destructive Git operations used
+- Deployed preview version: `f2e8aaa2-00c0-4e3d-9298-ca7d6046a2b0`
 
 ## Adjacent application repository
 
