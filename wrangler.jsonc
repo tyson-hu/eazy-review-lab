@@ -2,8 +2,15 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "eazy-review-lab",
   "compatibility_date": "2026-07-26",
+  "main": "./workers/host-indexing.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Intercept every request so workers.dev / preview hosts can force
+    // noindex even when the production build is indexable.
+    "run_worker_first": true
+  },
+  "workers_dev": true,
+  "preview_urls": true
 }

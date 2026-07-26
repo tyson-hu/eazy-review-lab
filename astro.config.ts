@@ -7,29 +7,22 @@ import { tableScroll } from "@cloudflare/nimbus-docs/markdown";
 /**
  * Indexing is off until M3 custom-domain verification succeeds.
  * Set SITE_INDEXABLE=true only for the verified production rebuild in M3.
- * M1 workers.dev previews must remain noindexed.
+ * workers.dev / preview hosts remain noindexed via workers/host-indexing.ts
+ * even when the production build is indexable.
  */
-const siteIndexable = process.env.SITE_INDEXABLE === "true";
-
 const nimbusConfig = defineNimbusConfig({
   site: "https://lab.tianzhe.me",
   title: "Eazy Review Lab",
   description:
     "The public build journal, engineering reports, and product decisions behind Eazy Review.",
   locale: "en",
-  // Lab GitHub remote is deferred to M3 — omit until the repo exists so the
-  // header glyph and "Edit this page" do not 404 on every page.
-  github: null,
-  editPattern: null,
+  github: "https://github.com/tyson-hu/eazy-review-lab",
+  editPattern: "https://github.com/tyson-hu/eazy-review-lab/edit/main/{path}",
   socialImageAlt: "Eazy Review Lab",
-  head: siteIndexable
-    ? []
-    : [
-        {
-          tag: "meta",
-          attrs: { name: "robots", content: "noindex, nofollow" },
-        },
-      ],
+  // Feed discovery lives in BaseLayout so every HTML page advertises both
+  // feeds exactly once. Robots meta is also centralized there to avoid the
+  // dual <meta name="robots"> collision with NimbusHead's noindex prop.
+  head: [],
   sidebar: {
     scope: "full",
     items: [
@@ -48,6 +41,7 @@ const nimbusConfig = defineNimbusConfig({
 });
 
 export default defineConfig({
+  site: "https://lab.tianzhe.me",
   output: "static",
   vite: {
     plugins: [tailwindcss()],

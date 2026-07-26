@@ -11,6 +11,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
+const siteIndexable = process.env.SITE_INDEXABLE === "true";
 
 const KNOWN_PAGE = {
   htmlPaths: [
@@ -23,6 +24,21 @@ const KNOWN_PAGE = {
   ],
   title: "Independent Nimbus lab",
   canonicalPath: "/decisions/independent-nimbus-lab/",
+};
+
+const FLAGSHIP_REPORT = {
+  htmlPaths: [
+    "reports/pr-14-project-health/index.html",
+    "reports/pr-14-project-health.html",
+  ],
+  mdPaths: [
+    "reports/pr-14-project-health/index.md",
+    "reports/pr-14-project-health.md",
+  ],
+  title:
+    "Eazy Review Project Health Review: What PR #14 Revealed About Scope, Reviewability, and AI-Assisted Development",
+  canonicalUrl: "https://lab.tianzhe.me/reports/pr-14-project-health/",
+  slugToken: "pr-14-project-health",
 };
 
 const REQUIRED_HTML = [
@@ -242,6 +258,225 @@ async function assertPagefindDiscoversKnownPage() {
 
 await assertPagefindDiscoversKnownPage();
 
+// --- Flagship report surfaces ---
+const reportHtml = existsAny(FLAGSHIP_REPORT.htmlPaths);
+if (reportHtml) {
+  ok("flagship report HTML");
+  const html = fs.readFileSync(reportHtml, "utf8");
+  if (html.includes(FLAGSHIP_REPORT.title)) ok("flagship report title present");
+  else fail("flagship report title present");
+  const robotsTags = [...html.matchAll(/<meta\s+[^>]*name=["']robots["'][^>]*>/gi)];
+  if (robotsTags.length <= 1) ok("single robots meta on report page");
+  else fail("single robots meta on report page", `count=${robotsTags.length}`);
+  if (siteIndexable) {
+    const denies =
+      /content=["']noindex(?:,\s*nofollow)?["']/i.test(robotsTags[0]?.[0] ?? "");
+    if (!denies) ok("indexable build leaves report crawlable");
+    else fail("indexable build leaves report crawlable", robotsTags[0]?.[0]);
+  }
+  if (
+    /rel=["']alternate["'][^>]*type=["']application\/rss\+xml["']/i.test(html) ||
+    /type=["']application\/rss\+xml["'][^>]*rel=["']alternate["']/i.test(html)
+  ) {
+    ok("HTML advertises RSS feed");
+  } else {
+    fail("HTML advertises RSS feed");
+  }
+  if (
+    /rel=["']alternate["'][^>]*type=["']application\/feed\+json["']/i.test(html) ||
+    /type=["']application\/feed\+json["'][^>]*rel=["']alternate["']/i.test(html)
+  ) {
+    ok("HTML advertises JSON Feed");
+  } else {
+    fail("HTML advertises JSON Feed");
+  }
+} else {
+  fail("flagship report HTML", FLAGSHIP_REPORT.htmlPaths.join(" or "));
+}
+
+const reportMd = existsAny(FLAGSHIP_REPORT.mdPaths);
+if (reportMd) ok("flagship report Markdown alternate");
+else fail("flagship report Markdown alternate", FLAGSHIP_REPORT.mdPaths.join(" or "));
+
+const reportsLlmsPath = path.join(dist, "reports/llms.txt");
+if (fs.existsSync(llmsPath)) {
+  const llms = fs.readFileSync(llmsPath, "utf8");
+  const reportsLlms = fs.existsSync(reportsLlmsPath)
+    ? fs.readFileSync(reportsLlmsPath, "utf8")
+    : "";
+  const agentSurface = `${llms}\n${reportsLlms}`;
+  if (
+    agentSurface.includes(FLAGSHIP_REPORT.slugToken) &&
+    agentSurface.includes("Project Health Review")
+  ) {
+    ok("llms.txt includes published report");
+  } else {
+    fail("llms.txt includes published report");
+  }
+}
+
+if (sitemapFile) {
+  const map = fs.readFileSync(sitemapFile, "utf8");
+  let blob = map;
+  if (map.includes("<sitemap>")) {
+    const child = path.join(dist, "sitemap-0.xml");
+    if (fs.existsSync(child)) blob += fs.readFileSync(child, "utf8");
+  }
+  if (blob.includes(FLAGSHIP_REPORT.canonicalUrl.replace(/\/$/, ""))) {
+    ok("sitemap contains canonical report URL");
+  } else {
+    fail("sitemap contains canonical report URL", FLAGSHIP_REPORT.canonicalUrl);
+  }
+}
+
+async function assertPagefindDiscoversReport() {
+  const pagefindDir = path.join(dist, "pagefind");
+  if (!fs.existsSync(pagefindDir) || !reportHtml) return;
+
+  const { server, origin } = await serveDist();
+  try {
+    const pagefind = await import(
+      pathToFileURL(path.join(pagefindDir, "pagefind.js")).href
+    );
+    await pagefind.options({ basePath: `${origin}/pagefind/` });
+    await pagefind.init();
+    const search = await pagefind.search(FLAGSHIP_REPORT.title);
+    const hits = await Promise.all(
+      search.results.slice(0, 10).map((result) => result.data()),
+    );
+    const found = hits.some(
+      (hit) =>
+        hit.meta?.title === FLAGSHIP_REPORT.title ||
+        String(hit.url || "").includes(FLAGSHIP_REPORT.slugToken),
+    );
+    if (found) ok("search finds exact report title");
+    else fail("search finds exact report title");
+    await pagefind.destroy?.();
+  } catch (err) {
+    fail("search finds exact report title", String(err));
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+}
+
+await assertPagefindDiscoversReport();
+
+// --- Feeds ---
+function assertFeeds() {
+  const rssPath = path.join(dist, "feed.xml");
+  const jsonPath = path.join(dist, "feed.json");
+  if (!fs.existsSync(rssPath)) {
+    fail("feed.xml exists");
+    return;
+  }
+  if (!fs.existsSync(jsonPath)) {
+    fail("feed.json exists");
+    return;
+  }
+
+  const rss = fs.readFileSync(rssPath, "utf8");
+  const jsonRaw = fs.readFileSync(jsonPath, "utf8");
+
+  if (/<rss[\s>]/.test(rss) && /<channel>/.test(rss)) ok("RSS parses as RSS 2.0");
+  else fail("RSS parses as RSS 2.0");
+
+  let feed;
+  try {
+    feed = JSON.parse(jsonRaw);
+    ok("JSON Feed parses");
+  } catch (err) {
+    fail("JSON Feed parses", String(err));
+    return;
+  }
+
+  if (feed.version === "https://jsonfeed.org/version/1.1") ok("JSON Feed version 1.1");
+  else fail("JSON Feed version 1.1", String(feed.version));
+
+  if (!Array.isArray(feed.items)) {
+    fail("JSON Feed items array");
+    return;
+  }
+
+  const reportItem = feed.items.find((item) => item.url === FLAGSHIP_REPORT.canonicalUrl);
+  if (reportItem) ok("feeds include flagship report at canonical URL");
+  else fail("feeds include flagship report at canonical URL");
+
+  if (reportItem?.kind === "report" && reportItem?.featured === true) {
+    ok("JSON Feed report metadata fields");
+  } else {
+    fail("JSON Feed report metadata fields", JSON.stringify(reportItem));
+  }
+
+  if (rss.includes(FLAGSHIP_REPORT.canonicalUrl)) ok("RSS includes flagship report URL");
+  else fail("RSS includes flagship report URL");
+
+  if (rss.includes(DRAFT_SLUG) || jsonRaw.includes(DRAFT_SLUG)) {
+    fail("feeds exclude draft fixture");
+  } else {
+    ok("feeds exclude draft fixture");
+  }
+
+  // Decision kind must not appear in feeds.
+  if (
+    feed.items.some((item) => String(item.url || "").includes("independent-nimbus-lab")) ||
+    rss.includes("independent-nimbus-lab")
+  ) {
+    fail("feeds exclude non-feed kinds (decision)");
+  } else {
+    ok("feeds exclude non-feed kinds (decision)");
+  }
+
+  const urls = feed.items.map((item) => item.url);
+  const dates = feed.items.map((item) => Date.parse(item.date_published));
+  let ordered = true;
+  for (let i = 1; i < dates.length; i += 1) {
+    if (dates[i] > dates[i - 1]) {
+      ordered = false;
+      break;
+    }
+    if (dates[i] === dates[i - 1] && urls[i] < urls[i - 1]) {
+      ordered = false;
+      break;
+    }
+  }
+  if (ordered) ok("feed ordering is deterministic");
+  else fail("feed ordering is deterministic", urls.join(" | "));
+
+  for (const url of urls) {
+    if (!String(url).startsWith("https://lab.tianzhe.me/")) {
+      fail("feed URLs are absolute lab.tianzhe.me", url);
+      return;
+    }
+  }
+  ok("feed URLs are absolute lab.tianzhe.me");
+}
+
+assertFeeds();
+
+// Indexing protections — default builds stay noindexed; SITE_INDEXABLE=true
+// unlocks production robots after custom-domain verification.
+const homeHtmlPath =
+  existsAny(["index.html", "index/index.html"]) ?? path.join(dist, "index.html");
+if (fs.existsSync(homeHtmlPath)) {
+  const home = fs.readFileSync(homeHtmlPath, "utf8");
+  const robotsTags = [...home.matchAll(/<meta\s+[^>]*name=["']robots["'][^>]*>/gi)];
+  if (robotsTags.length <= 1) ok("single robots meta on homepage");
+  else fail("single robots meta on homepage", `count=${robotsTags.length}`);
+  const hasPreviewDeny =
+    /name=["']robots["'][^>]*content=["']noindex,\s*nofollow["']/i.test(home) ||
+    /content=["']noindex,\s*nofollow["'][^>]*name=["']robots["']/i.test(home);
+  if (siteIndexable) {
+    if (!hasPreviewDeny) ok("indexable HTML omits preview noindex,nofollow");
+    else fail("indexable HTML omits preview noindex,nofollow");
+  } else if (hasPreviewDeny) {
+    ok("preview HTML emits noindex,nofollow");
+  } else {
+    fail("preview HTML emits noindex,nofollow");
+  }
+} else {
+  fail("homepage html for noindex check");
+}
+
 // llms-full.txt must exist and exclude the draft fixture
 const llmsFullPath = path.join(dist, "llms-full.txt");
 if (fs.existsSync(llmsFullPath)) {
@@ -257,21 +492,6 @@ if (fs.existsSync(llmsFullPath)) {
   fail("llms-full.txt exists");
 }
 
-// Preview noindex protections (default M1 build)
-const homeHtmlPath =
-  existsAny(["index.html", "index/index.html"]) ?? path.join(dist, "index.html");
-if (fs.existsSync(homeHtmlPath)) {
-  const home = fs.readFileSync(homeHtmlPath, "utf8");
-  if (/name=["']robots["'][^>]*content=["']noindex,\s*nofollow["']/i.test(home) ||
-      /content=["']noindex,\s*nofollow["'][^>]*name=["']robots["']/i.test(home)) {
-    ok("preview HTML emits noindex,nofollow");
-  } else {
-    fail("preview HTML emits noindex,nofollow");
-  }
-} else {
-  fail("homepage html for noindex check");
-}
-
 const robots = path.join(dist, "robots.txt");
 if (fs.existsSync(robots)) {
   const body = fs.readFileSync(robots, "utf8");
@@ -280,7 +500,15 @@ if (fs.existsSync(robots)) {
   );
   // Do not use /Allow:\s*\// — it also matches the substring inside "Disallow: /".
   const hasAllowAll = /(?:^|\n)Allow:\s*\/\s*(?:\n|$)/i.test(body);
-  if (hasDisallowAll && !hasAllowAll) {
+  if (siteIndexable) {
+    if (hasAllowAll && !hasDisallowAll) ok("indexable robots.txt allows crawling");
+    else fail("indexable robots.txt allows crawling", body.slice(0, 200));
+    if (body.includes("Sitemap: https://lab.tianzhe.me/sitemap-index.xml")) {
+      ok("indexable robots.txt advertises sitemap");
+    } else {
+      fail("indexable robots.txt advertises sitemap");
+    }
+  } else if (hasDisallowAll && !hasAllowAll) {
     ok("preview robots.txt disallows crawling");
   } else {
     fail("preview robots.txt disallows crawling", body.slice(0, 200));

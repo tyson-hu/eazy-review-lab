@@ -2,14 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import { config } from "virtual:nimbus/config";
-
-const siteIndexable = process.env.SITE_INDEXABLE === "true";
 ---
 
 <BaseLayout
   title={`Page not found · ${config.title}`}
   description="The page you're looking for doesn't exist."
-  noindex={!siteIndexable}
+  noindex={true}
 >
   <div class="flex flex-col min-h-screen">
     <Header showSidebar={false} />

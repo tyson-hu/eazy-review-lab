@@ -39,6 +39,19 @@ const llmsIndexPath = collection
 // Keep agent directive links origin-relative so preview hosts remain reachable.
 // Canonical / OG URLs stay production-oriented via Astro.site in NimbusHead.
 const llmsUrl = llmsIndexPath;
+
+/**
+ * Single robots meta owner.
+ * Preview / pre-verification builds always emit noindex,nofollow.
+ * Production builds emit noindex only when the page opts in (draft/404/etc.).
+ * NimbusHead's noindex prop is forced off so it cannot emit a second tag.
+ */
+const siteIndexable = process.env.SITE_INDEXABLE === "true";
+const robotsContent = !siteIndexable
+  ? "noindex, nofollow"
+  : noindex
+    ? "noindex"
+    : undefined;
 ---
 
 <!doctype html>
@@ -46,6 +59,19 @@ const llmsUrl = llmsIndexPath;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {robotsContent && <meta name="robots" content={robotsContent} />}
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Eazy Review Lab RSS"
+      href="/feed.xml"
+    />
+    <link
+      rel="alternate"
+      type="application/feed+json"
+      title="Eazy Review Lab JSON Feed"
+      href="/feed.json"
+    />
 
     <script is:inline>
       (() => {
@@ -89,7 +115,7 @@ const llmsUrl = llmsIndexPath;
     <NimbusHead
       title={title}
       description={description}
-      noindex={noindex}
+      noindex={false}
       markdownUrl={markdownUrl}
       socialImage={socialImage}
       lastUpdated={lastUpdated}
