@@ -12,8 +12,8 @@
 Read `PLAN.md` completely before taking action.
 
 **M3 code, GitHub remote, custom domain, and production indexing are done.**
-Workers Builds is **not** connected yet (0 builds). Completing that one-time
-dashboard/GitHub App connect is the remaining M3.7 gate.
+Workers Builds Git connect was reported complete on 2026-07-26; this revision
+triggers the first connected build for M3.7 verification.
 
 ## Production (indexable)
 
