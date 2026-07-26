@@ -163,6 +163,7 @@ Preview smoke (2026-07-26, version `f2e8aaa2…`):
   - `0ba1954` — `docs: mark PLAN.md status as M1 complete`
   - `ece7a39` — `fix: close M1 review defects for validation, preview URLs, and metadata`
   - `d87659d` — `docs: record M1 review-fix commit in handoff`
+  - `4eca068` — `docs: record redeployed M1 preview smoke evidence`
 - Remote: **not created** (deferred to M3)
 - No destructive Git operations used
 - Deployed preview version: `f2e8aaa2-00c0-4e3d-9298-ca7d6046a2b0`
