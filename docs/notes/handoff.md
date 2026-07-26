@@ -156,7 +156,9 @@ Preview smoke (2026-07-26):
 ## Git
 
 - Branch: `main`
-- Commit: `0ba1954` — `docs: mark PLAN.md status as M1 complete`
+- Commits:
+  - `0ba1954` — `docs: mark PLAN.md status as M1 complete`
+  - `ece7a39` — `fix: close M1 review defects for validation, preview URLs, and metadata`
 - Remote: **not created** (deferred to M3)
 - No destructive Git operations used
 
