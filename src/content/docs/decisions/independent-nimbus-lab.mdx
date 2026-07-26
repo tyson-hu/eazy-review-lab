@@ -1,0 +1,57 @@
+---
+title: Independent Nimbus lab
+description: Why Eazy Review Lab is a separate Nimbus repository instead of living inside the Expo app.
+kind: decision
+project: eazy-review
+publishedAt: "2026-07-26T18:30:00-04:00"
+tags:
+  - architecture
+  - nimbus
+  - repository
+featured: true
+aiGenerated: false
+sidebar:
+  order: 1
+sourceRefs:
+  - label: Application repository
+    url: https://github.com/tyson-hu/Eazy-Review
+  - label: Nimbus installation docs
+    url: https://nimbus-docs.com/installation/
+---
+
+## Context
+
+Eazy Review needed a public place for development journals, engineering reports,
+and product decisions without turning the Expo app repository into a docs site
+or a second product specification.
+
+## Options
+
+1. Publish lab content inside the Expo application repository.
+2. Add the lab as a package or workspace inside a monorepo with the app.
+3. Create an independent Nimbus repository deployed on Cloudflare Workers.
+
+## Decision
+
+Use an independent Nimbus repository (`eazy-review-lab`) with Astro, pnpm, and
+Cloudflare Workers static assets.
+
+## Rationale
+
+- Keeps the application repository authoritative for product code and specs.
+- Lets lab content, evidence snapshots, and feeds evolve on their own review
+  cadence (M1 foundation, M2 report, M3 publishing).
+- Gives human-readable pages plus agent surfaces (`llms.txt`, Markdown
+  alternates) without coupling docs deploys to app releases.
+
+## Consequences
+
+- The app repository remains read-only while the lab is built.
+- Product terms such as **Eazy Score**, **Community Score**, and **My Rating**
+  stay exact when referenced here.
+- Public overviews stay short and pin exact source commit and path metadata.
+
+## Revisit when
+
+- The personal blog needs a tighter content sync than curated links plus feeds.
+- Asset hosting outgrows committed local media and needs Cloudflare R2.

@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import { config } from "virtual:nimbus/config";
+
+const siteIndexable = process.env.SITE_INDEXABLE === "true";
+---
+
+<BaseLayout
+  title={config.title}
+  description={config.description}
+  noindex={!siteIndexable}
+>
+  <div class="flex flex-col min-h-screen">
+    <Header showSidebar={true} />
+    <main id="main-content" class="lab-home mx-auto w-full max-w-3xl flex-1 px-6 py-16 sm:py-20" data-pagefind-body>
+      <p class="text-sm font-medium tracking-wide text-primary">
+        Eazy Review Lab
+      </p>
+      <h1
+        class="mt-3 text-foreground leading-tight"
+        style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
+      >
+        Build journal for a product still taking shape
+      </h1>
+      <p class="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-muted-foreground">
+        This lab publishes development notes, engineering evidence, and product
+        decisions for <strong class="text-foreground">Eazy Review</strong> — a
+        mobile-first product discovery app built around
+        <strong class="text-foreground">Eazy Score</strong>,
+        <strong class="text-foreground">Community Score</strong>, and
+        <strong class="text-foreground">My Rating</strong>.
+      </p>
+
+      <div class="lab-home__split mt-10 grid gap-6 sm:grid-cols-2">
+        <a class="lab-panel no-underline" href="/project">
+          <h2 class="text-base font-semibold text-foreground">Current project</h2>
+          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+            A short overview of Eazy Review, pinned to the authoritative Bluebook
+            source in the app repository.
+          </p>
+        </a>
+        <a
+          class="lab-panel no-underline"
+          href="https://github.com/tyson-hu/Eazy-Review"
+          target="_blank"
+          rel="noopener"
+        >
+          <h2 class="text-base font-semibold text-foreground">App source</h2>
+          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Implementation lives in the Eazy Review repository. This lab analyzes
+            and explains that work; it does not replace the app as source of truth.
+          </p>
+        </a>
+      </div>
+
+      <nav class="mt-12" aria-label="Lab sections">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Explore
+        </h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          <li>
+            <a class="lab-nav-link" href="/journal">Journal</a>
+            <p class="mt-1 text-sm text-muted-foreground">Chronological development notes</p>
+          </li>
+          <li>
+            <a class="lab-nav-link" href="/reports">Reports</a>
+            <p class="mt-1 text-sm text-muted-foreground">Evidence-backed analyses</p>
+          </li>
+          <li>
+            <a class="lab-nav-link" href="/decisions">Decisions</a>
+            <p class="mt-1 text-sm text-muted-foreground">Public product and technical choices</p>
+          </li>
+          <li>
+            <a class="lab-nav-link" href="/experiments">Experiments</a>
+            <p class="mt-1 text-sm text-muted-foreground">Hypotheses, methods, and results</p>
+          </li>
+        </ul>
+      </nav>
+    </main>
+  </div>
+</BaseLayout>

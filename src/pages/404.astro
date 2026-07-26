@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import { config } from "virtual:nimbus/config";
+
+const siteIndexable = process.env.SITE_INDEXABLE === "true";
+---
+
+<BaseLayout
+  title={`Page not found · ${config.title}`}
+  description="The page you're looking for doesn't exist."
+  noindex={!siteIndexable}
+>
+  <div class="flex flex-col min-h-screen">
+    <Header showSidebar={false} />
+    <main id="main-content" class="flex-1 mx-auto max-w-2xl w-full px-6 py-24 text-center">
+      <p class="text-sm font-medium text-muted-foreground">404</p>
+      <h1
+        class="mt-2 text-foreground leading-tight"
+        style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
+      >
+        Page not found
+      </h1>
+      <p class="mt-2 text-[1.0625rem] text-muted-foreground leading-relaxed">
+        This URL is not part of Eazy Review Lab. It may have moved, or it may
+        never have been published.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/"
+          class="inline-block rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground no-underline transition-colors hover:bg-primary-hover"
+        >
+          Back home
+        </a>
+        <a
+          href="/project"
+          class="inline-block rounded-lg border border-border px-4 py-2 font-medium text-foreground no-underline transition-colors hover:border-border-strong"
+        >
+          Project overview
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

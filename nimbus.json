@@ -1,0 +1,26 @@
+{
+  "$schema": "https://nimbus-docs.com/schema/nimbus.json",
+  "version": "0.6.3",
+  "templatesTag": "templates-v0.6.3",
+  "variant": "empty",
+  "registry": "https://nimbus-docs.com/registry",
+  "install": {
+    "root": "src",
+    "aliases": {
+      "@/*": "src/*"
+    }
+  },
+  "components": [
+    {
+      "slug": "frame",
+      "type": "registry:ui",
+      "version": "0.8.2",
+      "source": "https://nimbus-docs.com/registry",
+      "hash": "sha256:26927e8807fe74b6eabd342f0d4f6572e1366fe6e65e4d00c9a6fce4c1962367",
+      "files": [
+        "src/components/ui/frame/Frame.astro",
+        "src/components/ui/frame/index.ts"
+      ]
+    }
+  ]
+}
