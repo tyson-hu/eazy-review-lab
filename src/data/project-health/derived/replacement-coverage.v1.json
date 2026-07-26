@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "snapshotRevision": 1,
+  "sourceSnapshot": "../raw/github-prs-14-20.v1.json",
+  "repository": "tyson-hu/Eazy-Review",
+  "paths": [
+    {
+      "path": ".agents/skills/feature-slice-builder/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        17
+      ],
+      "notes": "Represented in replacement PR #17"
+    },
+    {
+      "path": ".claude/skills/feature-slice-builder/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        17
+      ],
+      "notes": "Represented in replacement PR #17"
+    },
+    {
+      "path": ".cursor/rules/mcp-policy.mdc",
+      "status": "represented",
+      "replacementPrs": [
+        20
+      ],
+      "notes": "Represented in replacement PR #20"
+    },
+    {
+      "path": ".cursor/rules/security.mdc",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        20
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": ".cursor/rules/supabase.mdc",
+      "status": "represented",
+      "replacementPrs": [
+        16
+      ],
+      "notes": "Represented in replacement PR #16"
+    },
+    {
+      "path": ".github/workflows/expo-ci.yml",
+      "status": "represented",
+      "replacementPrs": [
+        17,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "represented",
+      "replacementPrs": [
+        17,
+        18,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "README.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "app/(tabs)/browse.tsx",
+      "status": "represented",
+      "replacementPrs": [
+        15
+      ],
+      "notes": "Represented in replacement PR #15"
+    },
+    {
+      "path": "docs/AGENT_WORKFLOW.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/API_CONTRACTS.md",
+      "status": "represented",
+      "replacementPrs": [
+        15,
+        16,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/BLUEBOOK.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/DATA_MODEL.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        18,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "status": "represented",
+      "replacementPrs": [
+        19
+      ],
+      "notes": "Represented in replacement PR #19"
+    },
+    {
+      "path": "docs/DOCUMENTATION_POLICY.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/LOOP_ENGINEERING.md",
+      "status": "represented",
+      "replacementPrs": [
+        18,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/MCP_WORKFLOW.md",
+      "status": "represented",
+      "replacementPrs": [
+        20
+      ],
+      "notes": "Represented in replacement PR #20"
+    },
+    {
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "status": "represented",
+      "replacementPrs": [
+        18,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/SECURITY.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        20
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/STITCH_PROMPTS.md",
+      "status": "represented",
+      "replacementPrs": [
+        19
+      ],
+      "notes": "Represented in replacement PR #19"
+    },
+    {
+      "path": "docs/TASKS.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        18,
+        19
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "docs/USER_FLOWS.md",
+      "status": "represented",
+      "replacementPrs": [
+        19
+      ],
+      "notes": "Represented in replacement PR #19"
+    },
+    {
+      "path": "docs/UX_SCREENSHOT_AUDIT_SOP.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-document-controlled-sources-of-truth.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-documentation-ships-with-changes.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-server-owned-community-score.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-use-eazy-review-score-names.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-03-persist-session-and-blocker-state.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-04-agent-agnostic-security-source.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-12-bounded-delegation-with-independent-checks.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-19-retain-minimal-audit-proof-in-git.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-19-separate-style-language-from-product-ux.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-forbid-agent-production-database-access.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-rls-before-client-grants.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-security-first-supabase-task-sequencing.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-generated-adr-index.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-no-direct-postgrest-rating-upsert.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-profile-row-on-auth-user-insert.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-versioned-eazy-assessments.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/README.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/decisions/archive/2026-pre-adr-log.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "docs/notes/README.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "superseded",
+      "replacementPrs": [
+        17
+      ],
+      "notes": "Intentionally superseded with the direct yaml dependency that supported scripts/check-skill-wrappers.cjs; PR #17 replaces that approach without restoring the yaml lock entry from PR #14."
+    },
+    {
+      "path": "package.json",
+      "status": "represented",
+      "replacementPrs": [
+        17,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "scripts/build-decision-index.cjs",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "scripts/check-skill-wrappers.cjs",
+      "status": "superseded",
+      "replacementPrs": [
+        17
+      ],
+      "notes": "Intentionally superseded by PR #17 dependency-free JSON manifest generator and table-driven tests; the hand-maintained YAML front-matter checker was not carried forward."
+    },
+    {
+      "path": "skills/bugfix-debug-loop/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/docs-sync-loop/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/feature-slice-builder/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        17,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "skills/interactive-preview-loop/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/manifest.json",
+      "status": "represented",
+      "replacementPrs": [
+        17
+      ],
+      "notes": "Represented in replacement PR #17"
+    },
+    {
+      "path": "skills/product-data-modeling/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        15,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "skills/refactor-safety-loop/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/session-handoff/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/skill-creator/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        17,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "skills/supabase-schema-change/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        16,
+        18
+      ],
+      "notes": "Overlapping ownership; not additive"
+    },
+    {
+      "path": "skills/test-and-validation-loop/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "skills/ui-screen-builder/SKILL.md",
+      "status": "represented",
+      "replacementPrs": [
+        18
+      ],
+      "notes": "Represented in replacement PR #18"
+    },
+    {
+      "path": "src/components/ui/ProductCard.tsx",
+      "status": "represented",
+      "replacementPrs": [
+        15
+      ],
+      "notes": "Represented in replacement PR #15"
+    },
+    {
+      "path": "src/types/product.ts",
+      "status": "represented",
+      "replacementPrs": [
+        15
+      ],
+      "notes": "Represented in replacement PR #15"
+    },
+    {
+      "path": "src/utils/formatPrice.ts",
+      "status": "represented",
+      "replacementPrs": [
+        15
+      ],
+      "notes": "Represented in replacement PR #15"
+    }
+  ]
+}

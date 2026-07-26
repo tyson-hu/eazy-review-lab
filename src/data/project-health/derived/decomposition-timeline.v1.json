@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "snapshotRevision": 1,
+  "sourceSnapshot": "../raw/github-prs-14-20.v1.json",
+  "repository": "tyson-hu/Eazy-Review",
+  "events": [
+    {
+      "id": "pr-14-created",
+      "at": "2026-07-25T02:33:59Z",
+      "kind": "pr_created",
+      "pullRequest": 14,
+      "rawRef": "pullRequests[number=14].createdAt",
+      "label": "PR #14 opened"
+    },
+    {
+      "id": "pr-15-created",
+      "at": "2026-07-26T03:37:40Z",
+      "kind": "pr_created",
+      "pullRequest": 15,
+      "rawRef": "pullRequests[number=15].createdAt",
+      "label": "PR #15 opened"
+    },
+    {
+      "id": "pr-16-created",
+      "at": "2026-07-26T03:53:58Z",
+      "kind": "pr_created",
+      "pullRequest": 16,
+      "rawRef": "pullRequests[number=16].createdAt",
+      "label": "PR #16 opened"
+    },
+    {
+      "id": "pr-17-created",
+      "at": "2026-07-26T04:02:54Z",
+      "kind": "pr_created",
+      "pullRequest": 17,
+      "rawRef": "pullRequests[number=17].createdAt",
+      "label": "PR #17 opened"
+    },
+    {
+      "id": "pr-14-closed",
+      "at": "2026-07-26T04:03:45Z",
+      "kind": "pr_closed",
+      "pullRequest": 14,
+      "rawRef": "pullRequests[number=14].closedAt",
+      "label": "PR #14 closed without merge"
+    },
+    {
+      "id": "pr-18-created",
+      "at": "2026-07-26T04:32:36Z",
+      "kind": "pr_created",
+      "pullRequest": 18,
+      "rawRef": "pullRequests[number=18].createdAt",
+      "label": "PR #18 opened"
+    },
+    {
+      "id": "pr-19-created",
+      "at": "2026-07-26T04:42:36Z",
+      "kind": "pr_created",
+      "pullRequest": 19,
+      "rawRef": "pullRequests[number=19].createdAt",
+      "label": "PR #19 opened"
+    },
+    {
+      "id": "pr-20-created",
+      "at": "2026-07-26T04:44:46Z",
+      "kind": "pr_created",
+      "pullRequest": 20,
+      "rawRef": "pullRequests[number=20].createdAt",
+      "label": "PR #20 opened"
+    },
+    {
+      "id": "pr-15-merged",
+      "at": "2026-07-26T13:56:59Z",
+      "kind": "pr_merged",
+      "pullRequest": 15,
+      "rawRef": "pullRequests[number=15].mergedAt",
+      "label": "PR #15 merged"
+    },
+    {
+      "id": "pr-16-merged",
+      "at": "2026-07-26T13:59:19Z",
+      "kind": "pr_merged",
+      "pullRequest": 16,
+      "rawRef": "pullRequests[number=16].mergedAt",
+      "label": "PR #16 merged"
+    },
+    {
+      "id": "pr-20-merged",
+      "at": "2026-07-26T14:04:38Z",
+      "kind": "pr_merged",
+      "pullRequest": 20,
+      "rawRef": "pullRequests[number=20].mergedAt",
+      "label": "PR #20 merged"
+    },
+    {
+      "id": "pr-17-merged",
+      "at": "2026-07-26T14:09:19Z",
+      "kind": "pr_merged",
+      "pullRequest": 17,
+      "rawRef": "pullRequests[number=17].mergedAt",
+      "label": "PR #17 merged"
+    },
+    {
+      "id": "pr-19-merged",
+      "at": "2026-07-26T14:20:44Z",
+      "kind": "pr_merged",
+      "pullRequest": 19,
+      "rawRef": "pullRequests[number=19].mergedAt",
+      "label": "PR #19 merged"
+    },
+    {
+      "id": "pr-18-merged",
+      "at": "2026-07-26T14:42:35Z",
+      "kind": "pr_merged",
+      "pullRequest": 18,
+      "rawRef": "pullRequests[number=18].mergedAt",
+      "label": "PR #18 merged"
+    }
+  ]
+}

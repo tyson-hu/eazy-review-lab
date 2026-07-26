@@ -55,9 +55,18 @@ pnpm run check
 
 1. `astro check`
 2. offline publication validation (`scripts/validate-publication.mjs`)
-3. `astro build`
-4. `nimbus-docs lint` (after build — `internal-link` needs `.nimbus/routes.json`)
-5. stable public-behavior tests (`scripts/test-public-behavior.mjs`)
+3. offline project-health validation (`scripts/validate-project-health.mjs`)
+4. project-health unit/invariant tests (`scripts/tests/*.test.mjs`)
+5. generated-asset freshness (`scripts/check-generated-assets.mjs`)
+6. `astro build`
+7. `nimbus-docs lint` (after build — `internal-link` needs `.nimbus/routes.json`)
+8. stable public-behavior tests (`scripts/test-public-behavior.mjs`)
+
+Manual evidence refresh (networked, never part of `check`):
+
+```bash
+pnpm evidence:refresh
+```
 
 Preview deploy (unindexed):
 

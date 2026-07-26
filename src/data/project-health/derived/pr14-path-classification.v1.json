@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "snapshotRevision": 1,
+  "sourceSnapshot": "../raw/github-prs-14-20.v1.json",
+  "repository": "tyson-hu/Eazy-Review",
+  "sourceCommit": "68a2911183b4e99455a0ea71940b66ec30f41dd5",
+  "classificationMethod": "Manual path classification with mutually exclusive categories",
+  "paths": [
+    {
+      "path": ".agents/skills/feature-slice-builder/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": ".claude/skills/feature-slice-builder/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": ".cursor/rules/mcp-policy.mdc",
+      "category": "agent/tooling"
+    },
+    {
+      "path": ".cursor/rules/security.mdc",
+      "category": "agent/tooling"
+    },
+    {
+      "path": ".cursor/rules/supabase.mdc",
+      "category": "agent/tooling"
+    },
+    {
+      "path": ".github/workflows/expo-ci.yml",
+      "category": "CI/dependencies"
+    },
+    {
+      "path": "AGENTS.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "README.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "app/(tabs)/browse.tsx",
+      "category": "product code"
+    },
+    {
+      "path": "docs/AGENT_WORKFLOW.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "docs/API_CONTRACTS.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/BLUEBOOK.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/DATA_MODEL.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/DOCUMENTATION_POLICY.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/LOOP_ENGINEERING.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/MCP_WORKFLOW.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/SECURITY.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/STITCH_PROMPTS.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/TASKS.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/USER_FLOWS.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/UX_SCREENSHOT_AUDIT_SOP.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-document-controlled-sources-of-truth.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-documentation-ships-with-changes.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-server-owned-community-score.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-06-28-use-eazy-review-score-names.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-03-persist-session-and-blocker-state.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-04-agent-agnostic-security-source.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-12-bounded-delegation-with-independent-checks.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-19-retain-minimal-audit-proof-in-git.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-19-separate-style-language-from-product-ux.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-forbid-agent-production-database-access.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-rls-before-client-grants.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-24-security-first-supabase-task-sequencing.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-generated-adr-index.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-no-direct-postgrest-rating-upsert.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-profile-row-on-auth-user-insert.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/2026-07-25-versioned-eazy-assessments.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/README.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/decisions/archive/2026-pre-adr-log.md",
+      "category": "decision governance"
+    },
+    {
+      "path": "docs/notes/README.md",
+      "category": "canonical product/data documents"
+    },
+    {
+      "path": "package-lock.json",
+      "category": "CI/dependencies"
+    },
+    {
+      "path": "package.json",
+      "category": "CI/dependencies"
+    },
+    {
+      "path": "scripts/build-decision-index.cjs",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "scripts/check-skill-wrappers.cjs",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/bugfix-debug-loop/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/docs-sync-loop/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/feature-slice-builder/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/interactive-preview-loop/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/manifest.json",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/product-data-modeling/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/refactor-safety-loop/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/session-handoff/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/skill-creator/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/supabase-schema-change/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/test-and-validation-loop/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "skills/ui-screen-builder/SKILL.md",
+      "category": "agent/tooling"
+    },
+    {
+      "path": "src/components/ui/ProductCard.tsx",
+      "category": "product code"
+    },
+    {
+      "path": "src/types/product.ts",
+      "category": "product code"
+    },
+    {
+      "path": "src/utils/formatPrice.ts",
+      "category": "product code"
+    }
+  ]
+}

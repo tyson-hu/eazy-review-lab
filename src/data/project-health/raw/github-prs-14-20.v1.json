@@ -1,0 +1,2437 @@
+{
+  "schemaVersion": 1,
+  "snapshotRevision": 1,
+  "generatedAt": "2026-07-26T21:39:21.807Z",
+  "repository": "tyson-hu/Eazy-Review",
+  "frozenRefs": {
+    "pr14Base": "6c86dc735064734d1eda250b471ab7bea7dc2d4f",
+    "pr14Head": "68a2911183b4e99455a0ea71940b66ec30f41dd5",
+    "integratedResult": "9eb485cd9b6207b52ff4408ee89647f32faae436"
+  },
+  "verification": {
+    "ok": true,
+    "checkedAt": "2026-07-26T21:39:21.807Z",
+    "results": [
+      {
+        "kind": "commit",
+        "sha": "68a2911183b4e99455a0ea71940b66ec30f41dd5",
+        "ok": true,
+        "detail": "exists"
+      },
+      {
+        "kind": "commit",
+        "sha": "6c86dc735064734d1eda250b471ab7bea7dc2d4f",
+        "ok": true,
+        "detail": "exists"
+      },
+      {
+        "kind": "commit",
+        "sha": "9eb485cd9b6207b52ff4408ee89647f32faae436",
+        "ok": true,
+        "detail": "exists"
+      },
+      {
+        "kind": "pull_request",
+        "number": 14,
+        "ok": true,
+        "detail": "exists state=closed merged=false"
+      },
+      {
+        "kind": "pull_request",
+        "number": 15,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      },
+      {
+        "kind": "pull_request",
+        "number": 16,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      },
+      {
+        "kind": "pull_request",
+        "number": 17,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      },
+      {
+        "kind": "pull_request",
+        "number": 18,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      },
+      {
+        "kind": "pull_request",
+        "number": 19,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      },
+      {
+        "kind": "pull_request",
+        "number": 20,
+        "ok": true,
+        "detail": "exists state=closed merged=true"
+      }
+    ]
+  },
+  "pullRequests": [
+    {
+      "number": 14,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/14",
+      "title": "Plan packetized Supabase foundation and skill-wrapper validation",
+      "state": "CLOSED",
+      "merged": false,
+      "createdAt": "2026-07-25T02:33:59Z",
+      "closedAt": "2026-07-26T04:03:45Z",
+      "mergedAt": null,
+      "baseRefOid": "6c86dc735064734d1eda250b471ab7bea7dc2d4f",
+      "headRefOid": "68a2911183b4e99455a0ea71940b66ec30f41dd5",
+      "mergeCommitOid": "4b5fb3c9e807864f7a882f3da158fdb3a7833b0f",
+      "additions": 4665,
+      "deletions": 912,
+      "changedFiles": 63,
+      "files": [
+        {
+          "path": ".agents/skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".cursor/rules/mcp-policy.mdc",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 3,
+          "changes": 7
+        },
+        {
+          "path": ".cursor/rules/security.mdc",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 0,
+          "changes": 1
+        },
+        {
+          "path": ".cursor/rules/supabase.mdc",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 2,
+          "changes": 6
+        },
+        {
+          "path": ".github/workflows/expo-ci.yml",
+          "status": "modified",
+          "additions": 8,
+          "deletions": 2,
+          "changes": 10
+        },
+        {
+          "path": "AGENTS.md",
+          "status": "modified",
+          "additions": 10,
+          "deletions": 4,
+          "changes": 14
+        },
+        {
+          "path": "README.md",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 1,
+          "changes": 4
+        },
+        {
+          "path": "app/(tabs)/browse.tsx",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 1,
+          "changes": 6
+        },
+        {
+          "path": "docs/AGENT_WORKFLOW.md",
+          "status": "modified",
+          "additions": 21,
+          "deletions": 5,
+          "changes": 26
+        },
+        {
+          "path": "docs/API_CONTRACTS.md",
+          "status": "modified",
+          "additions": 79,
+          "deletions": 9,
+          "changes": 88
+        },
+        {
+          "path": "docs/BLUEBOOK.md",
+          "status": "modified",
+          "additions": 20,
+          "deletions": 13,
+          "changes": 33
+        },
+        {
+          "path": "docs/DATA_MODEL.md",
+          "status": "modified",
+          "additions": 429,
+          "deletions": 53,
+          "changes": 482
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "status": "modified",
+          "additions": 63,
+          "deletions": 672,
+          "changes": 735
+        },
+        {
+          "path": "docs/DESIGN.md",
+          "status": "modified",
+          "additions": 7,
+          "deletions": 5,
+          "changes": 12
+        },
+        {
+          "path": "docs/DOCUMENTATION_POLICY.md",
+          "status": "modified",
+          "additions": 14,
+          "deletions": 9,
+          "changes": 23
+        },
+        {
+          "path": "docs/LOOP_ENGINEERING.md",
+          "status": "modified",
+          "additions": 7,
+          "deletions": 4,
+          "changes": 11
+        },
+        {
+          "path": "docs/MCP_WORKFLOW.md",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 2,
+          "changes": 7
+        },
+        {
+          "path": "docs/RELEASE_CHECKLIST.md",
+          "status": "modified",
+          "additions": 17,
+          "deletions": 11,
+          "changes": 28
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "status": "modified",
+          "additions": 81,
+          "deletions": 38,
+          "changes": 119
+        },
+        {
+          "path": "docs/SECURITY.md",
+          "status": "modified",
+          "additions": 26,
+          "deletions": 0,
+          "changes": 26
+        },
+        {
+          "path": "docs/STITCH_PROMPTS.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 2,
+          "changes": 4
+        },
+        {
+          "path": "docs/TASKS.md",
+          "status": "modified",
+          "additions": 229,
+          "deletions": 24,
+          "changes": 253
+        },
+        {
+          "path": "docs/USER_FLOWS.md",
+          "status": "modified",
+          "additions": 25,
+          "deletions": 3,
+          "changes": 28
+        },
+        {
+          "path": "docs/UX_SCREENSHOT_AUDIT_SOP.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "docs/decisions/2026-06-28-document-controlled-sources-of-truth.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-06-28-documentation-ships-with-changes.md",
+          "status": "added",
+          "additions": 44,
+          "deletions": 0,
+          "changes": 44
+        },
+        {
+          "path": "docs/decisions/2026-06-28-server-owned-community-score.md",
+          "status": "added",
+          "additions": 52,
+          "deletions": 0,
+          "changes": 52
+        },
+        {
+          "path": "docs/decisions/2026-06-28-use-eazy-review-score-names.md",
+          "status": "added",
+          "additions": 42,
+          "deletions": 0,
+          "changes": 42
+        },
+        {
+          "path": "docs/decisions/2026-07-03-persist-session-and-blocker-state.md",
+          "status": "added",
+          "additions": 45,
+          "deletions": 0,
+          "changes": 45
+        },
+        {
+          "path": "docs/decisions/2026-07-04-agent-agnostic-security-source.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-07-12-bounded-delegation-with-independent-checks.md",
+          "status": "added",
+          "additions": 44,
+          "deletions": 0,
+          "changes": 44
+        },
+        {
+          "path": "docs/decisions/2026-07-19-retain-minimal-audit-proof-in-git.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-07-19-separate-style-language-from-product-ux.md",
+          "status": "added",
+          "additions": 42,
+          "deletions": 0,
+          "changes": 42
+        },
+        {
+          "path": "docs/decisions/2026-07-24-forbid-agent-production-database-access.md",
+          "status": "added",
+          "additions": 45,
+          "deletions": 0,
+          "changes": 45
+        },
+        {
+          "path": "docs/decisions/2026-07-24-rls-before-client-grants.md",
+          "status": "added",
+          "additions": 46,
+          "deletions": 0,
+          "changes": 46
+        },
+        {
+          "path": "docs/decisions/2026-07-24-security-first-supabase-task-sequencing.md",
+          "status": "added",
+          "additions": 46,
+          "deletions": 0,
+          "changes": 46
+        },
+        {
+          "path": "docs/decisions/2026-07-25-generated-adr-index.md",
+          "status": "added",
+          "additions": 46,
+          "deletions": 0,
+          "changes": 46
+        },
+        {
+          "path": "docs/decisions/2026-07-25-no-direct-postgrest-rating-upsert.md",
+          "status": "added",
+          "additions": 67,
+          "deletions": 0,
+          "changes": 67
+        },
+        {
+          "path": "docs/decisions/2026-07-25-profile-row-on-auth-user-insert.md",
+          "status": "added",
+          "additions": 44,
+          "deletions": 0,
+          "changes": 44
+        },
+        {
+          "path": "docs/decisions/2026-07-25-versioned-eazy-assessments.md",
+          "status": "added",
+          "additions": 53,
+          "deletions": 0,
+          "changes": 53
+        },
+        {
+          "path": "docs/decisions/README.md",
+          "status": "added",
+          "additions": 172,
+          "deletions": 0,
+          "changes": 172
+        },
+        {
+          "path": "docs/decisions/archive/2026-pre-adr-log.md",
+          "status": "added",
+          "additions": 905,
+          "deletions": 0,
+          "changes": 905
+        },
+        {
+          "path": "docs/notes/README.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "package-lock.json",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 1,
+          "changes": 3
+        },
+        {
+          "path": "package.json",
+          "status": "modified",
+          "additions": 6,
+          "deletions": 2,
+          "changes": 8
+        },
+        {
+          "path": "scripts/build-decision-index.cjs",
+          "status": "added",
+          "additions": 936,
+          "deletions": 0,
+          "changes": 936
+        },
+        {
+          "path": "scripts/check-skill-wrappers.cjs",
+          "status": "added",
+          "additions": 730,
+          "deletions": 0,
+          "changes": 730
+        },
+        {
+          "path": "skills/bugfix-debug-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/docs-sync-loop/SKILL.md",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 3,
+          "changes": 6
+        },
+        {
+          "path": "skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 30,
+          "deletions": 10,
+          "changes": 40
+        },
+        {
+          "path": "skills/interactive-preview-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/manifest.json",
+          "status": "added",
+          "additions": 16,
+          "deletions": 0,
+          "changes": 16
+        },
+        {
+          "path": "skills/product-data-modeling/SKILL.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 2,
+          "changes": 4
+        },
+        {
+          "path": "skills/refactor-safety-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/session-handoff/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/skill-creator/SKILL.md",
+          "status": "modified",
+          "additions": 7,
+          "deletions": 6,
+          "changes": 13
+        },
+        {
+          "path": "skills/supabase-schema-change/SKILL.md",
+          "status": "modified",
+          "additions": 29,
+          "deletions": 12,
+          "changes": 41
+        },
+        {
+          "path": "skills/test-and-validation-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/ui-screen-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "src/components/ui/ProductCard.tsx",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 5
+        },
+        {
+          "path": "src/types/product.ts",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 0,
+          "changes": 5
+        },
+        {
+          "path": "src/utils/formatPrice.ts",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 2,
+          "changes": 5
+        }
+      ],
+      "commits": [
+        {
+          "oid": "1729c6f6656e076e1ae22faaa9e8c52e05ad009b",
+          "committedDate": "2026-07-25T02:32:10Z",
+          "messageHeadline": "Plan packetized Supabase foundation and harden skill-wrapper checks.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "aae3215ebf01116b89ca804b2a6bde1bb099afdf",
+          "committedDate": "2026-07-25T02:47:34Z",
+          "messageHeadline": "Require RLS on create before client Data API grants.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "cc8d97a2b65dbb4f79fe6d516c11c0dc40efd80b",
+          "committedDate": "2026-07-25T03:02:35Z",
+          "messageHeadline": "Upgrade GitHub Actions checkout and setup-node to v6.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "1987e9feede92e2c654772aff6a8186350504da4",
+          "committedDate": "2026-07-25T03:08:41Z",
+          "messageHeadline": "Align schema workflow, grants, and MCP with deny-by-default plan.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "f45200a32fb832ae1551decbd5005ab078102b56",
+          "committedDate": "2026-07-25T03:11:32Z",
+          "messageHeadline": "Reject unclosed quotes in skill-wrapper front matter.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "d3d76a95471ccc37663c484533a7f2c8d7f7a2f2",
+          "committedDate": "2026-07-25T03:27:17Z",
+          "messageHeadline": "Harden grants, rating policies, wrapper nulls, and Task 14 rate adapter.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "8821df3bd5527c4b6408044bbbd043612f401d4e",
+          "committedDate": "2026-07-25T03:44:11Z",
+          "messageHeadline": "Serialize aggregates, widen Task 11 paths, and tighten plan contracts.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "0e455d38f72b46750a8cee45dd0b16cf1e7b9369",
+          "committedDate": "2026-07-25T04:06:13Z",
+          "messageHeadline": "Assign Rated Products, sync private-note UI, and fix rating write paths.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "b3fd703376fb34655185ae16b2194831420fff12",
+          "committedDate": "2026-07-25T04:08:18Z",
+          "messageHeadline": "Align release checklist keyboard note with Private note label.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "0c2639a955674a2a2991af23f5eec606cc881d51",
+          "committedDate": "2026-07-25T14:47:45Z",
+          "messageHeadline": "Require auth.users trigger to create profile rows on sign-up.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "28591c80b8b7d9fe64b31fe5830c1885f6243ffc",
+          "committedDate": "2026-07-25T15:25:04Z",
+          "messageHeadline": "Replace the monolithic decisions log with a generated ADR index.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "a172f60c2adc149c33b635b7c6290d37f63d3b35",
+          "committedDate": "2026-07-25T15:50:11Z",
+          "messageHeadline": "Tighten decision and skill-wrapper validators against false passes.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "c2c6e4b580b0de70e69fded5ea5339a1875956ee",
+          "committedDate": "2026-07-25T15:51:59Z",
+          "messageHeadline": "Ignore tilde-fenced headings in decision section validation.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "2c3a0e32a9831977f256f1e1409f2f67eae84ac2",
+          "committedDate": "2026-07-25T20:59:19Z",
+          "messageHeadline": "Harden wrapper paths, fence closing, and Task 12 migration separation.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "5dba86b1b6589cbd07b499afec73d54e69bacd66",
+          "committedDate": "2026-07-25T21:45:12Z",
+          "messageHeadline": "Harden ADR titles, archive integrity, and aggregate task ownership.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "621659d24ed79fab0f59764e9631c52bd1366b8d",
+          "committedDate": "2026-07-25T22:11:33Z",
+          "messageHeadline": "Require accepted supersessions, rating conflict retry, and strict ADR names.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "11858cf0f86d90ab431b432b5430e4d06fad1c98",
+          "committedDate": "2026-07-25T22:30:02Z",
+          "messageHeadline": "Close Task 14–15 contract gaps and harden ADR title link safety.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "caac3e01e6705ceed0bf55c90ad2de0016ee1604",
+          "committedDate": "2026-07-25T22:46:48Z",
+          "messageHeadline": "Close privilege, helper-auth, and tooling review gaps.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "07097a7a15ab08896e24115d64383ead8604b50f",
+          "committedDate": "2026-07-25T23:10:27Z",
+          "messageHeadline": "Harden ADR validation and Browse price currency.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "814d35cb493c2be348c8efd98128b9f8bab25905",
+          "committedDate": "2026-07-25T23:25:11Z",
+          "messageHeadline": "Require substantive ADR sections and align Task 11 constraints.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "f07038a0b4ccced0107f1dbe98d4bfce3b1de4f9",
+          "committedDate": "2026-07-25T23:40:58Z",
+          "messageHeadline": "Ignore HTML comments in ADRs and lock rating identity.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "01813da18fd04e9463ebd96d8dcb6800560a5ff9",
+          "committedDate": "2026-07-25T23:59:15Z",
+          "messageHeadline": "Reject empty ADR markers and fix rating INSERT grants.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "179c0fc35dc413da16a8023be3d07421b8539b76",
+          "committedDate": "2026-07-26T00:19:13Z",
+          "messageHeadline": "Lock versioned assessments and pin the skill inventory.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "baf5fdf34a23c57ad566ca96815358702f2726ab",
+          "committedDate": "2026-07-26T00:31:26Z",
+          "messageHeadline": "Scope Loop Index checks and make Task 17 mandatory.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "198fbfde311613fad18ef29d275fbf6c01146c54",
+          "committedDate": "2026-07-26T00:46:45Z",
+          "messageHeadline": "Tighten Loop Index parsing and unblock Task 14 reads.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "346ef8982e19dd4017ca9f72bdf8c0e4bccf85b7",
+          "committedDate": "2026-07-26T01:02:46Z",
+          "messageHeadline": "Require Loop Index triggers and nonnegative offer prices.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "035621ea64278196e529e22ebbaa9a77a923dddd",
+          "committedDate": "2026-07-26T01:18:21Z",
+          "messageHeadline": "Reject offer NaN, nested ADRs, and account deletion.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "57ab99f6cfb6fbaf714867652d3a50c699c4e93d",
+          "committedDate": "2026-07-26T01:32:12Z",
+          "messageHeadline": "Require offer currency, ADR guide, and auth/write modes.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "4eec7643bb9175989287c57f827c4ffa45577590",
+          "committedDate": "2026-07-26T01:46:11Z",
+          "messageHeadline": "Reject thematic breaks as empty ADR section content.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "db8c9053784c09c20b0f21269e5d18d614a4246c",
+          "committedDate": "2026-07-26T02:03:42Z",
+          "messageHeadline": "Ignore commented fences and document reset-password.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "c82f5ee0a2ef7cf5f6f3c08e24fd1560580a9eed",
+          "committedDate": "2026-07-26T02:19:17Z",
+          "messageHeadline": "Require non-null MVP size_region on product offers.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "bc8227fd02121a9ed2fbf6a258f7caf276231f0a",
+          "committedDate": "2026-07-26T02:31:40Z",
+          "messageHeadline": "Tighten skill-wrapper inventory and canonical checks.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "f73b731febac63fd097025375b71eb179391727e",
+          "committedDate": "2026-07-26T02:45:56Z",
+          "messageHeadline": "Reject negative offer sizes and unmatched trigger comments.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "68a2911183b4e99455a0ea71940b66ec30f41dd5",
+          "committedDate": "2026-07-26T02:59:47Z",
+          "messageHeadline": "Require substantive skill sections and reject empty HTML ADRs.",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30185435036/job/89749118864"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5076681206,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-25T03:27:22Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        },
+        {
+          "id": 5081921734,
+          "author": "tyson-hu",
+          "createdAt": "2026-07-26T04:03:36Z",
+          "body": "Closing this PR as superseded, with its head preserved unchanged at `68a2911183b4e99455a0ea71940b66ec30f41dd5` for reference.\n\n## Final decomposition coverage\n\nThe replacement set is:\n\n1. #15 — Browse currency runtime/display (`lowestPriceCurrency`, currency-aware formatting) plus the matching canonical product-data guidance.\n2. #16 — Task 11–12 Supabase security foundation, including the Cursor security mirror; planning/contracts only, no database mutation.\n3. #17 — generated skill discovery, JSON manifest/tests, GitHub Actions v6, and PR #14's connected-read / auth-connected / connected-write `feature-slice-builder` modes.\n4. #18 — the ADR decision restructure: full legacy log archive, 18 active ADRs, generated `docs/DECISIONS.md`, validator/check wiring, and updated decision-memory pointers.\n5. #19 — detailed Tasks 13–18 contracts: seed constraints, real Browse/Detail mapping, UUID-compatible transitional ratings, auth recovery and protected app-owned account deletion, private notes, Rated Products, rating conflict handling, aggregate verification, user-scoped query keys, plus matching design/user-flow/release/Stitch/loop guidance. This PR is stacked on #16.\n6. #20 — global agent/MCP database authority: production DB work and agent/MCP account deletion are FORBIDDEN; canonical docs and Cursor mirrors are synchronized. This PR is stacked on #16.\n\n## Final integrated-audit corrections\n\nThe final cross-PR review closed additional composition gaps:\n\n- #15 now keeps the exact `ProductCardData` inventory synchronized with `lowestPriceCurrency`.\n- #17 rejects empty canonical skill files and covers the guard with a 20th generator test; its auth routine requires human-run destructive account-deletion verification.\n- #18 records the previously omitted single-currency offer, generated skill-discovery, and account-deletion authority decisions.\n- #19 no longer allows seed/import code to write `rating_aggregates` directly, no longer references removed `source_type` fields or a nonexistent unresolved-decisions section, and makes the destructive deletion check human-owned.\n\n## Deliberate supersessions, not omissions\n\nA file-level audit of frozen PR #14 against #15–#20 found only two PR #14 paths not represented in a replacement: `scripts/check-skill-wrappers.cjs` and the corresponding direct `yaml` entry in `package-lock.json`. Both are intentionally superseded by #17's dependency-free JSON manifest generator and table-driven tests.\n\nThe detailed aggregate SQL from PR #14 is also intentionally not copied verbatim: the frozen head still had an unresolved product-delete cascade review finding and the SQL had not been runtime-tested. #16 preserves executable Task 11 acceptance criteria, and #19 preserves Task 17 verification/hardening; implementation belongs in the authorized, locally tested Task 11 packet.\n\n`docs/notes/handoff.md` was not a tracked change at the frozen head, so stale session state is not being promoted into durable replacement work.\n\n## Review and integration order\n\nRun one focused code/contract review on every replacement PR; do not merge the six drafts unreviewed. Reviews can start on the isolated diffs now. Integrate in this order:\n\n1. #15\n2. #16\n3. #20 — retarget to current `master` after #16 lands\n4. #17\n5. #19 — retarget to current `master` after #16/#20/#17 land\n6. #18 — rebase/compose last so its generated index and overlapping workflow/check wiring reflect the final tree\n\nAfter every retarget/rebase, rerun CI. Give #18's conflict-resolution/integration commit one final focused review before merging it.\n\nNo commit from PR #14 was cherry-picked wholesale, rebased, or used to move this branch head."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4778135305,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T02:56:13Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `aae3215ebf`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4778220001,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T03:20:18Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `f45200a32f`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4778270935,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T03:36:32Z",
+          "body": "\n### 💡 Codex Review\n\nhttps://github.com/tyson-hu/Eazy-Review/blob/d3d76a95471ccc37663c484533a7f2c8d7f7a2f2/docs/DATA_MODEL.md#L255-L258\n**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Serialize aggregate refreshes per product**\n\nWhen two users rate the same product concurrently, each trigger can calculate from a snapshot that excludes the other transaction's uncommitted rating; after one upsert waits on the aggregate row's primary-key conflict, its stale `excluded` values can overwrite the first result, leaving `rating_count` and averages missing a rating until another mutation occurs. Serialize refreshes for each product before reading `user_ratings` (for example with a product-row or advisory transaction lock) and cover concurrent writes in the aggregate tests.\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4778320234,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T03:51:59Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `8821df3bd5`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4778378589,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T04:15:07Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `b3fd703376`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4779525821,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T15:37:40Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `28591c80b8`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4779562181,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T16:03:12Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `c2c6e4b580`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780193711,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T21:07:17Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `2c3a0e32a9`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780272192,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T21:54:19Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `5dba86b1b6`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780319730,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T22:21:34Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `621659d24e`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780347291,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T22:39:40Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `11858cf0f8`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780375154,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T22:57:58Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `caac3e01e6`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780416789,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T23:21:40Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `07097a7a15`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780442150,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T23:36:52Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `814d35cb49`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780460782,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-25T23:51:25Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `f07038a0b4`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780479297,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T00:06:33Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `01813da18f`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780508980,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T00:27:52Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `179c0fc35d`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780529007,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T00:42:28Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `baf5fdf34a`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780552376,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T00:59:20Z",
+          "body": "\n### 💡 Codex Review\n\nhttps://github.com/tyson-hu/Eazy-Review/blob/198fbfde311613fad18ef29d275fbf6c01146c54/docs/DATA_MODEL.md#L202\n**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Reject negative offer prices**\n\nWhen a seed or import accidentally supplies a negative non-null price, this schema accepts it and Task 14's documented minimum calculation will select it ahead of every valid offer, causing Browse and Detail to show a nonsensical negative lowest price. Add a database check requiring `price >= 0` while preserving `NULL` for unavailable prices.\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780575767,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T01:14:42Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `346ef8982e`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780599100,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T01:27:02Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `035621ea64`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780623392,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T01:43:44Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `57ab99f6cf`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780655780,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T01:58:01Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `4eec7643bb`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780707396,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T02:15:10Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `db8c905378`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780742245,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T02:27:20Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `c82f5ee0a2`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780775937,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T02:40:02Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `bc8227fd02`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780795693,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T02:56:19Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `f73b731feb`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "id": 4780808512,
+          "author": "chatgpt-codex-connector[bot]",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T03:09:00Z",
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `68a2911183`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/15",
+      "title": "Display Browse prices with their currency",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T03:37:40Z",
+      "closedAt": "2026-07-26T13:56:59Z",
+      "mergedAt": "2026-07-26T13:56:59Z",
+      "baseRefOid": "6c86dc735064734d1eda250b471ab7bea7dc2d4f",
+      "headRefOid": "7d7c60482550ecb4fb8960d7b5acd707e01846b2",
+      "mergeCommitOid": "6cae7f923a165c3fe8a678d239289712965f1023",
+      "additions": 19,
+      "deletions": 5,
+      "changedFiles": 6,
+      "files": [
+        {
+          "path": "app/(tabs)/browse.tsx",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 1,
+          "changes": 6
+        },
+        {
+          "path": "docs/API_CONTRACTS.md",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 0,
+          "changes": 4
+        },
+        {
+          "path": "skills/product-data-modeling/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "src/components/ui/ProductCard.tsx",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 5
+        },
+        {
+          "path": "src/types/product.ts",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 0,
+          "changes": 2
+        },
+        {
+          "path": "src/utils/formatPrice.ts",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 2,
+          "changes": 5
+        }
+      ],
+      "commits": [
+        {
+          "oid": "ad77f1089bee8010d12933533b4e6574d2163d56",
+          "committedDate": "2026-07-26T03:36:41Z",
+          "messageHeadline": "Display Browse prices with their currency",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "7d7c60482550ecb4fb8960d7b5acd707e01846b2",
+          "committedDate": "2026-07-26T05:16:35Z",
+          "messageHeadline": "Sync Browse currency field guidance",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30189131797/job/89758955397"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083783337,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T13:56:28Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781890360,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T13:56:42Z",
+          "body": "Independent read-only review completed: no findings. The Browse currency contract, null fallback, documentation sync, focused type/lint checks, host-level full check, and green validate workflow were verified before integration."
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/16",
+      "title": "Define Task 11–12 Supabase security foundation",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T03:53:58Z",
+      "closedAt": "2026-07-26T13:59:19Z",
+      "mergedAt": "2026-07-26T13:59:19Z",
+      "baseRefOid": "6c86dc735064734d1eda250b471ab7bea7dc2d4f",
+      "headRefOid": "e34660bb206b2d40c4729ebad1dd80535b264968",
+      "mergeCommitOid": "0f3a47311d88c411dce0d4293585d265e17a370b",
+      "additions": 694,
+      "deletions": 327,
+      "changedFiles": 10,
+      "files": [
+        {
+          "path": ".cursor/rules/security.mdc",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 0,
+          "changes": 1
+        },
+        {
+          "path": ".cursor/rules/supabase.mdc",
+          "status": "modified",
+          "additions": 10,
+          "deletions": 7,
+          "changes": 17
+        },
+        {
+          "path": "docs/API_CONTRACTS.md",
+          "status": "modified",
+          "additions": 45,
+          "deletions": 1,
+          "changes": 46
+        },
+        {
+          "path": "docs/BLUEBOOK.md",
+          "status": "modified",
+          "additions": 13,
+          "deletions": 10,
+          "changes": 23
+        },
+        {
+          "path": "docs/DATA_MODEL.md",
+          "status": "modified",
+          "additions": 275,
+          "deletions": 229,
+          "changes": 504
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "status": "modified",
+          "additions": 81,
+          "deletions": 0,
+          "changes": 81
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "status": "modified",
+          "additions": 32,
+          "deletions": 37,
+          "changes": 69
+        },
+        {
+          "path": "docs/SECURITY.md",
+          "status": "modified",
+          "additions": 33,
+          "deletions": 0,
+          "changes": 33
+        },
+        {
+          "path": "docs/TASKS.md",
+          "status": "modified",
+          "additions": 140,
+          "deletions": 12,
+          "changes": 152
+        },
+        {
+          "path": "skills/supabase-schema-change/SKILL.md",
+          "status": "modified",
+          "additions": 64,
+          "deletions": 31,
+          "changes": 95
+        }
+      ],
+      "commits": [
+        {
+          "oid": "2a6f96a39705f6d26d6312bc9e9e9363ea17acb4",
+          "committedDate": "2026-07-26T03:53:08Z",
+          "messageHeadline": "Define Task 11-12 Supabase security foundation",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "bf5a24c877de51b8a2b9b3b3a08516b909f4b1ce",
+          "committedDate": "2026-07-26T04:23:01Z",
+          "messageHeadline": "Mirror Supabase security boundaries",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "e34660bb206b2d40c4729ebad1dd80535b264968",
+          "committedDate": "2026-07-26T13:18:56Z",
+          "messageHeadline": "docs: close Supabase planning contract gaps",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30203808142/job/89798274295"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083791652,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T13:58:57Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781894849,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T13:59:05Z",
+          "body": "Independent read-only review completed after the correction commit: no findings. The Community Score formula/rounding fixtures, trigger-only SECURITY DEFINER boundaries, PUBLIC/effective-grant checks, service-role tests, secret boundary, Data API rollout wording, documentation gate, green validate workflow, and the planning-only/no-Supabase-action constraint were verified."
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/17",
+      "title": "Generate skill discovery wrappers from a manifest",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T04:02:54Z",
+      "closedAt": "2026-07-26T14:09:19Z",
+      "mergedAt": "2026-07-26T14:09:19Z",
+      "baseRefOid": "5f548ba937b612742ceb97e0771d69384b0dfca2",
+      "headRefOid": "a9b621bf79f0ab2d029385e3273b93e430bd36c4",
+      "mergeCommitOid": "639d509cb07204789aca499ce11271d5550f1a7a",
+      "additions": 929,
+      "deletions": 46,
+      "changedFiles": 32,
+      "files": [
+        {
+          "path": ".agents/skills/blocker-note/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/bugfix-debug-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/docs-sync-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/interactive-preview-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/product-data-modeling/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/refactor-safety-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/session-handoff/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/skill-creator/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/supabase-schema-change/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/test-and-validation-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".agents/skills/ui-screen-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/blocker-note/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/bugfix-debug-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/docs-sync-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/interactive-preview-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/product-data-modeling/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/refactor-safety-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/session-handoff/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/skill-creator/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/supabase-schema-change/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/test-and-validation-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".claude/skills/ui-screen-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": ".github/workflows/expo-ci.yml",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 2,
+          "changes": 7
+        },
+        {
+          "path": "AGENTS.md",
+          "status": "modified",
+          "additions": 6,
+          "deletions": 3,
+          "changes": 9
+        },
+        {
+          "path": "package.json",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 5
+        },
+        {
+          "path": "scripts/generate-skill-wrappers.cjs",
+          "status": "added",
+          "additions": 396,
+          "deletions": 0,
+          "changes": 396
+        },
+        {
+          "path": "scripts/generate-skill-wrappers.test.cjs",
+          "status": "added",
+          "additions": 399,
+          "deletions": 0,
+          "changes": 399
+        },
+        {
+          "path": "skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 31,
+          "deletions": 10,
+          "changes": 41
+        },
+        {
+          "path": "skills/manifest.json",
+          "status": "added",
+          "additions": 52,
+          "deletions": 0,
+          "changes": 52
+        },
+        {
+          "path": "skills/skill-creator/SKILL.md",
+          "status": "modified",
+          "additions": 12,
+          "deletions": 6,
+          "changes": 18
+        }
+      ],
+      "commits": [
+        {
+          "oid": "237cd7b7aba958977d8a467608c994cd45496d73",
+          "committedDate": "2026-07-26T14:06:48Z",
+          "messageHeadline": "Upgrade CI actions to v6",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "2edcb8b0502acd00ff39723733fd1c647cfdeeb8",
+          "committedDate": "2026-07-26T14:06:48Z",
+          "messageHeadline": "Generate skill discovery wrappers from manifest",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "7c0911bca0f788facb5e2b03c7c0156c4bbb2a2c",
+          "committedDate": "2026-07-26T14:06:48Z",
+          "messageHeadline": "Add connected feature slice modes",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "a9b621bf79f0ab2d029385e3273b93e430bd36c4",
+          "committedDate": "2026-07-26T14:06:48Z",
+          "messageHeadline": "fix: harden generated skill wrapper sync",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "c48037ce4ba3825bdd0b7042d41eea5b36743abb",
+          "committedDate": "2026-07-26T14:06:48Z",
+          "messageHeadline": "Harden generated skill ownership checks",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30205426189/job/89802531676"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083828143,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T14:09:11Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781910413,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T14:08:58Z",
+          "body": "Independent re-review completed: no findings. Wrapper ownership and symlink boundaries, stale cleanup safety, direct CI check behavior, canonical skill references, all 24 focused regressions, and the host-level full check were verified. The final five-commit rebase is patch-equivalent, and the fresh composed validate workflow passed."
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/18",
+      "title": "Adopt generated ADR decision governance",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T04:32:36Z",
+      "closedAt": "2026-07-26T14:42:35Z",
+      "mergedAt": "2026-07-26T14:42:35Z",
+      "baseRefOid": "6a6bf48ed8fdbba15fc2d5037277b5ad6b9b514c",
+      "headRefOid": "50a31512a38cf6231d70ec7866044adbc99a84c1",
+      "mergeCommitOid": "9eb485cd9b6207b52ff4408ee89647f32faae436",
+      "additions": 3406,
+      "deletions": 869,
+      "changedFiles": 47,
+      "files": [
+        {
+          "path": ".github/workflows/expo-ci.yml",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 0,
+          "changes": 3
+        },
+        {
+          "path": "AGENTS.md",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 5
+        },
+        {
+          "path": "README.md",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 1,
+          "changes": 4
+        },
+        {
+          "path": "docs/AGENT_WORKFLOW.md",
+          "status": "modified",
+          "additions": 19,
+          "deletions": 4,
+          "changes": 23
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "status": "modified",
+          "additions": 91,
+          "deletions": 827,
+          "changes": 918
+        },
+        {
+          "path": "docs/DOCUMENTATION_POLICY.md",
+          "status": "modified",
+          "additions": 14,
+          "deletions": 9,
+          "changes": 23
+        },
+        {
+          "path": "docs/LOOP_ENGINEERING.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 2,
+          "changes": 4
+        },
+        {
+          "path": "docs/RELEASE_CHECKLIST.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 1,
+          "changes": 3
+        },
+        {
+          "path": "docs/TASKS.md",
+          "status": "modified",
+          "additions": 11,
+          "deletions": 6,
+          "changes": 17
+        },
+        {
+          "path": "docs/UX_SCREENSHOT_AUDIT_SOP.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "docs/decisions/2026-06-28-document-controlled-sources-of-truth.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-06-28-documentation-ships-with-changes.md",
+          "status": "added",
+          "additions": 44,
+          "deletions": 0,
+          "changes": 44
+        },
+        {
+          "path": "docs/decisions/2026-06-28-server-owned-community-score.md",
+          "status": "added",
+          "additions": 64,
+          "deletions": 0,
+          "changes": 64
+        },
+        {
+          "path": "docs/decisions/2026-06-28-use-eazy-review-score-names.md",
+          "status": "added",
+          "additions": 42,
+          "deletions": 0,
+          "changes": 42
+        },
+        {
+          "path": "docs/decisions/2026-07-03-persist-session-and-blocker-state.md",
+          "status": "added",
+          "additions": 45,
+          "deletions": 0,
+          "changes": 45
+        },
+        {
+          "path": "docs/decisions/2026-07-04-agent-agnostic-security-source.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-07-12-bounded-delegation-with-independent-checks.md",
+          "status": "added",
+          "additions": 44,
+          "deletions": 0,
+          "changes": 44
+        },
+        {
+          "path": "docs/decisions/2026-07-19-retain-minimal-audit-proof-in-git.md",
+          "status": "added",
+          "additions": 43,
+          "deletions": 0,
+          "changes": 43
+        },
+        {
+          "path": "docs/decisions/2026-07-19-separate-style-language-from-product-ux.md",
+          "status": "added",
+          "additions": 42,
+          "deletions": 0,
+          "changes": 42
+        },
+        {
+          "path": "docs/decisions/2026-07-24-forbid-agent-production-database-access.md",
+          "status": "added",
+          "additions": 78,
+          "deletions": 0,
+          "changes": 78
+        },
+        {
+          "path": "docs/decisions/2026-07-24-rls-before-client-grants.md",
+          "status": "added",
+          "additions": 58,
+          "deletions": 0,
+          "changes": 58
+        },
+        {
+          "path": "docs/decisions/2026-07-24-security-first-supabase-task-sequencing.md",
+          "status": "added",
+          "additions": 46,
+          "deletions": 0,
+          "changes": 46
+        },
+        {
+          "path": "docs/decisions/2026-07-25-generated-adr-index.md",
+          "status": "added",
+          "additions": 46,
+          "deletions": 0,
+          "changes": 46
+        },
+        {
+          "path": "docs/decisions/2026-07-25-keep-mvp-offer-payloads-single-currency.md",
+          "status": "added",
+          "additions": 55,
+          "deletions": 0,
+          "changes": 55
+        },
+        {
+          "path": "docs/decisions/2026-07-25-no-direct-postgrest-rating-upsert.md",
+          "status": "added",
+          "additions": 73,
+          "deletions": 0,
+          "changes": 73
+        },
+        {
+          "path": "docs/decisions/2026-07-25-profile-row-on-auth-user-insert.md",
+          "status": "added",
+          "additions": 51,
+          "deletions": 0,
+          "changes": 51
+        },
+        {
+          "path": "docs/decisions/2026-07-25-versioned-eazy-assessments.md",
+          "status": "added",
+          "additions": 53,
+          "deletions": 0,
+          "changes": 53
+        },
+        {
+          "path": "docs/decisions/2026-07-26-caller-derived-session-aware-self-deletion.md",
+          "status": "added",
+          "additions": 59,
+          "deletions": 0,
+          "changes": 59
+        },
+        {
+          "path": "docs/decisions/2026-07-26-generate-skill-discovery-wrappers-from-one-manifest.md",
+          "status": "added",
+          "additions": 54,
+          "deletions": 0,
+          "changes": 54
+        },
+        {
+          "path": "docs/decisions/2026-07-26-separate-public-product-cache-from-my-rating.md",
+          "status": "added",
+          "additions": 53,
+          "deletions": 0,
+          "changes": 53
+        },
+        {
+          "path": "docs/decisions/README.md",
+          "status": "added",
+          "additions": 172,
+          "deletions": 0,
+          "changes": 172
+        },
+        {
+          "path": "docs/decisions/archive/2026-pre-adr-log.md",
+          "status": "added",
+          "additions": 1039,
+          "deletions": 0,
+          "changes": 1039
+        },
+        {
+          "path": "docs/notes/README.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "package.json",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 1,
+          "changes": 5
+        },
+        {
+          "path": "scripts/build-decision-index.cjs",
+          "status": "added",
+          "additions": 952,
+          "deletions": 0,
+          "changes": 952
+        },
+        {
+          "path": "scripts/build-decision-index.test.cjs",
+          "status": "added",
+          "additions": 39,
+          "deletions": 0,
+          "changes": 39
+        },
+        {
+          "path": "skills/bugfix-debug-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/docs-sync-loop/SKILL.md",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 3,
+          "changes": 6
+        },
+        {
+          "path": "skills/feature-slice-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 2,
+          "changes": 3
+        },
+        {
+          "path": "skills/interactive-preview-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/product-data-modeling/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/refactor-safety-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/session-handoff/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/skill-creator/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/supabase-schema-change/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 2,
+          "changes": 3
+        },
+        {
+          "path": "skills/test-and-validation-loop/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "skills/ui-screen-builder/SKILL.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        }
+      ],
+      "commits": [
+        {
+          "oid": "819a7b9150a3ff21d62fcf82e1150f1332393e2f",
+          "committedDate": "2026-07-26T04:32:00Z",
+          "messageHeadline": "Adopt generated ADR decision index",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "a335ce527a5c3eb9879c854e9fc4656395b8bc7e",
+          "committedDate": "2026-07-26T05:15:05Z",
+          "messageHeadline": "Record missing decomposition decisions",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "484e42341fbe35c69c910db2d02a64776b03499c",
+          "committedDate": "2026-07-26T05:17:45Z",
+          "messageHeadline": "Record single-currency offer boundary",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "b849451193c460820b344387f97da0f2b4eb8c25",
+          "committedDate": "2026-07-26T13:51:41Z",
+          "messageHeadline": "fix: make decision index ordering deterministic",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "5a0517c01f02e8b51895fd63d58572eba0012547",
+          "committedDate": "2026-07-26T14:25:05Z",
+          "messageHeadline": "Merge current master into ADR governance",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "50a31512a38cf6231d70ec7866044adbc99a84c1",
+          "committedDate": "2026-07-26T14:39:55Z",
+          "messageHeadline": "docs: compose integrated decisions into ADR system",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30206568367/job/89805583912"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083964522,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T14:42:25Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781972527,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T14:42:09Z",
+          "body": "Final integration review: APPROVE (no actionable findings).\n\nVerified the current master composition preserves both skill-wrapper and ADR governance, actions v6, the complete legacy archive plus exact later decision blocks, a deterministic 20-record index, and exactly two newly promoted durable ADRs. The diff contains no app, Supabase, dependency, lockfile, or runtime configuration changes.\n\nValidation: unrestricted host npm run check passed; npm run decisions:check passed; npm run check:skill-wrappers passed 24/24; git diff --check passed; fresh Expo CI run 30206568367 passed."
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/19",
+      "title": "Define connected Tasks 13–18 contracts",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T04:42:36Z",
+      "closedAt": "2026-07-26T14:20:44Z",
+      "mergedAt": "2026-07-26T14:20:44Z",
+      "baseRefOid": "639d509cb07204789aca499ce11271d5550f1a7a",
+      "headRefOid": "0aa834bb60b491c75cf2e1d64250cdf1b1d46ae5",
+      "mergeCommitOid": "6a6bf48ed8fdbba15fc2d5037277b5ad6b9b514c",
+      "additions": 535,
+      "deletions": 62,
+      "changedFiles": 12,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        },
+        {
+          "path": "docs/API_CONTRACTS.md",
+          "status": "modified",
+          "additions": 170,
+          "deletions": 12,
+          "changes": 182
+        },
+        {
+          "path": "docs/BLUEBOOK.md",
+          "status": "modified",
+          "additions": 6,
+          "deletions": 6,
+          "changes": 12
+        },
+        {
+          "path": "docs/DATA_MODEL.md",
+          "status": "modified",
+          "additions": 24,
+          "deletions": 0,
+          "changes": 24
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "status": "modified",
+          "additions": 53,
+          "deletions": 0,
+          "changes": 53
+        },
+        {
+          "path": "docs/DESIGN.md",
+          "status": "modified",
+          "additions": 10,
+          "deletions": 6,
+          "changes": 16
+        },
+        {
+          "path": "docs/LOOP_ENGINEERING.md",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 2,
+          "changes": 7
+        },
+        {
+          "path": "docs/RELEASE_CHECKLIST.md",
+          "status": "modified",
+          "additions": 23,
+          "deletions": 10,
+          "changes": 33
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "status": "modified",
+          "additions": 48,
+          "deletions": 9,
+          "changes": 57
+        },
+        {
+          "path": "docs/STITCH_PROMPTS.md",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 3,
+          "changes": 6
+        },
+        {
+          "path": "docs/TASKS.md",
+          "status": "modified",
+          "additions": 135,
+          "deletions": 10,
+          "changes": 145
+        },
+        {
+          "path": "docs/USER_FLOWS.md",
+          "status": "modified",
+          "additions": 57,
+          "deletions": 3,
+          "changes": 60
+        }
+      ],
+      "commits": [
+        {
+          "oid": "38208d6cbe6ed16865aa4c43c6355e744d1ddb51",
+          "committedDate": "2026-07-26T14:13:06Z",
+          "messageHeadline": "Define connected Tasks 13 through 18",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "0aa834bb60b491c75cf2e1d64250cdf1b1d46ae5",
+          "committedDate": "2026-07-26T14:14:00Z",
+          "messageHeadline": "docs: close connected auth and cache contracts",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "208a725ad0b0358e4a81ab0dc76f81c4367d6f9c",
+          "committedDate": "2026-07-26T14:14:00Z",
+          "messageHeadline": "Close connected contract decomposition gaps",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "25f917b7bc53243bd360c56098b50378974b9411",
+          "committedDate": "2026-07-26T14:14:00Z",
+          "messageHeadline": "Keep generated skill ownership in PR 17",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30205821612/job/89803572714"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083868758,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T14:20:35Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781927414,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T14:20:23Z",
+          "body": "Independent integration review completed: no findings. The public-detail/user-rating cache split, profile joinedAt source, recovery-only session gate, caller-derived deletion with global Auth Admin revocation and abort-on-failure, human-only destructive verification, cascade/aggregate consequences, residual JWT guidance, and both durable legacy decisions were verified. PR #15 currency and PR #16 security contracts remain intact; PR #17-owned skill/wrapper paths are absent. Full host check and the definitive retargeted validate workflow passed."
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "url": "https://github.com/tyson-hu/Eazy-Review/pull/20",
+      "title": "Define agent and MCP database authority",
+      "state": "MERGED",
+      "merged": true,
+      "createdAt": "2026-07-26T04:44:46Z",
+      "closedAt": "2026-07-26T14:04:38Z",
+      "mergedAt": "2026-07-26T14:04:38Z",
+      "baseRefOid": "0f3a47311d88c411dce0d4293585d265e17a370b",
+      "headRefOid": "37f0289342c1cf11a8e5547f5f09b4fbaf5f0b59",
+      "mergeCommitOid": "5f548ba937b612742ceb97e0771d69384b0dfca2",
+      "additions": 72,
+      "deletions": 12,
+      "changedFiles": 6,
+      "files": [
+        {
+          "path": ".cursor/agents/debugger.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 1,
+          "changes": 3
+        },
+        {
+          "path": ".cursor/agents/implementer.md",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 1,
+          "changes": 3
+        },
+        {
+          "path": ".cursor/rules/mcp-policy.mdc",
+          "status": "modified",
+          "additions": 19,
+          "deletions": 4,
+          "changes": 23
+        },
+        {
+          "path": ".cursor/rules/security.mdc",
+          "status": "modified",
+          "additions": 13,
+          "deletions": 2,
+          "changes": 15
+        },
+        {
+          "path": "docs/MCP_WORKFLOW.md",
+          "status": "modified",
+          "additions": 21,
+          "deletions": 3,
+          "changes": 24
+        },
+        {
+          "path": "docs/SECURITY.md",
+          "status": "modified",
+          "additions": 15,
+          "deletions": 1,
+          "changes": 16
+        }
+      ],
+      "commits": [
+        {
+          "oid": "37f0289342c1cf11a8e5547f5f09b4fbaf5f0b59",
+          "committedDate": "2026-07-26T14:02:07Z",
+          "messageHeadline": "docs: make database authority tiers exclusive",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        },
+        {
+          "oid": "f665191bde9354b80f532c49b84393439040c267",
+          "committedDate": "2026-07-26T14:02:07Z",
+          "messageHeadline": "Define agent database authority boundaries",
+          "authors": [
+            {
+              "login": "tyson-hu",
+              "name": "Tyson Hu"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "validate",
+          "state": "completed",
+          "conclusion": "success",
+          "detailsUrl": "https://github.com/tyson-hu/Eazy-Review/actions/runs/30205273444/job/89802126162"
+        }
+      ],
+      "issueComments": [
+        {
+          "id": 5083811678,
+          "author": "cursor[bot]",
+          "createdAt": "2026-07-26T14:04:30Z",
+          "body": "<!-- BUGBOT_FREE_TIER_DISABLED_UPSELL -->\nBugbot is not enabled for your account, so this pull request was not reviewed.\n\nEnable Bugbot in the [Cursor dashboard](https://www.cursor.com/dashboard/bugbot) to get automatic reviews on future PRs."
+        }
+      ],
+      "reviews": [
+        {
+          "id": 4781903324,
+          "author": "tyson-hu",
+          "state": "COMMENTED",
+          "submittedAt": "2026-07-26T14:04:16Z",
+          "body": "Independent re-review completed: no findings. The mutually exclusive authority tiers, absolute production-database prohibition, human-only account deletion boundary, agent hard limits, and documentation sync were verified. The final branch was rebased onto current master with a patch-equivalent range-diff, and the fresh retargeted validate workflow passed."
+        }
+      ]
+    }
+  ]
+}
