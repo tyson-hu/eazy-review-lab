@@ -5,21 +5,23 @@
 > M2 completed: 2026-07-26  
 > M3 completed: 2026-07-26  
 > M4 authorized: 2026-07-26
+> M4 completed: 2026-07-26
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M4 in progress — publication approved; rollout pending**
+> State: **M4 complete — publication and rollout verified**
 
 ## Start Here
 
 Read `PLAN.md` completely before taking action.
 
-**M3 is done and M4 publication is approved.** Follow
-`docs/notes/editorial-publishing-loop.md`. Tyson Hu approved the first M4
-article and authorized the approval-message timestamp,
-`2026-07-26T21:29:12.563-04:00`, for both review and publication metadata. No
-push, PR, merge, or deployment is authorized. Do not begin deferred work (R2,
-analytics, comments, auth, CMS, automatic article generation, cross-repo sync,
-personal-blog implementation).
+**M1–M4 are complete.** The first use of
+`docs/notes/editorial-publishing-loop.md` was approved, merged, deployed, and
+verified. Tyson Hu's approval-message timestamp,
+`2026-07-26T21:29:12.563-04:00`, is the article's review and publication
+timestamp. There is no active implementation milestone. Do not begin deferred
+work (R2, analytics, comments, auth, CMS, automatic article generation,
+cross-repo sync, or personal-blog implementation) without a new plan and
+authorization.
 
 ## Repository vs deployment state
 
@@ -27,21 +29,30 @@ personal-blog implementation).
   `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`
 - `origin/main` at M4 start:
   `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`
-- Successful Workers Builds source:
+- Successful M3 content-rollout source:
   `5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`
 - `fe37923` is the documentation-only completion successor to deployed source
-  `5f6bf50`; do not describe the two as the same state.
-- M4 review-branch commits are not deployed unless a later closeout explicitly
-  records a successful rollout.
+  `5f6bf50`; its own later documentation-only build deployed Worker version
+  `be99cf84-cb45-4b3c-a0d3-327d0c435b1c`. Do not describe the M3 content
+  rollout and its documentation successor as the same source/build record.
+- M4 reviewed branch head:
+  `41fa7dcea4dd5066d33335693be909149b84a4c7`
+- M4 publication merge and Workers Builds source:
+  `b5bfe9e8cd1f478ae79e20739125cfc603d9547a`
+- This handoff update is a documentation-only successor to the M4 publication
+  source and does not change rendered article output.
 
 ## Production (indexable)
 
 - Worker: `eazy-review-lab`
 - Custom domain: https://lab.tianzhe.me
-- Active version (Workers Builds deploy): `97110b2a-ec27-40ff-9e77-e9cedcfc7c7d`
+- M4 publication version (Workers Builds deploy):
+  `3d801e44-929f-4df5-a07d-5a3213966809`
 - Earlier manual indexable deploy: `a4916303-3036-4845-bae6-c561a17f36d3`
 - Feeds: https://lab.tianzhe.me/feed.json · https://lab.tianzhe.me/feed.xml
 - Report: https://lab.tianzhe.me/reports/pr-14-project-health/
+- Journal:
+  https://lab.tianzhe.me/journal/launching-eazy-review-lab/
 - HTML: publishable pages omit preview `noindex`
 - `robots.txt` origin section: `Allow: /` + sitemap (Cloudflare Managed Content
   Signals prefix may still appear above the origin section)
@@ -51,26 +62,34 @@ personal-blog implementation).
 
 - URL: https://eazy-review-lab.tyson-ec2.workers.dev
 - Edge host guard forces `noindex, nofollow` + `Disallow: /`
-- Confirmed after Workers Builds production deploy
+- Confirmed after the M4 Workers Builds production deploy
 
 ## GitHub
 
 - Public repository: https://github.com/tyson-hu/eazy-review-lab
-- Current `main` / repository HEAD at M4 start: `fe37923`
-- Successful production build source: `5f6bf50`
+- M4 baseline: `fe37923`
+- Pull request:
+  [#1](https://github.com/tyson-hu/eazy-review-lab/pull/1) (merged)
+- Reviewed head: `41fa7dc`
+- Publication merge: `b5bfe9e`
 - M3 commits since M2 `eaf8d9b`:
   - `57cdbff` feat(m3): feeds, host-aware noindex, stable feed tests
   - `c9260a1` chore(m3): GitHub quality controls + blog feed contract
   - `072c286` chore(m3): attach lab.tianzhe.me custom domain
   - `dacb28e` docs(m3): domain launch evidence + Builds connect notes
   - `5f6bf50` docs(m3): trigger Workers Builds verification after Git connect
-- Actions (success): https://github.com/tyson-hu/eazy-review-lab/actions/runs/30226395080
+- M4 Actions (success):
+  https://github.com/tyson-hu/eazy-review-lab/actions/runs/30232163719
+- Node 20 warning remediation: `actions/checkout@v7`,
+  `actions/setup-node@v7`, and `pnpm/action-setup@v6`; the raw `main` job log
+  contains no Node 20 deprecation notice
 
 ## Workers Builds (verified)
 
 - Worker tag: `5247c67273e54070b39cb2b516c65731`
-- Build UUID: `2e2549e2-0be4-405a-8863-6dfe5f778d04`
-- Outcome: **success** on `main` @ `5f6bf50`
+- Build UUID: `bd85c56f-0473-4967-a7ce-5afa76fa8978`
+- Outcome: **success** on `main` @ `b5bfe9e`
+- Deployed version: `3d801e44-929f-4df5-a07d-5a3213966809`
 - Build command: `pnpm run check`
 - Deploy command: `pnpm exec wrangler deploy`
 - GitHub check: `Workers Builds: eazy-review-lab` → success
@@ -78,18 +97,20 @@ personal-blog implementation).
 
 ## M4 editorial cycle
 
-- Proposed article:
+- Published article:
   `src/content/docs/journal/launching-eazy-review-lab.mdx`
-- Proposed route: `/journal/launching-eazy-review-lab/`
-- Proposed title: **Launching Eazy Review Lab: From Foundation to Publishing**
+- Route: `/journal/launching-eazy-review-lab/`
+- Title: **Launching Eazy Review Lab: From Foundation to Publishing**
 - Featured state: `false`; the flagship report remains preferred
 - Editorial runbook: `docs/notes/editorial-publishing-loop.md`
 - Editorial approval: `2026-07-26T21:29:12.563-04:00`
 - Accessibility exception: dark muted foreground raised from
   `oklch(0.556 0 0)` to `oklch(0.563 0 0)` for WCAG AA contrast
-- Current gate: local publication validation, then separate remote-action
-  authorization
-- Remote actions: no push, PR, merge, or production rollout authorized
+- Publication and rollout gate: complete
+- Rollback: revert `b5bfe9e` or restore `draft: true` and let the normal
+  pipeline redeploy. Direct rollback to pre-M4 version
+  `be99cf84-cb45-4b3c-a0d3-327d0c435b1c` requires separate Cloudflare
+  authorization.
 
 ## M2 evidence (unchanged)
 
@@ -115,16 +136,17 @@ git diff --check
 SITE_INDEXABLE=true pnpm run check
 ```
 
-## M3.7 checklist
+## M4.6 checklist
 
 | Criterion | Status |
 | --- | --- |
-| Feeds + stable public-behavior tests | Pass |
-| GitHub Actions from clean install | Pass |
-| Workers Builds from clean install | Pass |
-| Draft/unapproved absent from production surfaces | Pass |
-| App repository unchanged | Pass |
-| TLS + canonical at `lab.tianzhe.me` | Pass |
-| Production indexable | Pass |
-| Preview/workers.dev noindexed | Pass |
-| Personal-blog feed contract documented | Pass |
+| Editorial runbook + approved timestamp | Pass |
+| Article HTML, Markdown, MDX, and exact-title search | Pass |
+| JSON/RSS feeds retain featured flagship report | Pass |
+| Sitemap + root/journal/full agent surfaces | Pass |
+| GitHub Actions + Workers Builds | Pass |
+| Node 20 action-runtime warning absent | Pass |
+| Heading order, disclosure, reflow, and console review | Pass |
+| Production indexable + preview noindexed | Pass |
+| M2 evidence and generated visuals unchanged | Pass |
+| Adjacent app and personal-blog repositories untouched | Pass |
