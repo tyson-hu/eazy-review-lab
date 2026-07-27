@@ -9,7 +9,7 @@
 > Maintenance updated: 2026-07-27
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M4 complete — publication and rollout verified**
+> State: **M4 complete — publication and maintenance rollout verified**
 
 ## Start Here
 
@@ -19,10 +19,11 @@ Read `PLAN.md` completely before taking action.
 `docs/notes/editorial-publishing-loop.md` was approved, merged, deployed, and
 verified. Tyson Hu's approval-message timestamp,
 `2026-07-26T21:29:12.563-04:00`, is the article's review and publication
-timestamp. There is no active implementation milestone. Do not begin deferred
-work (R2, analytics, comments, auth, CMS, automatic article generation,
-cross-repo sync, or personal-blog implementation) without a new plan and
-authorization.
+timestamp. The 2026-07-27 Journal-sidebar and rollback-contract maintenance is
+also deployed and verified. There is no active implementation milestone. Do
+not begin deferred work (R2, analytics, comments, auth, CMS, automatic article
+generation, cross-repo sync, or personal-blog implementation) without a new
+plan and authorization.
 
 ## Repository vs deployment state
 
@@ -40,8 +41,10 @@ authorization.
   `41fa7dcea4dd5066d33335693be909149b84a4c7`
 - M4 publication merge and Workers Builds source:
   `b5bfe9e8cd1f478ae79e20739125cfc603d9547a`
-- This handoff update is a documentation-only successor to the M4 publication
-  source and does not change rendered article output.
+- Journal navigation and rollback-contract maintenance source:
+  `84dea6e70519d2fb97885209dbdf9836eb9d1649`
+- This handoff closeout is a documentation-only successor to maintenance source
+  `84dea6e`; it does not change the verified sidebar or runtime behavior.
 
 ## Production (indexable)
 
@@ -49,6 +52,8 @@ authorization.
 - Custom domain: https://lab.tianzhe.me
 - M4 publication version (Workers Builds deploy):
   `3d801e44-929f-4df5-a07d-5a3213966809`
+- Journal navigation maintenance version:
+  `ad2ee935-0ac6-4960-9218-c7f3feeaebbc`
 - Earlier manual indexable deploy: `a4916303-3036-4845-bae6-c561a17f36d3`
 - Feeds: https://lab.tianzhe.me/feed.json · https://lab.tianzhe.me/feed.xml
 - Report: https://lab.tianzhe.me/reports/pr-14-project-health/
@@ -63,7 +68,7 @@ authorization.
 
 - URL: https://eazy-review-lab.tyson-ec2.workers.dev
 - Edge host guard forces `noindex, nofollow` + `Disallow: /`
-- Confirmed after the M4 Workers Builds production deploy
+- Confirmed after the 2026-07-27 maintenance deploy
 
 ## GitHub
 
@@ -81,6 +86,8 @@ authorization.
   - `5f6bf50` docs(m3): trigger Workers Builds verification after Git connect
 - M4 Actions (success):
   https://github.com/tyson-hu/eazy-review-lab/actions/runs/30232163719
+- Journal navigation maintenance Actions (success):
+  https://github.com/tyson-hu/eazy-review-lab/actions/runs/30253648490
 - Node 20 warning remediation: `actions/checkout@v7`,
   `actions/setup-node@v7`, and `pnpm/action-setup@v6`; the raw `main` job log
   contains no Node 20 deprecation notice
@@ -95,6 +102,26 @@ authorization.
 - Deploy command: `pnpm exec wrangler deploy`
 - GitHub check: `Workers Builds: eazy-review-lab` → success
 - Settings notes: `docs/notes/workers-builds.md`
+
+## Journal navigation maintenance rollout
+
+- Source:
+  `84dea6e70519d2fb97885209dbdf9836eb9d1649`
+- GitHub Actions run `30253648490`: **success**
+- Workers Builds UUID:
+  `8f0f86d3-2ac4-45ba-bd3e-1679511bcafe`
+- Workers Builds GitHub check: **success**
+- Deployed Worker version:
+  `ad2ee935-0ac6-4960-9218-c7f3feeaebbc`
+- Active deployment:
+  `8513fc8c-4071-4b08-995c-b4b448f37f3d` at 100%
+- Immediately preceding version:
+  `404e9310-8b08-4f06-8c2f-465d16123360`
+- Production checks: Journal group, Overview link, active article link, HTML,
+  Markdown, MDX, canonical, feeds, sitemap, agent surface, Pagefind client,
+  indexable HTML, and the final origin robots policy passed
+- Preview checks: article HTML remains reachable for review while the host
+  guard emits `noindex, nofollow` and the final robots policy disallows crawling
 
 ## M4 editorial cycle
 
