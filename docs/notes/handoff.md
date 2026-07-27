@@ -4,17 +4,35 @@
 > M1 completed: 2026-07-26  
 > M2 completed: 2026-07-26  
 > M3 completed: 2026-07-26  
+> M4 authorized: 2026-07-26
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M3 complete — production live at lab.tianzhe.me**
+> State: **M4 in progress — publication approved; rollout pending**
 
 ## Start Here
 
 Read `PLAN.md` completely before taking action.
 
-**M3 is done.** Do not begin deferred work (R2, analytics, comments, auth, CMS,
-automatic article generation, cross-repo sync, personal-blog implementation)
-unless separately authorized.
+**M3 is done and M4 publication is approved.** Follow
+`docs/notes/editorial-publishing-loop.md`. Tyson Hu approved the first M4
+article and authorized the approval-message timestamp,
+`2026-07-26T21:29:12.563-04:00`, for both review and publication metadata. No
+push, PR, merge, or deployment is authorized. Do not begin deferred work (R2,
+analytics, comments, auth, CMS, automatic article generation, cross-repo sync,
+personal-blog implementation).
+
+## Repository vs deployment state
+
+- M4 review branch baseline and pre-M4 repository HEAD:
+  `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`
+- `origin/main` at M4 start:
+  `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`
+- Successful Workers Builds source:
+  `5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`
+- `fe37923` is the documentation-only completion successor to deployed source
+  `5f6bf50`; do not describe the two as the same state.
+- M4 review-branch commits are not deployed unless a later closeout explicitly
+  records a successful rollout.
 
 ## Production (indexable)
 
@@ -38,7 +56,8 @@ unless separately authorized.
 ## GitHub
 
 - Public repository: https://github.com/tyson-hu/eazy-review-lab
-- HEAD: `5f6bf50`
+- Current `main` / repository HEAD at M4 start: `fe37923`
+- Successful production build source: `5f6bf50`
 - M3 commits since M2 `eaf8d9b`:
   - `57cdbff` feat(m3): feeds, host-aware noindex, stable feed tests
   - `c9260a1` chore(m3): GitHub quality controls + blog feed contract
@@ -57,6 +76,21 @@ unless separately authorized.
 - GitHub check: `Workers Builds: eazy-review-lab` → success
 - Settings notes: `docs/notes/workers-builds.md`
 
+## M4 editorial cycle
+
+- Proposed article:
+  `src/content/docs/journal/launching-eazy-review-lab.mdx`
+- Proposed route: `/journal/launching-eazy-review-lab/`
+- Proposed title: **Launching Eazy Review Lab: From Foundation to Publishing**
+- Featured state: `false`; the flagship report remains preferred
+- Editorial runbook: `docs/notes/editorial-publishing-loop.md`
+- Editorial approval: `2026-07-26T21:29:12.563-04:00`
+- Accessibility exception: dark muted foreground raised from
+  `oklch(0.556 0 0)` to `oklch(0.563 0 0)` for WCAG AA contrast
+- Current gate: local publication validation, then separate remote-action
+  authorization
+- Remote actions: no push, PR, merge, or production rollout authorized
+
 ## M2 evidence (unchanged)
 
 - Revision `github-prs-14-20.v1` / `generatedAt` `2026-07-26T21:39:21.807Z`
@@ -69,6 +103,7 @@ Still read-only and clean at `9eb485cd9b6207b52ff4408ee89647f32faae436`.
 
 - Personal-blog contract: `docs/notes/personal-blog-feed-contract.md`
 - Workers Builds notes: `docs/notes/workers-builds.md`
+- Editorial publishing loop: `docs/notes/editorial-publishing-loop.md`
 - Dual robots-meta resolved; host-aware preview noindex retained
 
 ## Validation
@@ -77,6 +112,7 @@ Still read-only and clean at `9eb485cd9b6207b52ff4408ee89647f32faae436`.
 pnpm install --frozen-lockfile
 pnpm run check
 git diff --check
+SITE_INDEXABLE=true pnpm run check
 ```
 
 ## M3.7 checklist

@@ -1,0 +1,117 @@
+---
+title: "Launching Eazy Review Lab: From Foundation to Publishing"
+description: "How Eazy Review Lab moved from a standalone foundation to frozen evidence, a flagship report, and production publishing."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-07-26T21:29:12.563-04:00"
+tags:
+  - launch
+  - publishing
+  - editorial
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-07-26T21:29:12.563-04:00"
+reviewedBy: Tyson Hu
+sidebar:
+  order: 1
+  label: "Launching Eazy Review Lab"
+sourceRefs:
+  - label: "M1 foundation commit"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/36d9f40fc9ac470f109744c6b6499a5af2b3b55a
+  - label: "M2 frozen-evidence commit"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/d2b8d47ee5da99c6ca2508e0804064dc88ef47a0
+  - label: "M2 published-report commit"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/eaf8d9b1db0a58bdca6c6240b3f0253f7b64b224
+  - label: "M3 publishing-surfaces commit"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/57cdbffc605750d122d0f3dc6765663cfa098c2f
+  - label: "Workers Builds source commit"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/5f6bf5070eadd98840a8ce3c284b9268dfbee4d1
+  - label: "M3 completion record"
+    url: https://github.com/tyson-hu/eazy-review-lab/commit/fe37923529d2fa2b4efb8e995b80c0fd9e4d5134
+  - label: "Flagship project-health report"
+    url: https://lab.tianzhe.me/reports/pr-14-project-health/
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+## What I worked on
+
+Eazy Review Lab began as a separate place to explain the product's development
+without turning the application repository into a publishing system. The work
+then moved through three review boundaries:
+
+- [M1 established the standalone lab foundation](https://github.com/tyson-hu/eazy-review-lab/commit/36d9f40fc9ac470f109744c6b6499a5af2b3b55a),
+  including its information architecture and private, unindexed preview.
+- [M2 added frozen evidence](https://github.com/tyson-hu/eazy-review-lab/commit/d2b8d47ee5da99c6ca2508e0804064dc88ef47a0)
+  and then
+  [published the flagship project-health report](https://github.com/tyson-hu/eazy-review-lab/commit/eaf8d9b1db0a58bdca6c6240b3f0253f7b64b224)
+  after human editorial review.
+- [M3 added feeds and stable publishing checks](https://github.com/tyson-hu/eazy-review-lab/commit/57cdbffc605750d122d0f3dc6765663cfa098c2f),
+  then connected the reviewed site to its production publishing path.
+
+Those are recorded repository events. Editorially, I see them as three
+different kinds of readiness: a place to write, a disciplined basis for making
+claims, and a reliable way for people and agents to discover the result.
+
+## Problem discovered
+
+Completing the infrastructure did not, by itself, define the next editorial
+cycle. The lab had a template and metadata rules, but no contributor runbook
+that joined topic selection, source freezing, drafting, human review,
+publication, validation, correction, and rollback.
+
+That gap matters because a healthy build is not the same thing as an approved
+article. Drafts are allowed to pass branch checks, while public AI-assisted
+writing requires real human review metadata and a visible disclosure. A
+repeatable process needs to preserve that distinction without adding a CMS or
+automatic publisher.
+
+## Decision made
+
+M4 adopts a small, repository-native publishing loop:
+
+1. select one focused topic;
+2. freeze exact sources before writing;
+3. keep AI-assisted prose private as `draft: true`;
+4. ask Tyson Hu to review the rendered claims, links, flow, and accessibility;
+5. publish only with the actual review and publication timestamp;
+6. validate every reader and agent surface; and
+7. make material corrections visible and reversible.
+
+The loop keeps Git history, content metadata, CI, and Workers Builds as the
+publishing system. It does not generate articles automatically, refresh frozen
+M2 evidence, or couple the lab to the application or personal-blog
+repositories.
+
+## Evidence captured
+
+The launch record needs one distinction that a moving branch name can hide.
+[Commit `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`](https://github.com/tyson-hu/eazy-review-lab/commit/fe37923529d2fa2b4efb8e995b80c0fd9e4d5134)
+was repository HEAD when M4 began. The successful Workers Builds source was the
+earlier
+[commit `5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`](https://github.com/tyson-hu/eazy-review-lab/commit/5f6bf5070eadd98840a8ce3c284b9268dfbee4d1).
+The later commit completed the documentation record; it was not the source of
+that successful production build.
+
+The M2 analysis remains in the existing
+[Eazy Review Project Health Review](/reports/pr-14-project-health/). This
+journal entry links to that report rather than reproducing or reinterpreting
+its frozen numerical findings.
+
+## Result
+
+By the M3 completion record, the lab was live at `lab.tianzhe.me` with
+indexable production pages, RSS and JSON feeds, search, Markdown alternates,
+sitemap output, and agent-readable surfaces. Preview traffic remained guarded
+with `noindex, nofollow`.
+
+M4 adds the missing editorial practice. This entry is its first application:
+the sources are fixed before publication, recorded facts are separated from
+interpretation, and the draft stays outside public output until human approval.
+
+## Next question
+
+After this first cycle is reviewed and published, which post-launch development
+question would give readers the most useful next journal entry, report, or
+experiment?

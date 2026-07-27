@@ -11,8 +11,12 @@ Everything in `src/` is yours to edit.
 | **M1** | Site foundation, navigation, schema, styling, unindexed `workers.dev` preview | Evidence pipeline, flagship report |
 | **M2** | Frozen GitHub evidence, derived classifications, flagship report, charts | Feeds, CI/CD, custom domain |
 | **M3** | RSS/JSON feeds, GitHub Actions, Workers Builds, `lab.tianzhe.me`, blog contract | Silent rewrites of published M2 evidence |
+| **M4** | Editorial runbook, first post-launch journal cycle, stale section copy, journal public-behavior tests, publication record | App or personal-blog changes, M2 evidence refresh, automatic publishing, deferred features |
 
 Stop at each milestone for review. Do not merge milestones into one change.
+M4 also stops at its human editorial gate: a draft may be prepared and tested,
+but only Tyson Hu can approve its final text and actual review/publication
+timestamp.
 
 ## Read-only application repository
 
@@ -127,11 +131,25 @@ publishable =
 AI-assisted published articles must include:
 `Drafted with AI, reviewed by Tyson Hu.`
 
+## M4 editorial loop
+
+Follow `docs/notes/editorial-publishing-loop.md` for topic selection, sourcing,
+drafting, review, publication, correction, validation, and rollback.
+
+- Keep new articles at `draft: true` until Tyson Hu approves the final text.
+- Do not add `publishedAt`, `humanReviewedAt`, or `reviewedBy` in anticipation of
+  approval.
+- Drafts must remain absent from HTML, Markdown alternates, search, feeds,
+  sitemap, and agent surfaces.
+- Material corrections require `lastUpdated` and a visible correction note.
+- Record repository HEAD and the deployed Workers Builds source separately.
+
 ## Don't
 
-- Begin M2/M3 work during an M1-only authorization.
+- Cross a milestone or editorial gate without its required authorization.
 - Edit the Eazy Review app repository from this project.
 - Silently refresh published evidence.
+- Run `pnpm evidence:refresh` as part of editorial publishing.
 - Deploy an indexable preview before M3 domain verification.
 - Hand-add registry UI under `src/components/ui/` — use `nimbus-docs add`.
 - Remove `<AgentDirective />` unless asked.
@@ -140,4 +158,5 @@ AI-assisted published articles must include:
 
 - Lab plan: `PLAN.md`
 - Handoff: `docs/notes/handoff.md`
+- Editorial runbook: `docs/notes/editorial-publishing-loop.md`
 - Nimbus: https://nimbus-docs.com

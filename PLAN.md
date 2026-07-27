@@ -1,12 +1,13 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M3 complete — production live at lab.tianzhe.me  
+> Status: M4 in progress — publication approved; rollout pending
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
 > M1 completed: 2026-07-26  
 > M2 completed: 2026-07-26  
 > M3 completed: 2026-07-26  
+> M4 authorized: 2026-07-26
 > M2 evidence revision: `github-prs-14-20.v1` (generated `2026-07-26T21:39:21.807Z`)  
 > M2 approval timestamp: `2026-07-26T18:02:09-04:00`  
 > M2 preview version: `1d6cd50a-9c4f-466f-9193-8880564eb587`  
@@ -48,12 +49,15 @@ report.
 | **M1 — Site foundation** | Nimbus scaffold, homepage, five section pages, styling, navigation, search, 404, basic stable-behavior checks, and an unindexed `workers.dev` preview | Site is usable and contains no placeholder copy |
 | **M2 — Flagship report** | Immutable raw GitHub snapshot, separate derived classifications, report, deterministic charts, adjacent data tables, methodology, accessibility review, and human editorial approval | Report is accurate, reproducible, and human-approved |
 | **M3 — Publishing integration** | RSS, JSON Feed, stable output tests, GitHub workflow, Workers Builds, custom domain, and personal-blog feed contract | Production deployment is healthy at `lab.tianzhe.me` |
+| **M4 — First editorial publishing cycle** | Repeatable editorial runbook, one post-launch journal entry, current section copy, journal public-behavior tests, and publication verification | Final article text and actual review/publication timestamp are approved by Tyson Hu |
 
 Milestone boundaries are review boundaries:
 
 - M1 must not absorb the evidence pipeline.
 - M2 must not absorb feed or deployment automation.
 - M3 must not silently rewrite the published M2 evidence.
+- M4 must not publish AI-assisted prose before Tyson Hu's explicit editorial
+  approval or refresh M2 evidence as part of routine publishing.
 
 ## 3. Fixed Decisions
 
@@ -1106,3 +1110,175 @@ Defer:
   <https://developers.cloudflare.com/workers/ci-cd/builds/configuration/>
 - Astro RSS recipe: <https://docs.astro.build/en/recipes/rss/>
 - JSON Feed 1.1: <https://www.jsonfeed.org/version/1.1/>
+
+## 15. M4 — First Editorial Publishing Cycle
+
+### M4.1 Objective
+
+Convert the completed publishing infrastructure into a repeatable editorial
+practice and prove it with the first post-launch journal entry:
+
+> **Launching Eazy Review Lab: From Foundation to Publishing**
+
+The proposed canonical route is
+`/journal/launching-eazy-review-lab/`. The entry remains `featured: false` so
+the flagship M2 report stays the preferred feed item.
+
+M4 is post-launch editorial work. It does not reopen or rewrite the completed
+M1–M3 execution records.
+
+### M4.2 Owned work and boundaries
+
+M4 owns:
+
+- a private contributor runbook for topic selection, sourcing, drafting,
+  review, publication, correction, validation, and rollback;
+- one evidence-backed journal entry summarizing the lab's M1–M3 path;
+- current Journal, Reports, and Experiments section copy;
+- stable public-behavior checks for the journal entry across HTML, Markdown,
+  search, feeds, sitemap, and agent surfaces; and
+- a closeout record containing the exact publication commit, GitHub Actions
+  result, Workers Builds source/build/version, production checks, and rollback
+  point.
+
+M4 does not own:
+
+- changes to the adjacent Eazy Review application or a personal-blog
+  repository;
+- new product requirements or authoritative app decisions;
+- any M2 evidence refresh, derived-data revision, report rewrite, or chart
+  regeneration;
+- dependencies, schemas, feed formats, Worker configuration, components,
+  styling, or homepage redesign; or
+- deferred R2, analytics, comments, authentication, CMS, automatic article
+  generation, cross-repository synchronization, screenshots, newsletter, or
+  multi-project taxonomy work.
+
+Tyson Hu approved one narrow accessibility exception after rendered review:
+raise the existing dark-mode muted-foreground token from
+`oklch(0.556 0 0)` to `oklch(0.563 0 0)` so normal muted text meets WCAG AA
+contrast. No other styling work is part of M4.
+
+### M4.3 Evidence and source contract
+
+The journal entry uses committed lab history only:
+
+- M1 foundation:
+  [`36d9f40fc9ac470f109744c6b6499a5af2b3b55a`](https://github.com/tyson-hu/eazy-review-lab/commit/36d9f40fc9ac470f109744c6b6499a5af2b3b55a);
+- M2 frozen evidence:
+  [`d2b8d47ee5da99c6ca2508e0804064dc88ef47a0`](https://github.com/tyson-hu/eazy-review-lab/commit/d2b8d47ee5da99c6ca2508e0804064dc88ef47a0);
+- M2 published report:
+  [`eaf8d9b1db0a58bdca6c6240b3f0253f7b64b224`](https://github.com/tyson-hu/eazy-review-lab/commit/eaf8d9b1db0a58bdca6c6240b3f0253f7b64b224);
+- M3 publishing surfaces:
+  [`57cdbffc605750d122d0f3dc6765663cfa098c2f`](https://github.com/tyson-hu/eazy-review-lab/commit/57cdbffc605750d122d0f3dc6765663cfa098c2f);
+- successful Workers Builds source:
+  [`5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`](https://github.com/tyson-hu/eazy-review-lab/commit/5f6bf5070eadd98840a8ce3c284b9268dfbee4d1);
+  and
+- M3 completion record and M4 branch baseline:
+  [`fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`](https://github.com/tyson-hu/eazy-review-lab/commit/fe37923529d2fa2b4efb8e995b80c0fd9e4d5134).
+
+Historical claims use full-SHA GitHub URLs. The article must state explicitly
+that `fe37923` was repository HEAD when M4 began while `5f6bf50` was the
+successful Workers Builds source. When the M2 report is summarized, link to the
+existing report rather than reproducing or reinterpreting its numerical
+findings. Separate recorded facts from editorial interpretation.
+
+No M4 command invokes `pnpm evidence:refresh`, and M4 must leave
+`src/data/project-health/` and `public/media/project-health/` byte-for-byte
+unchanged.
+
+### M4.4 Ordered publication loop
+
+1. **Define the cycle.** Update milestone documentation and add
+   `docs/notes/editorial-publishing-loop.md`. Do not add or deploy the public
+   article in this slice.
+2. **Prepare the private draft.** Add
+   `src/content/docs/journal/launching-eazy-review-lab.mdx` with `draft: true`,
+   `aiGenerated: true`, and `featured: false`. Omit `publishedAt`,
+   `humanReviewedAt`, and `reviewedBy`. Prove the slug is absent from every
+   generated public surface.
+3. **Stop for human editorial review.** Tyson Hu reviews the title, slug,
+   historical and causal language, source links, product vocabulary, reading
+   flow, accessibility, and final disclosure. Only Tyson Hu may approve the
+   actual review/publication timestamp.
+4. **Publish the approved article.** After approval, set `draft: false`, add
+   the actual `publishedAt` and `humanReviewedAt`, set
+   `reviewedBy: Tyson Hu`, retain `featured: false`, and include the visible
+   disclosure `Drafted with AI, reviewed by Tyson Hu.` Update section copy and
+   extend stable public-behavior checks in the same publication slice.
+5. **Record rollout evidence.** After an authorized merge and normal rollout,
+   record the exact publication commit, Actions URL/result, Workers Builds
+   source/build/version, production validation, unchanged adjacent app and M2
+   evidence, and rollback point.
+
+Draft checks may pass CI, but draft content must remain absent from HTML routes,
+Markdown/MDX alternates, search, feeds, sitemap, and agent surfaces. No merge to
+`main`, production rollout, or assertion of human review occurs before step 3
+is complete.
+
+### M4.5 Validation and correction contract
+
+Before editorial approval:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm run check
+git diff --check
+SITE_INDEXABLE=true pnpm run check
+```
+
+In addition, verify the proposed journal slug is absent from all generated
+paths and content, and prove the M2 evidence/media checksums and adjacent
+application repository state are unchanged.
+
+After approval, stable tests must prove the journal entry appears at its
+canonical URL in HTML, Markdown, search, JSON/RSS feeds, sitemap, root and
+journal agent surfaces, while the flagship report remains featured. Review
+heading order, descriptive links, focus behavior, light/dark themes, reduced
+motion, and reflow at `393×852` and `1440×900`.
+
+Material post-publication corrections add `lastUpdated` and a visible
+correction note. Never silently rewrite frozen evidence. Before merge, rollback
+means restoring `draft: true` or reverting the publication change. After
+production rollout, revert the publication commit or restore `draft: true` and
+let the normal pipeline redeploy. Do not bypass failed CI or Workers Builds with
+a manual deployment. Rolling back to Worker version
+`97110b2a-ec27-40ff-9e77-e9cedcfc7c7d` requires separate Cloudflare
+authorization.
+
+### M4.6 Acceptance
+
+M4 is complete only when:
+
+- the editorial runbook documents a repeatable
+  draft → review → publish → validate → correct loop;
+- the journal article is published with Tyson Hu's explicit editorial
+  approval and actual timestamp;
+- exact committed sources are used and `fe37923` is distinguished from
+  `5f6bf50`;
+- HTML, Markdown, search, feeds, sitemap, and agent-surface checks pass;
+- stale Journal, Reports, and Experiments copy is current;
+- the flagship report remains featured and unchanged;
+- M2 raw/derived evidence and generated visuals are unchanged;
+- **Eazy Score**, **Community Score**, and **My Rating** remain exact wherever
+  referenced;
+- local checks, GitHub Actions, Workers Builds, accessibility review, and
+  production smoke checks pass;
+- production remains indexable and `workers.dev` remains noindexed; and
+- the adjacent application and personal-blog repositories remain untouched.
+
+#### M4 execution record (in progress)
+
+- Authorized: 2026-07-26
+- Review branch baseline:
+  `fe37923529d2fa2b4efb8e995b80c0fd9e4d5134`
+- Successful pre-M4 production source:
+  `5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`
+- Editorial runbook: `docs/notes/editorial-publishing-loop.md`
+- Editorial approval:
+  `2026-07-26T21:29:12.563-04:00`
+- Accessibility exception: dark muted-foreground contrast correction approved
+  after rendered review
+- Publication state: approved; local publication slice and rollout verification
+  pending
+- Remote mutation state: no push, PR, merge, or deployment authorized
