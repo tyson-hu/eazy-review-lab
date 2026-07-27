@@ -1,16 +1,17 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M3 nearly complete — Workers Builds Git connect remaining  
+> Status: M3 complete — production live at lab.tianzhe.me  
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
 > M1 completed: 2026-07-26  
 > M2 completed: 2026-07-26  
-> M3 code/domain/indexing completed: 2026-07-26  
+> M3 completed: 2026-07-26  
 > M2 evidence revision: `github-prs-14-20.v1` (generated `2026-07-26T21:39:21.807Z`)  
 > M2 approval timestamp: `2026-07-26T18:02:09-04:00`  
 > M2 preview version: `1d6cd50a-9c4f-466f-9193-8880564eb587`  
-> M3 production version: `a4916303-3036-4845-bae6-c561a17f36d3`  
+> M3 production version (Workers Builds): `97110b2a-ec27-40ff-9e77-e9cedcfc7c7d`  
+> Workers Builds success: `2e2549e2-0be4-405a-8863-6dfe5f778d04` @ `5f6bf50`  
 > Lab GitHub: https://github.com/tyson-hu/eazy-review-lab  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Selected architecture: Option B — an independent Nimbus repository  
@@ -952,16 +953,13 @@ Completed:
 - dual robots-meta cleanup + `workers/host-indexing.js` preview guard
 - GitHub repo `tyson-hu/eazy-review-lab` + Actions quality workflow (green)
 - custom domain `lab.tianzhe.me` + TLS
-- production indexing via `SITE_INDEXABLE=true` deploy version
-  `a4916303-3036-4845-bae6-c561a17f36d3`
+- production indexing enabled; Workers Builds deploy version
+  `97110b2a-ec27-40ff-9e77-e9cedcfc7c7d`
+- Workers Builds success `2e2549e2-0be4-405a-8863-6dfe5f778d04`
+  (`pnpm run check` → `pnpm exec wrangler deploy` on `main` @ `5f6bf50`)
 - personal-blog contract at `docs/notes/personal-blog-feed-contract.md`
 - M2 evidence revision 1 preserved unchanged
-
-Remaining for M3.7:
-
-- Connect Workers Builds to `tyson-hu/eazy-review-lab` (see
-  `docs/notes/workers-builds.md`). Wrangler OAuth cannot configure Builds;
-  dashboard GitHub App authorize + Connect is required. Builds listed: 0.
+- all M3.7 acceptance criteria passed
 
 
 ## 9. Content Templates

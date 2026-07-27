@@ -6,6 +6,7 @@
 
 | Setting | Value |
 | --- | --- |
+| Build UUID | `2e2549e2-0be4-405a-8863-6dfe5f778d04` (success on `main` @ `5f6bf50`) |
 | Production branch | `main` |
 | Build command | `pnpm run check` |
 | Deploy command | `pnpm exec wrangler deploy` |

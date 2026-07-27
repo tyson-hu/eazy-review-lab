@@ -74,8 +74,10 @@ Preview deploy (unindexed):
 pnpm run deploy
 ```
 
-Indexing stays disabled until M3 custom-domain verification. Do not set
-`SITE_INDEXABLE=true` before that gate.
+Indexing is enabled for verified production builds with
+`SITE_INDEXABLE=true` (Workers Builds production env). Preview / `workers.dev`
+hosts remain noindexed via `workers/host-indexing.js` even when the production
+build is indexable.
 
 ## Homepage routing
 
