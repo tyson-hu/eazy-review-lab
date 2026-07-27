@@ -1,6 +1,6 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M4 in progress — first journal draft awaiting editorial approval
+> Status: M4 in progress — publication approved; rollout pending
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
@@ -1154,6 +1154,11 @@ M4 does not own:
   generation, cross-repository synchronization, screenshots, newsletter, or
   multi-project taxonomy work.
 
+Tyson Hu approved one narrow accessibility exception after rendered review:
+raise the existing dark-mode muted-foreground token from
+`oklch(0.556 0 0)` to `oklch(0.563 0 0)` so normal muted text meets WCAG AA
+contrast. No other styling work is part of M4.
+
 ### M4.3 Evidence and source contract
 
 The journal entry uses committed lab history only:
@@ -1270,5 +1275,10 @@ M4 is complete only when:
 - Successful pre-M4 production source:
   `5f6bf5070eadd98840a8ce3c284b9268dfbee4d1`
 - Editorial runbook: `docs/notes/editorial-publishing-loop.md`
-- Publication state: not approved; journal entry must remain a private draft
+- Editorial approval:
+  `2026-07-26T21:29:12.563-04:00`
+- Accessibility exception: dark muted-foreground contrast correction approved
+  after rendered review
+- Publication state: approved; local publication slice and rollout verification
+  pending
 - Remote mutation state: no push, PR, merge, or deployment authorized

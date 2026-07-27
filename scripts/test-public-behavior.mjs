@@ -41,6 +41,24 @@ const FLAGSHIP_REPORT = {
   slugToken: "pr-14-project-health",
 };
 
+const LAUNCH_JOURNAL = {
+  htmlPaths: [
+    "journal/launching-eazy-review-lab/index.html",
+    "journal/launching-eazy-review-lab.html",
+  ],
+  mdPaths: [
+    "journal/launching-eazy-review-lab/index.md",
+    "journal/launching-eazy-review-lab.md",
+  ],
+  mdxPaths: [
+    "journal/launching-eazy-review-lab/index.mdx",
+    "journal/launching-eazy-review-lab.mdx",
+  ],
+  title: "Launching Eazy Review Lab: From Foundation to Publishing",
+  canonicalUrl: "https://lab.tianzhe.me/journal/launching-eazy-review-lab/",
+  slugToken: "launching-eazy-review-lab",
+};
+
 const REQUIRED_HTML = [
   "index.html",
   "project/index.html",
@@ -361,6 +379,105 @@ async function assertPagefindDiscoversReport() {
 
 await assertPagefindDiscoversReport();
 
+// --- First post-launch journal surfaces ---
+const journalHtml = existsAny(LAUNCH_JOURNAL.htmlPaths);
+if (journalHtml) {
+  ok("launch journal HTML");
+  const html = fs.readFileSync(journalHtml, "utf8");
+  if (html.includes(LAUNCH_JOURNAL.title)) ok("launch journal title present");
+  else fail("launch journal title present");
+  if (
+    html.includes(
+      `<link rel="canonical" href="${LAUNCH_JOURNAL.canonicalUrl}">`,
+    )
+  ) {
+    ok("launch journal canonical URL");
+  } else {
+    fail("launch journal canonical URL", LAUNCH_JOURNAL.canonicalUrl);
+  }
+  if (html.includes("Drafted with AI, reviewed by Tyson Hu.")) {
+    ok("launch journal AI review disclosure");
+  } else {
+    fail("launch journal AI review disclosure");
+  }
+} else {
+  fail("launch journal HTML", LAUNCH_JOURNAL.htmlPaths.join(" or "));
+}
+
+const journalMd = existsAny(LAUNCH_JOURNAL.mdPaths);
+if (journalMd) ok("launch journal Markdown alternate");
+else fail("launch journal Markdown alternate", LAUNCH_JOURNAL.mdPaths.join(" or "));
+
+const journalMdx = existsAny(LAUNCH_JOURNAL.mdxPaths);
+if (journalMdx) ok("launch journal MDX alternate");
+else fail("launch journal MDX alternate", LAUNCH_JOURNAL.mdxPaths.join(" or "));
+
+const journalLlmsPath = path.join(dist, "journal/llms.txt");
+if (fs.existsSync(llmsPath) && fs.existsSync(journalLlmsPath)) {
+  const rootLlms = fs.readFileSync(llmsPath, "utf8");
+  const journalLlms = fs.readFileSync(journalLlmsPath, "utf8");
+  const agentSurface = `${rootLlms}\n${journalLlms}`;
+  if (
+    agentSurface.includes(LAUNCH_JOURNAL.slugToken) &&
+    agentSurface.includes(LAUNCH_JOURNAL.title)
+  ) {
+    ok("root and journal llms.txt expose launch journal");
+  } else {
+    fail("root and journal llms.txt expose launch journal");
+  }
+} else {
+  fail("root and journal llms.txt exist");
+}
+
+if (sitemapFile) {
+  const map = fs.readFileSync(sitemapFile, "utf8");
+  let blob = map;
+  if (map.includes("<sitemap>")) {
+    const child = path.join(dist, "sitemap-0.xml");
+    if (fs.existsSync(child)) blob += fs.readFileSync(child, "utf8");
+  }
+  if (blob.includes(LAUNCH_JOURNAL.canonicalUrl.replace(/\/$/, ""))) {
+    ok("sitemap contains canonical launch journal URL");
+  } else {
+    fail(
+      "sitemap contains canonical launch journal URL",
+      LAUNCH_JOURNAL.canonicalUrl,
+    );
+  }
+}
+
+async function assertPagefindDiscoversLaunchJournal() {
+  const pagefindDir = path.join(dist, "pagefind");
+  if (!fs.existsSync(pagefindDir) || !journalHtml) return;
+
+  const { server, origin } = await serveDist();
+  try {
+    const pagefind = await import(
+      pathToFileURL(path.join(pagefindDir, "pagefind.js")).href
+    );
+    await pagefind.options({ basePath: `${origin}/pagefind/` });
+    await pagefind.init();
+    const search = await pagefind.search(LAUNCH_JOURNAL.title);
+    const hits = await Promise.all(
+      search.results.slice(0, 10).map((result) => result.data()),
+    );
+    const found = hits.some(
+      (hit) =>
+        hit.meta?.title === LAUNCH_JOURNAL.title ||
+        String(hit.url || "").includes(LAUNCH_JOURNAL.slugToken),
+    );
+    if (found) ok("search finds exact launch journal title");
+    else fail("search finds exact launch journal title");
+    await pagefind.destroy?.();
+  } catch (err) {
+    fail("search finds exact launch journal title", String(err));
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+}
+
+await assertPagefindDiscoversLaunchJournal();
+
 // --- Feeds ---
 function assertFeeds() {
   const rssPath = path.join(dist, "feed.xml");
@@ -409,6 +526,27 @@ function assertFeeds() {
 
   if (rss.includes(FLAGSHIP_REPORT.canonicalUrl)) ok("RSS includes flagship report URL");
   else fail("RSS includes flagship report URL");
+
+  const journalItem = feed.items.find(
+    (item) => item.url === LAUNCH_JOURNAL.canonicalUrl,
+  );
+  if (journalItem) ok("feeds include launch journal at canonical URL");
+  else fail("feeds include launch journal at canonical URL");
+
+  if (journalItem?.kind === "journal" && journalItem?.featured === false) {
+    ok("JSON Feed launch journal metadata fields");
+  } else {
+    fail("JSON Feed launch journal metadata fields", JSON.stringify(journalItem));
+  }
+
+  if (
+    rss.includes(LAUNCH_JOURNAL.canonicalUrl) &&
+    rss.includes("<lab:kind>journal</lab:kind>")
+  ) {
+    ok("RSS includes launch journal URL and kind");
+  } else {
+    fail("RSS includes launch journal URL and kind");
+  }
 
   if (rss.includes(DRAFT_SLUG) || jsonRaw.includes(DRAFT_SLUG)) {
     fail("feeds exclude draft fixture");
@@ -488,6 +626,14 @@ if (fs.existsSync(llmsFullPath)) {
   }
   if (!full.includes(DRAFT_SLUG)) ok("llms-full.txt excludes draft fixture");
   else fail("llms-full.txt excludes draft fixture");
+  if (
+    full.includes(LAUNCH_JOURNAL.title) &&
+    full.includes(LAUNCH_JOURNAL.slugToken)
+  ) {
+    ok("llms-full.txt includes launch journal");
+  } else {
+    fail("llms-full.txt includes launch journal");
+  }
 } else {
   fail("llms-full.txt exists");
 }

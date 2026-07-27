@@ -7,17 +7,18 @@
 > M4 authorized: 2026-07-26
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M4 in progress — first journal draft awaiting editorial approval**
+> State: **M4 in progress — publication approved; rollout pending**
 
 ## Start Here
 
 Read `PLAN.md` completely before taking action.
 
-**M3 is done and M4 is authorized.** Follow
-`docs/notes/editorial-publishing-loop.md`. The first M4 article must remain a
-draft until Tyson Hu approves its final text and supplies or approves the actual
-review/publication timestamp. Do not begin deferred work (R2, analytics,
-comments, auth, CMS, automatic article generation, cross-repo sync,
+**M3 is done and M4 publication is approved.** Follow
+`docs/notes/editorial-publishing-loop.md`. Tyson Hu approved the first M4
+article and authorized the approval-message timestamp,
+`2026-07-26T21:29:12.563-04:00`, for both review and publication metadata. No
+push, PR, merge, or deployment is authorized. Do not begin deferred work (R2,
+analytics, comments, auth, CMS, automatic article generation, cross-repo sync,
 personal-blog implementation).
 
 ## Repository vs deployment state
@@ -83,7 +84,11 @@ personal-blog implementation).
 - Proposed title: **Launching Eazy Review Lab: From Foundation to Publishing**
 - Featured state: `false`; the flagship report remains preferred
 - Editorial runbook: `docs/notes/editorial-publishing-loop.md`
-- Current gate: article text and actual timestamp are not yet human-approved
+- Editorial approval: `2026-07-26T21:29:12.563-04:00`
+- Accessibility exception: dark muted foreground raised from
+  `oklch(0.556 0 0)` to `oklch(0.563 0 0)` for WCAG AA contrast
+- Current gate: local publication validation, then separate remote-action
+  authorization
 - Remote actions: no push, PR, merge, or production rollout authorized
 
 ## M2 evidence (unchanged)
