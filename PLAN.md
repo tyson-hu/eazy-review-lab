@@ -1,6 +1,6 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M4 in progress — publication approved; rollout pending
+> Status: M4 complete — first editorial publishing cycle verified
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
@@ -8,11 +8,16 @@
 > M2 completed: 2026-07-26  
 > M3 completed: 2026-07-26  
 > M4 authorized: 2026-07-26
+> M4 completed: 2026-07-26
 > M2 evidence revision: `github-prs-14-20.v1` (generated `2026-07-26T21:39:21.807Z`)  
 > M2 approval timestamp: `2026-07-26T18:02:09-04:00`  
 > M2 preview version: `1d6cd50a-9c4f-466f-9193-8880564eb587`  
 > M3 production version (Workers Builds): `97110b2a-ec27-40ff-9e77-e9cedcfc7c7d`  
 > Workers Builds success: `2e2549e2-0be4-405a-8863-6dfe5f778d04` @ `5f6bf50`  
+> M4 publication merge: `b5bfe9e8cd1f478ae79e20739125cfc603d9547a`
+> M4 Actions success: `30232163719`
+> M4 Workers Builds success: `bd85c56f-0473-4967-a7ce-5afa76fa8978`
+> M4 production version: `3d801e44-929f-4df5-a07d-5a3213966809`
 > Lab GitHub: https://github.com/tyson-hu/eazy-review-lab  
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Selected architecture: Option B — an independent Nimbus repository  
@@ -1267,7 +1272,7 @@ M4 is complete only when:
 - production remains indexable and `workers.dev` remains noindexed; and
 - the adjacent application and personal-blog repositories remain untouched.
 
-#### M4 execution record (in progress)
+#### M4 execution record (complete)
 
 - Authorized: 2026-07-26
 - Review branch baseline:
@@ -1279,6 +1284,33 @@ M4 is complete only when:
   `2026-07-26T21:29:12.563-04:00`
 - Accessibility exception: dark muted-foreground contrast correction approved
   after rendered review
-- Publication state: approved; local publication slice and rollout verification
-  pending
-- Remote mutation state: no push, PR, merge, or deployment authorized
+- Pull request: [#1](https://github.com/tyson-hu/eazy-review-lab/pull/1),
+  reviewed head `41fa7dcea4dd5066d33335693be909149b84a4c7`
+- Publication source and merge:
+  `b5bfe9e8cd1f478ae79e20739125cfc603d9547a`
+- GitHub Actions:
+  [run 30232163719](https://github.com/tyson-hu/eazy-review-lab/actions/runs/30232163719)
+  passed on `main`; the raw job log used `actions/checkout@v7`,
+  `actions/setup-node@v7`, and `pnpm/action-setup@v6` with no Node 20
+  deprecation notice
+- Workers Builds: build
+  `bd85c56f-0473-4967-a7ce-5afa76fa8978` passed from the publication source
+  and deployed version `3d801e44-929f-4df5-a07d-5a3213966809`
+- Production validation: article HTML, Markdown, and MDX; Journal index;
+  exact-title search; JSON/RSS feeds; sitemap; root, journal, and full agent
+  surfaces; canonical metadata; production indexing; and the `workers.dev`
+  noindex guard passed
+- Accessibility verification: one H1 followed by H2 sections, descriptive
+  links, visible disclosure, no horizontal overflow, and no browser console
+  warnings or errors; the approved light/dark and `393×852` / `1440×900`
+  review remains the publication baseline
+- Preservation checks: the flagship report remains featured, M2 raw/derived
+  evidence and generated visuals retain their pre-M4 SHA-256 values, and the
+  adjacent application remains clean at
+  `9eb485cd9b6207b52ff4408ee89647f32faae436`
+- Rollback point: revert publication merge
+  `b5bfe9e8cd1f478ae79e20739125cfc603d9547a` or restore the article to
+  `draft: true`, then let the normal checked pipeline redeploy. Direct
+  Cloudflare rollback requires separate authorization; the immediately
+  preceding deployment version was
+  `be99cf84-cb45-4b3c-a0d3-327d0c435b1c`.
