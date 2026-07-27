@@ -1244,10 +1244,14 @@ motion, and reflow at `393×852` and `1440×900`.
 
 Material post-publication corrections add `lastUpdated` and a visible
 correction note. Never silently rewrite frozen evidence. Before merge, rollback
-means restoring `draft: true` or reverting the publication change. After
-production rollout, revert the publication commit or restore `draft: true` and
-let the normal pipeline redeploy. Do not bypass failed CI or Workers Builds with
-a manual deployment. Rolling back to Worker version
+means reverting the publication change as one reviewed unit. After production
+rollout, a coordinated revert must restore the article state, section index,
+publication-specific assertions, and rollout record together before the normal
+pipeline redeploys. A frontmatter-only change to `draft: true` is unsupported
+because Nimbus removes the article outputs while the public index and assertions
+still require them. Resolve conflicts from later closeout documentation
+explicitly. Do not bypass failed CI or Workers Builds with a manual deployment.
+Rolling back to Worker version
 `97110b2a-ec27-40ff-9e77-e9cedcfc7c7d` requires separate Cloudflare
 authorization.
 
@@ -1262,6 +1266,7 @@ M4 is complete only when:
 - exact committed sources are used and `fe37923` is distinguished from
   `5f6bf50`;
 - HTML, Markdown, search, feeds, sitemap, and agent-surface checks pass;
+- the published journal entry is visible and active in the Journal sidebar;
 - stale Journal, Reports, and Experiments copy is current;
 - the flagship report remains featured and unchanged;
 - M2 raw/derived evidence and generated visuals are unchanged;
@@ -1308,9 +1313,10 @@ M4 is complete only when:
   evidence and generated visuals retain their pre-M4 SHA-256 values, and the
   adjacent application remains clean at
   `9eb485cd9b6207b52ff4408ee89647f32faae436`
-- Rollback point: revert publication merge
-  `b5bfe9e8cd1f478ae79e20739125cfc603d9547a` or restore the article to
-  `draft: true`, then let the normal checked pipeline redeploy. Direct
-  Cloudflare rollback requires separate authorization; the immediately
-  preceding deployment version was
+- Rollback point: prepare a reviewed, coordinated revert of publication merge
+  `b5bfe9e8cd1f478ae79e20739125cfc603d9547a`, reconciling conflicts from later
+  closeout documentation and restoring the article state, section index,
+  publication assertions, and rollout record together. A frontmatter-only
+  `draft: true` change is unsupported. Direct Cloudflare rollback requires
+  separate authorization; the immediately preceding deployment version was
   `be99cf84-cb45-4b3c-a0d3-327d0c435b1c`.

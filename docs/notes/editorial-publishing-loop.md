@@ -205,8 +205,12 @@ For a material correction:
 
 Never silently revise frozen evidence or conceal a material claim change.
 
-Before merge, cancel publication by restoring `draft: true` or reverting the
-publication change. After production rollout, revert the publication commit or
-restore `draft: true` in a new reviewed commit and let the normal pipeline
-redeploy. An operational rollback to a previous Worker version requires
-separate Cloudflare authorization.
+Before merge, cancel publication by reverting the publication change as one
+reviewed unit. After production rollout, prepare a coordinated revert that
+restores the article state, section index, publication-specific assertions, and
+rollout record together, then let the normal checked pipeline redeploy. A
+frontmatter-only change to `draft: true` is not a supported rollback: Nimbus
+removes the article outputs while the public index and assertions still require
+them. If later closeout commits touched the same documentation, resolve those
+revert conflicts explicitly rather than bypassing CI. An operational rollback
+to a previous Worker version requires separate Cloudflare authorization.

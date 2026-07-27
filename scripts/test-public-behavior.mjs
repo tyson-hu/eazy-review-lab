@@ -56,6 +56,8 @@ const LAUNCH_JOURNAL = {
   ],
   title: "Launching Eazy Review Lab: From Foundation to Publishing",
   canonicalUrl: "https://lab.tianzhe.me/journal/launching-eazy-review-lab/",
+  canonicalPath: "/journal/launching-eazy-review-lab/",
+  sidebarLabel: "Launching Eazy Review Lab",
   slugToken: "launching-eazy-review-lab",
 };
 
@@ -89,6 +91,28 @@ function existsAny(paths) {
 
 function read(rel) {
   return fs.readFileSync(path.join(dist, rel), "utf8");
+}
+
+function hasCurrentSidebarLink(html, href, label) {
+  const sidebar = html.match(
+    /<aside id="desktop-sidebar"[\s\S]*?<\/aside>/,
+  )?.[0];
+  if (!sidebar) return false;
+
+  return [...sidebar.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)].some(
+    ([, attrs, body]) => {
+      const text = body
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      return (
+        attrs.includes(`href="${href}"`) &&
+        attrs.includes("data-nb-sidebar-link") &&
+        attrs.includes('aria-current="page"') &&
+        text === label
+      );
+    },
+  );
 }
 
 function walkFiles(dir, out = []) {
@@ -399,6 +423,17 @@ if (journalHtml) {
     ok("launch journal AI review disclosure");
   } else {
     fail("launch journal AI review disclosure");
+  }
+  if (
+    hasCurrentSidebarLink(
+      html,
+      LAUNCH_JOURNAL.canonicalPath,
+      LAUNCH_JOURNAL.sidebarLabel,
+    )
+  ) {
+    ok("launch journal is current in sidebar");
+  } else {
+    fail("launch journal is current in sidebar");
   }
 } else {
   fail("launch journal HTML", LAUNCH_JOURNAL.htmlPaths.join(" or "));

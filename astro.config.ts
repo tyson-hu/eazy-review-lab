@@ -28,7 +28,7 @@ const nimbusConfig = defineNimbusConfig({
     items: [
       { label: "Home", link: "/" },
       { label: "Project", link: "/project" },
-      { label: "Journal", link: "/journal" },
+      { label: "Journal", autogenerate: { directory: "journal" } },
       { label: "Reports", link: "/reports" },
       { label: "Decisions", link: "/decisions" },
       { label: "Experiments", link: "/experiments" },

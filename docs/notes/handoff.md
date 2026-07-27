@@ -6,6 +6,7 @@
 > M3 completed: 2026-07-26  
 > M4 authorized: 2026-07-26
 > M4 completed: 2026-07-26
+> Maintenance updated: 2026-07-27
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
 > State: **M4 complete — publication and rollout verified**
@@ -106,11 +107,15 @@ authorization.
 - Editorial approval: `2026-07-26T21:29:12.563-04:00`
 - Accessibility exception: dark muted foreground raised from
   `oklch(0.556 0 0)` to `oklch(0.563 0 0)` for WCAG AA contrast
+- Sidebar: the Journal group autogenerates its published entries and marks the
+  current article
 - Publication and rollout gate: complete
-- Rollback: revert `b5bfe9e` or restore `draft: true` and let the normal
-  pipeline redeploy. Direct rollback to pre-M4 version
-  `be99cf84-cb45-4b3c-a0d3-327d0c435b1c` requires separate Cloudflare
-  authorization.
+- Rollback: prepare a reviewed, coordinated revert of `b5bfe9e`, restoring the
+  article state, Journal index, publication assertions, and rollout record
+  together while reconciling later closeout-document conflicts. A
+  frontmatter-only `draft: true` change is unsupported. Direct rollback to
+  pre-M4 version `be99cf84-cb45-4b3c-a0d3-327d0c435b1c` requires separate
+  Cloudflare authorization.
 
 ## M2 evidence (unchanged)
 
@@ -142,6 +147,7 @@ SITE_INDEXABLE=true pnpm run check
 | --- | --- |
 | Editorial runbook + approved timestamp | Pass |
 | Article HTML, Markdown, MDX, and exact-title search | Pass |
+| Journal sidebar exposes and activates the article | Pass |
 | JSON/RSS feeds retain featured flagship report | Pass |
 | Sitemap + root/journal/full agent surfaces | Pass |
 | GitHub Actions + Workers Builds | Pass |
