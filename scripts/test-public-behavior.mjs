@@ -65,13 +65,17 @@ const REQUIRED_HTML = [
   "index.html",
   "project/index.html",
   "journal/index.html",
+  "journal/supabase-from-start/index.html",
   "reports/index.html",
   "decisions/index.html",
   "experiments/index.html",
   "404.html",
 ];
 
-const DRAFT_SLUG = "m1-fixture-draft";
+const DRAFT_SLUGS = [
+  "m1-fixture-draft",
+  "task-11-supabase-foundation",
+];
 
 let failed = 0;
 
@@ -156,9 +160,20 @@ else fail("markdown alternate for known page", KNOWN_PAGE.mdPaths.join(" or "));
 
 // Draft must be absent from production surfaces
 const allDist = walkFiles(dist).map((f) => path.relative(dist, f));
-const draftHits = allDist.filter((f) => f.includes(DRAFT_SLUG));
-if (draftHits.length === 0) ok("draft fixture absent from dist");
-else fail("draft fixture absent from dist", draftHits.join(", "));
+const draftHits = allDist.filter((f) =>
+  DRAFT_SLUGS.some((slug) => f.includes(slug)),
+);
+if (draftHits.length === 0) ok("draft content absent from dist");
+else fail("draft content absent from dist", draftHits.join(", "));
+
+const legacyJournalHits = allDist.filter((f) =>
+  f.startsWith("engineering-journal/"),
+);
+if (legacyJournalHits.length === 0) {
+  ok("legacy Engineering Journal section absent from dist");
+} else {
+  fail("legacy Engineering Journal section absent from dist", legacyJournalHits.join(", "));
+}
 
 // llms.txt — root index may link section indexes; nested pages appear there.
 const llmsPath = path.join(dist, "llms.txt");
@@ -177,8 +192,11 @@ if (fs.existsSync(llmsPath)) {
   } else {
     fail("llms.txt includes known published page", "title/slug missing");
   }
-  if (!agentSurface.includes(DRAFT_SLUG)) ok("llms.txt excludes draft fixture");
-  else fail("llms.txt excludes draft fixture");
+  if (DRAFT_SLUGS.every((slug) => !agentSurface.includes(slug))) {
+    ok("llms.txt excludes draft content");
+  } else {
+    fail("llms.txt excludes draft content");
+  }
 } else {
   fail("llms.txt exists");
 }
@@ -204,8 +222,11 @@ if (sitemapFile) {
       "expected https://lab.tianzhe.me/decisions/independent-nimbus-lab",
     );
   }
-  if (!blob.includes(DRAFT_SLUG)) ok("sitemap excludes draft fixture");
-  else fail("sitemap excludes draft fixture");
+  if (DRAFT_SLUGS.every((slug) => !blob.includes(slug))) {
+    ok("sitemap excludes draft content");
+  } else {
+    fail("sitemap excludes draft content");
+  }
 } else {
   fail("sitemap exists");
 }
@@ -262,8 +283,11 @@ async function assertPagefindDiscoversKnownPage() {
     .map((f) => read(f))
     .filter((html) => html.includes("data-pagefind-body"))
     .join("\n");
-  if (!searchableText.includes(DRAFT_SLUG)) ok("search bodies exclude draft fixture");
-  else fail("search bodies exclude draft fixture");
+  if (DRAFT_SLUGS.every((slug) => !searchableText.includes(slug))) {
+    ok("search bodies exclude draft content");
+  } else {
+    fail("search bodies exclude draft content");
+  }
 
   if (!knownPageSearchable) return;
 
@@ -583,10 +607,12 @@ function assertFeeds() {
     fail("RSS includes launch journal URL and kind");
   }
 
-  if (rss.includes(DRAFT_SLUG) || jsonRaw.includes(DRAFT_SLUG)) {
-    fail("feeds exclude draft fixture");
+  if (
+    DRAFT_SLUGS.some((slug) => rss.includes(slug) || jsonRaw.includes(slug))
+  ) {
+    fail("feeds exclude draft content");
   } else {
-    ok("feeds exclude draft fixture");
+    ok("feeds exclude draft content");
   }
 
   // Decision kind must not appear in feeds.
@@ -646,11 +672,54 @@ if (fs.existsSync(homeHtmlPath)) {
   } else {
     fail("preview HTML emits noindex,nofollow");
   }
+  if (
+    home.includes('href="/journal"') &&
+    home.includes(">Journal</a>") &&
+    !home.includes('href="/engineering-journal"')
+  ) {
+    ok("homepage uses one Journal section");
+  } else {
+    fail("homepage uses one Journal section");
+  }
 } else {
   fail("homepage html for noindex check");
 }
 
-// llms-full.txt must exist and exclude the draft fixture
+const journalHtmlPath = path.join(dist, "journal/index.html");
+if (fs.existsSync(journalHtmlPath)) {
+  const journal = fs.readFileSync(journalHtmlPath, "utf8");
+  if (
+    journal.includes('href="/journal/supabase-from-start/"') &&
+    journal.includes(">Supabase From Start</a>")
+  ) {
+    ok("Journal links Supabase From Start subsection");
+  } else {
+    fail("Journal links Supabase From Start subsection");
+  }
+} else {
+  fail("Journal HTML exists for subsection check");
+}
+
+const supabaseJournalHtmlPath = path.join(
+  dist,
+  "journal/supabase-from-start/index.html",
+);
+if (fs.existsSync(supabaseJournalHtmlPath)) {
+  const supabaseJournal = fs.readFileSync(supabaseJournalHtmlPath, "utf8");
+  if (
+    supabaseJournal.includes(
+      '<span class="break-words">Supabase From Start</span>',
+    )
+  ) {
+    ok("sidebar labels Supabase From Start subsection");
+  } else {
+    fail("sidebar labels Supabase From Start subsection");
+  }
+} else {
+  fail("Supabase From Start HTML exists for sidebar check");
+}
+
+// llms-full.txt must exist and exclude all private drafts
 const llmsFullPath = path.join(dist, "llms-full.txt");
 if (fs.existsSync(llmsFullPath)) {
   const full = fs.readFileSync(llmsFullPath, "utf8");
@@ -659,8 +728,11 @@ if (fs.existsSync(llmsFullPath)) {
   } else {
     fail("llms-full.txt includes known published page");
   }
-  if (!full.includes(DRAFT_SLUG)) ok("llms-full.txt excludes draft fixture");
-  else fail("llms-full.txt excludes draft fixture");
+  if (DRAFT_SLUGS.every((slug) => !full.includes(slug))) {
+    ok("llms-full.txt excludes draft content");
+  } else {
+    fail("llms-full.txt excludes draft content");
+  }
   if (
     full.includes(LAUNCH_JOURNAL.title) &&
     full.includes(LAUNCH_JOURNAL.slugToken)

@@ -34,6 +34,12 @@ dependencies, schemas, or a deferred feature.
 Choose the section and slug before drafting. Keep slugs descriptive and stable;
 renaming a published route is a migration, not a copy edit.
 
+For a detailed implementation journal entry, also define the implementation
+stage and environment boundary. A series may name future stages, but prose must
+not present planned code, staging acceptance, or production promotion as
+completed fact. Keep the voice narrative and reflective rather than turning
+the entry into a click-by-click tutorial or course worksheet.
+
 ## 2. Freeze and classify sources
 
 Create the source list before writing historical or causal claims.
@@ -75,6 +81,13 @@ featured: false
 aiGenerated: true
 sourceRefs: []
 ```
+
+Start detailed Lab entries from `templates/journal.mdx` and use
+`kind: journal`. Explain unfamiliar terms in context, separate general
+platform concepts from Eazy Review-specific choices, and trace important claims
+through task → implementation → test → environment. A personal-blog article
+may later summarize the journey for a general audience, but it does not replace
+the complete Lab journal or share its publication record automatically.
 
 While review is pending:
 
@@ -157,14 +170,19 @@ and searchable body under `dist/`. After approval, confirm:
 - the canonical HTML route succeeds;
 - both Markdown alternates are generated where Nimbus supports them;
 - Pagefind finds the exact title;
-- JSON Feed and RSS contain the canonical URL and `kind: journal`;
+- JSON Feed and RSS contain the canonical URL and the article's exact `kind`;
 - feed ordering remains deterministic and the flagship report stays
   `featured: true`;
-- sitemap and `/journal/llms.txt`, `/llms.txt`, and `/llms-full.txt` include the
-  entry;
+- sitemap and the applicable section `llms.txt`, `/llms.txt`, and
+  `/llms-full.txt` include the entry;
 - production output is indexable; and
 - preview and `workers.dev` behavior remains `noindex, nofollow` with
   `Disallow: /`.
+
+For a detailed implementation journal entry, also verify any commands shown as
+evidence cannot contact a linked remote by accident, current documentation
+sources are authoritative, app claims use immutable full-SHA sources, and
+every result is labeled local, staging, or production.
 
 Compare checksums for frozen M2 evidence/media before and after the change.
 Confirm the adjacent application repository is still clean at the recorded

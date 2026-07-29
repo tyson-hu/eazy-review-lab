@@ -9,6 +9,19 @@
 - JSON Feed (preferred): `https://lab.tianzhe.me/feed.json`
 - RSS 2.0: `https://lab.tianzhe.me/feed.xml`
 
+## Editorial roles
+
+- Eazy Review Lab owns the fully detailed implementation journal, including
+  exact migrations, security decisions, failures, tests, and environment
+  evidence.
+- The personal blog may publish a separate, more general account of how
+  Supabase was implemented from the start.
+- The general blog post should link to the applicable Lab journal subsection
+  for the complete technical record. It is a companion narrative, not a copy or
+  replacement.
+- Blog drafting, review metadata, publication, and rollout remain separate work
+  in the personal-blog repository and require separate authorization.
+
 ## Consumer rules (version 1)
 
 1. Fetch `https://lab.tianzhe.me/feed.json`.

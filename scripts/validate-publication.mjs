@@ -19,6 +19,9 @@ const APPROVED_HOSTS = new Set([
   "developers.cloudflare.com",
   "docs.astro.build",
   "www.jsonfeed.org",
+  "supabase.com",
+  "docs.docker.com",
+  "www.postgresql.org",
 ]);
 
 const PRIVATE_IP =
@@ -192,7 +195,13 @@ for (const file of walk(docsRoot)) {
   // Only enforce publishable rule when content claims to be published
   // (draft is false or omitted) AND is an article kind that would ship.
   const kind = data.kind;
-  const articleKinds = new Set(["journal", "report", "decision", "experiment", "project"]);
+  const articleKinds = new Set([
+    "journal",
+    "report",
+    "decision",
+    "experiment",
+    "project",
+  ]);
   if (claimsPublished && articleKinds.has(kind) && !isPublishable(data)) {
     errors.push(
       `${rel}: claims published state but fails publishable rule (aiGenerated requires humanReviewedAt + reviewedBy)`,

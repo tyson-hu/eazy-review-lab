@@ -1,0 +1,51 @@
+---
+title: Supabase From Start
+description: Fully detailed journals following Eazy Review's Supabase implementation from Task 11 through verified production.
+kind: section
+project: eazy-review
+sidebar:
+  order: 2
+  label: Supabase From Start
+tags:
+  - journal
+  - supabase-from-start
+  - supabase
+featured: false
+aiGenerated: false
+---
+
+**Supabase From Start** is a subsection of the Eazy Review Journal. Its entries
+are the fully detailed implementation record: they explain what an agent
+changed, the concepts needed to follow the work, why decisions were made, what
+failed, and what evidence made the result trustworthy.
+
+These entries are not click-by-click tutorials. A separate personal-blog post
+can tell the same implementation journey at a more general level and link back
+here for the complete technical account.
+
+## Series path
+
+The subsection follows Eazy Review's backend from Task 11 through a verified
+production Supabase implementation:
+
+1. Docker, the Supabase CLI, local services, migrations, the core PostgreSQL
+   schema, deny-by-default security, triggers, concurrency, tests, and staging.
+2. Row Level Security policies and explicit Data API grants.
+3. Trusted product seed data.
+4. Real Browse and Product Detail reads.
+5. Authentication, password recovery, and the protected account-deletion
+   boundary.
+6. **My Rating** persistence and Rated Products.
+7. Server-owned **Community Score** verification.
+8. TanStack Query, user-scoped caching, and invalidation.
+9. Production project creation, migration promotion, configuration,
+   observability, recovery rehearsal, release validation, and rollback.
+
+Each entry is sourced from the exact app commit, migration, test, and acceptance
+record for that stage. A future step is not written as if it already happened.
+The production entry will be published only after the real production
+implementation and its human-authorized verification are complete.
+
+The Task 11 foundation entry is currently in private editorial review. It will
+appear here after its technical claims, beginner explanations, and actual
+review timestamp are approved.

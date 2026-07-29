@@ -1,0 +1,877 @@
+---
+title: "Inside Task 11: Building Eazy Review's Supabase Foundation From the Start"
+description: "A long-form reconstruction of Docker, the Supabase CLI, PostgreSQL migrations, security, triggers, concurrency, tests, and staging in Eazy Review Task 11."
+draft: true
+kind: journal
+project: eazy-review
+tags:
+  - journal
+  - supabase-from-start
+  - supabase
+  - docker
+  - postgresql
+  - security
+  - testing
+featured: false
+aiGenerated: true
+sidebar:
+  order: 1
+  label: "Inside Task 11"
+sourceRefs:
+  - label: "Task 11 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/22
+  - label: "Task 11 merged task record"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/docs/TASKS.md
+  - label: "Task 11 data-model contract"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/docs/DATA_MODEL.md
+  - label: "Task 11 local Supabase configuration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/config.toml
+  - label: "Task 11 core-schema migration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/migrations/20260727213403_task_11_core_schema.sql
+  - label: "Task 11 review-hardening migration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/migrations/20260728001835_task_11_review_hardening.sql
+  - label: "Task 11 statement-trigger migration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/migrations/20260728115256_prevent_rating_lock_inversion.sql
+  - label: "Task 11 advisory-lock-order migration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/migrations/20260728162303_order_rating_advisory_lock_keys.sql
+  - label: "Task 11 database tests"
+    url: https://github.com/tyson-hu/Eazy-Review/tree/b407c08529d7d0a332a4ef772d076cf7164940ea/supabase/tests/database
+  - label: "Task 11 concurrency harness"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/b407c08529d7d0a332a4ef772d076cf7164940ea/scripts/test-db-concurrency.cjs
+  - label: "Supabase CLI local development"
+    url: https://supabase.com/docs/guides/local-development/cli/getting-started
+  - label: "Supabase local workflow"
+    url: https://supabase.com/docs/guides/local-development/cli-workflows
+  - label: "Supabase database migrations"
+    url: https://supabase.com/docs/guides/deployment/database-migrations
+  - label: "Supabase Data API security"
+    url: https://supabase.com/docs/guides/api/securing-your-api
+  - label: "Supabase Row Level Security"
+    url: https://supabase.com/docs/guides/database/postgres/row-level-security
+  - label: "Supabase database testing"
+    url: https://supabase.com/docs/guides/database/testing
+  - label: "Docker container concepts"
+    url: https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+  - label: "PostgreSQL trigger functions"
+    url: https://www.postgresql.org/docs/current/plpgsql-trigger.html
+---
+
+This is the first entry in **Supabase From Start**, a fully detailed Journal
+subsection that follows Eazy Review from Task 11 to a verified production
+backend.
+
+It starts below the level where most implementation notes begin. You do not need
+to know Docker, PostgreSQL, Supabase, migrations, Row Level Security, triggers,
+or concurrency. Each term is introduced before it is used, then connected to the
+exact files and tests merged in
+[Eazy Review PR #22](https://github.com/tyson-hu/Eazy-Review/pull/22).
+
+This entry describes a completed local-and-staging foundation. It does **not**
+claim that Eazy Review has a production Supabase backend. Task 11 was merged on
+July 29, 2026 at commit
+[`b407c08529d7d0a332a4ef772d076cf7164940ea`](https://github.com/tyson-hu/Eazy-Review/commit/b407c08529d7d0a332a4ef772d076cf7164940ea).
+Task 12 has not started, Expo is still disconnected, and production was not
+touched.
+
+## What Task 11 was trying to achieve
+
+The app already had a reviewed mock experience: Browse → Product Detail →
+Rate/Edit. Task 11 did not connect those screens to real data. Its job was to
+build the smallest database foundation that later tasks can trust:
+
+- a reproducible Supabase stack on a developer's computer;
+- a separate, human-authorized staging database;
+- seven PostgreSQL tables with relationships and integrity constraints;
+- server-owned profile creation and **Community Score** aggregation;
+- Row Level Security enabled with all client access still denied;
+- an Expo credential boundary that excludes privileged secrets;
+- repeatable schema, behavior, privilege, concurrency, and secret tests; and
+- evidence that the same migrations behaved correctly in staging.
+
+That narrow boundary is important. A database can exist before the app is
+allowed to read or write it. Task 11 deliberately built the locked foundation;
+Task 12 will define the doors and who may use each one.
+
+## A mental model of the whole stack
+
+Supabase is not one program. For this project, it is easiest to picture it as
+layers:
+
+```text
+Expo app, later
+  ↓ HTTPS requests with a publishable key and optional user session
+Supabase Data API and Auth
+  ↓ PostgreSQL roles, grants, and RLS policies
+PostgreSQL
+  ↓ tables, constraints, functions, triggers, and transactions
+Docker containers on the developer's computer, for local development only
+```
+
+The same migrations eventually move through environments:
+
+```text
+local Docker stack → hosted staging project → hosted production project
+```
+
+These environments serve different purposes:
+
+- **Local** is disposable and reproducible. A reset can erase its database and
+  rebuild it from committed files.
+- **Staging** is hosted and persistent, but it is not customer production. It
+  proves that migrations and security checks work outside one laptop.
+- **Production** holds real application data and requires a separate promotion,
+  release, monitoring, backup, and rollback decision. Task 11 had no production
+  authority.
+
+## Docker from zero
+
+### Why Docker appears in a Supabase task
+
+Running Supabase locally means running PostgreSQL plus several cooperating
+services. Installing and configuring every service directly on macOS would make
+developer machines drift apart. The Supabase CLI instead asks a
+Docker-compatible runtime to run a known set of isolated services.
+
+Docker introduces six useful ideas:
+
+- An **image** is a packaged, read-only blueprint containing a program and the
+  files it needs.
+- A **container** is a running instance of an image. It is an isolated process,
+  not a second physical computer.
+- The **Docker Engine** or **daemon** creates and manages containers. On macOS,
+  Docker Desktop runs the Linux engine inside a lightweight virtual machine.
+- A **volume** stores data outside a container's disposable writable layer.
+  This is how a stopped local database can retain data.
+- A **network** lets the local containers find one another by service name.
+- A **published port** maps a container port to a port on the developer's
+  computer, so a browser or CLI can reach the service.
+
+The Supabase CLI is the orchestrator in this relationship. The CLI reads
+`supabase/config.toml`, asks Docker to pull images if needed, creates the
+containers, network, and volumes, waits for health checks, and prints the local
+service URLs. Docker runs the processes; the Supabase CLI gives them a
+project-aware configuration and workflow.
+
+### What Docker Desktop changes on the machine
+
+Starting Docker Desktop launches the Docker daemon. It does not start Eazy
+Review's Supabase services by itself. `supabase start`, run from the app
+repository, asks that daemon to create the project stack.
+
+The first start is slower because Docker may need to download multiple images.
+Later starts can reuse those images. In Docker Desktop, the services appear as a
+group of containers. Stopping the group stops the processes; it does not
+necessarily delete the volume that holds the local database.
+
+This distinction explains common failures:
+
+- `Cannot connect to the Docker daemon` means the CLI cannot reach a running
+  engine. Start Docker Desktop and confirm Docker itself is healthy.
+- A `docker.sock` error means the command cannot communicate through Docker's
+  control socket.
+- A port conflict means another process already owns a configured host port.
+- A container that never becomes healthy usually needs its logs inspected; it
+  is not fixed by changing SQL blindly.
+- Low Docker memory can make the multi-service stack fail health checks.
+
+The official local workflow warns that the local stack is for development. It
+uses local defaults and is not a production server to expose to the internet.
+
+### The two tools Eazy Review depended on
+
+On macOS, the project depended on Docker Desktop from Docker's official
+distribution. The application had to be open and its engine running whenever
+the local Supabase containers were needed; having Docker Desktop installed was
+not the same as having its engine available.
+
+Eazy Review chose the globally installed Homebrew Supabase CLI:
+
+```bash
+brew install supabase/tap/supabase
+```
+
+The project explicitly avoids `curl | bash` installers. Other operating systems
+and project-local CLI installations are documented by Supabase, but the command
+prefix changes—for example, a project dependency is normally invoked through
+its package runner. Follow one installation model consistently instead of
+mixing a global CLI with an unrelated project-local version.
+
+### How the runtime failure boundary was identified
+
+From the Eazy Review repository:
+
+```bash
+docker version
+docker info
+supabase --version
+DO_NOT_TRACK=1 supabase start
+DO_NOT_TRACK=1 supabase status
+```
+
+These commands formed a diagnostic ladder:
+
+1. Can the Docker client talk to the engine?
+2. Is the engine healthy enough to report system information?
+3. Is the Supabase CLI installed?
+4. Can the CLI create or start this project's services?
+5. Which local services and ports are actually running?
+
+Do not copy credentials printed by `supabase status` into documentation,
+screenshots, issues, or chat. Local values are still credentials, and building
+the safe habit locally prevents a production leak later.
+
+## The Supabase CLI from zero
+
+### Initialization and committed configuration
+
+For a new project, `supabase init` creates a `supabase/` directory and
+`config.toml`. Task 11 committed a reviewed version of that structure:
+
+```text
+supabase/
+├── config.toml
+├── functions/
+├── migrations/
+├── seed/
+└── tests/
+    └── database/
+```
+
+In Eazy Review, `project_id = "eazy-review"` in `config.toml` is a local label.
+It helps name the Docker resources. It is **not** a hosted Supabase project
+reference.
+
+The running group includes PostgreSQL; Auth; the PostgREST-backed Data API;
+Storage; Realtime; Studio; an API gateway; and local development helpers such
+as the email viewer. You do not need to manage their container definitions by
+hand. Use `supabase status` and Docker Desktop to inspect the exact services
+created by the installed CLI version.
+
+The Task 11 configuration selected PostgreSQL major version 17 and local ports
+for the API, database, Studio, and test-email viewer. The committed defaults
+included:
+
+| Local service | Purpose | Configured host port |
+| --- | --- | ---: |
+| API | Local Data API and service gateway | 54321 |
+| PostgreSQL | Direct local database connection | 54322 |
+| Studio | Browser-based local database interface | 54323 |
+| Local mail viewer | Captures development auth email | 54324 |
+
+Ports are configuration, not universal Supabase constants. `supabase status`
+is the source of truth for a running machine.
+
+Seed loading was deliberately disabled. Task 13, not Task 11, owns trusted
+product seed data. This prevented `db reset` from pretending a missing or
+unreviewed seed was part of the accepted foundation.
+
+### The daily local commands
+
+```bash
+# Start or resume the local services.
+DO_NOT_TRACK=1 supabase start
+
+# Rebuild the local database from committed migrations, then run all DB tests.
+npm run test:db:reset
+
+# Stop the local services while retaining the normal local backup/volume path.
+DO_NOT_TRACK=1 supabase stop
+```
+
+The project uses `DO_NOT_TRACK=1` to suppress CLI telemetry during these
+commands.
+
+`supabase start` and `supabase db reset` are different:
+
+- `start` makes the service processes available.
+- `db reset` destroys and recreates the **local database state**, applies every
+  committed migration in timestamp order, and later can apply committed seed
+  data.
+
+A successful reset is a powerful claim: a clean machine can reconstruct the
+schema from version-controlled files instead of depending on hidden Dashboard
+clicks.
+
+## Migrations: database history as code
+
+A **migration** is a timestamped SQL file that moves a database schema forward.
+Git records the file; Supabase records which migration timestamps have been
+applied to each database.
+
+Task 11 ended with four migrations:
+
+| Migration | Why it exists |
+| --- | --- |
+| `20260727213403_task_11_core_schema.sql` | Creates the tables, constraints, indexes, functions, triggers, RLS state, and initial privilege revocations. |
+| `20260728001835_task_11_review_hardening.sql` | Revokes direct execution of every internal helper from client roles. |
+| `20260728115256_prevent_rating_lock_inversion.sql` | Replaces row-level aggregate refresh with statement-level transition-table triggers to prevent a reproduced multi-product deadlock. |
+| `20260728162303_order_rating_advisory_lock_keys.sql` | Orders the actual 64-bit advisory-lock keys, with product ID as a deterministic collision tie-breaker. |
+
+Why four files instead of editing the first file until review was quiet?
+Because the earlier files had already been applied to staging. Editing an
+applied migration would make Git's history disagree with the database's
+recorded history. Corrections therefore became new, forward-only migrations.
+
+The safe workflow is:
+
+```bash
+supabase migration new describe_the_change
+# Write and review SQL in the generated file.
+supabase db reset
+npm run test:db
+```
+
+Never make a remote Dashboard schema edit and forget to capture it in a
+migration. That creates **schema drift**: the remote database has a state that
+the repository cannot reproduce.
+
+## The seven-table core schema
+
+Task 11 translates Eazy Review's product language into relational tables.
+Relational means data is separated by responsibility and connected through
+keys.
+
+### `profiles`
+
+One public profile belongs to one Supabase Auth user. Its primary key is the
+same UUID as `auth.users.id`. A database trigger creates the profile when Auth
+creates a user, so the mobile app cannot choose another person's identity or
+need permission to insert profile rows.
+
+### `products`
+
+This is the catalog's parent table. It holds the stable product identity and
+fields such as brand, name, descriptive metadata, publication state, and
+timestamps. `is_published` becomes the later authorization boundary for public
+catalog reads.
+
+### `product_images`
+
+Images are separate because one product can have many. Each row belongs to a
+product. A per-product `sort_order` constraint makes the intended order
+deterministic instead of relying on accidental insertion order.
+
+### `eazy_assessments`
+
+This stores the curated **Eazy Score** side of the product. Assessments are
+versioned, and a constraint permits only one current assessment per product.
+That preserves history without making the public app guess which row is active.
+
+### `user_ratings`
+
+This stores **My Rating**: look, comfort, quality, outfit, value, overall, and
+an optional owner-only `private_note`.
+
+Important constraints include:
+
+- every score is between 1 and 10;
+- one user can have only one rating for one product;
+- `product_id` and `user_id` cannot be changed after insert;
+- `private_note` is limited to 500 characters; and
+- timestamps are maintained by the server.
+
+Those rules live in the database because every future client and script must
+obey them, not only the first Expo form.
+
+### `rating_aggregates`
+
+This is the server-owned summary used for **Community Score**. It has one row
+per product and contains rating count, category averages, overall average,
+score, and update time.
+
+The row exists even when there are zero ratings. In that state:
+
+- `rating_count` is `0`;
+- averages are `null`; and
+- **Community Score** is `null`.
+
+That gives later Browse and Detail code a stable join. "No ratings yet" is a
+real state, not a missing-row accident.
+
+### `product_offers`
+
+Offers belong to a product and capture seller, size, size region, currency,
+price, URL, and freshness information. Constraints reject negative values,
+unsupported MVP market/currency values, and non-finite numeric inputs.
+
+Foreign keys define what happens when parent rows disappear. Product-owned
+images, assessments, ratings, aggregates, and offers use deliberate cascade
+behavior so an orphan cannot remain without its product.
+
+## Three different kinds of database rule
+
+It helps to separate mechanisms that are often described together:
+
+1. A **constraint** says which row values and relationships are valid.
+2. A **grant** says whether a PostgreSQL role may attempt an operation on an
+   object, such as `SELECT` on a table or `EXECUTE` on a function.
+3. An **RLS policy** says which rows that role may see or change.
+
+RLS does not replace grants, and grants do not replace RLS.
+
+For a Data API request to succeed, the role needs the necessary object
+privilege **and** an RLS policy that permits the row. Task 11 intentionally
+provided neither positive client table grants nor policies.
+
+## Deny by default in Task 11
+
+Supabase maps an unauthenticated Data API request to the `anon` PostgreSQL role
+and a signed-in request to `authenticated`. PostgreSQL also has the special
+`PUBLIC` group, which effectively includes every role.
+
+For every exposed Task 11 table, the core migration:
+
+```sql
+alter table public.some_table enable row level security;
+revoke all privileges on table public.some_table from public;
+revoke all privileges on table public.some_table from anon, authenticated;
+```
+
+It created zero policies and zero positive client grants.
+
+This is why Task 11 can be secure and still unusable from Expo. "RLS is on" is
+not the same as "the correct users can do the correct things." Task 12 must add
+the complete policies first and then rebuild an explicit least-privilege grant
+allowlist. Until both controls exist and their negative cases pass, Expo stays
+disconnected.
+
+## Functions, triggers, and server-owned behavior
+
+A PostgreSQL **function** is named database code. A **trigger** tells
+PostgreSQL to call a trigger function automatically when a table event occurs.
+
+Task 11 created six internal functions:
+
+| Function | Responsibility |
+| --- | --- |
+| `set_updated_at` | Replaces client-supplied update time with the server time. |
+| `reject_user_rating_identity_change` | Prevents changing a rating's product or owner. |
+| `handle_new_user` | Creates a profile after an Auth user is inserted. |
+| `create_zero_rating_aggregate` | Creates the product's empty aggregate row. |
+| `refresh_rating_aggregates` | Recalculates the stored summary for one product. |
+| `handle_user_rating_change` | Collects affected products after rating changes and refreshes them in a safe order. |
+
+All six reject direct execution by `PUBLIC`, `anon`, and `authenticated`.
+Clients cause allowed table changes; triggers cause the internal maintenance.
+The client does not receive a "recalculate Community Score" button.
+
+### `SECURITY INVOKER` and `SECURITY DEFINER`
+
+A normal `SECURITY INVOKER` function runs with the caller's database
+privileges. A `SECURITY DEFINER` function runs with its owner's privileges.
+Definer functions are powerful and therefore dangerous if their input,
+object resolution, or execute permissions are loose.
+
+The two trigger entrypoints that need controlled privilege elevation are
+`handle_new_user` and `handle_user_rating_change`. They use:
+
+- `SECURITY DEFINER`;
+- an empty `search_path`;
+- fully qualified names such as `public.profiles`; and
+- explicit execute revocations from client roles.
+
+An empty search path prevents an attacker-controlled object with a convenient
+name from being resolved in place of the intended object. Fully qualified names
+then make every dependency explicit.
+
+## How Community Score is calculated
+
+Whenever ratings change, PostgreSQL recalculates the affected product's
+aggregate from the authoritative `user_ratings` rows.
+
+For each category and the overall value:
+
+```text
+stored average = round(arithmetic mean, 2 decimal places)
+Community Score = round(unrounded overall mean × 10)
+```
+
+The second line matters. The score is computed from the unrounded mean, not by
+multiplying the already rounded `overall_avg`.
+
+The fixed four-rating boundary fixture proves the distinction:
+
+```text
+overall average = 1.25
+Community Score = 13
+```
+
+When the last rating disappears, the aggregate row remains but returns to count
+zero with null averages and score. When the product itself is deleted, the
+refresh path checks that the parent still exists and does not recreate an
+aggregate row during the delete cascade.
+
+## Why concurrency made this harder
+
+### The same-product race
+
+Imagine two users rating one product at nearly the same time:
+
+1. Transaction A inserts a rating.
+2. Transaction B inserts another rating before A commits.
+3. Each transaction calculates an aggregate from what it can currently see.
+
+Without coordination, the stored summary can reflect only one writer even
+though both ratings commit.
+
+Task 11 uses a transaction-scoped PostgreSQL advisory lock derived from the
+product ID. An advisory lock is an application-defined mutex managed by
+PostgreSQL. Writers for different products can proceed independently; writers
+for the same product serialize their refresh.
+
+The test opens two real database sessions. It proves the second session waits
+on `Lock:advisory`, commits the first, then verifies the final aggregate:
+
+```text
+rating_count = 2
+overall_avg = 6.00
+Community Score = 60
+```
+
+That is stronger than a test that merely launches two promises and hopes their
+timing overlaps.
+
+### The multi-product deadlock
+
+The first implementation refreshed once per changed row. A cascading user
+delete could remove ratings across products in a different order from another
+delete:
+
+```text
+Transaction A locks product 1, then waits for product 2
+Transaction B locks product 2, then waits for product 1
+```
+
+Neither can continue. That cycle is a **deadlock**.
+
+The third migration replaced the old row trigger with one statement trigger for
+each event—insert, update, and delete. PostgreSQL transition tables give the
+trigger the set of rows affected by the whole statement. The function collects
+the distinct product IDs and refreshes them in one stable order.
+
+### Why ordering UUIDs was still not enough
+
+Review found a subtle mismatch. The code locked a hash derived from a product
+UUID, but it sorted the source UUIDs. Hash order is not guaranteed to match UUID
+order. Two transactions could therefore acquire the actual locks in different
+orders even while both appeared to sort their inputs.
+
+The fourth migration:
+
+1. maps each affected product to the exact 64-bit key used by
+   `pg_advisory_xact_lock`;
+2. sorts those lock keys;
+3. uses product ID only as a deterministic tie-breaker if two products map to
+   the same key; and
+4. refreshes in that order.
+
+The general lesson is broader than this schema: if deadlock prevention depends
+on global lock ordering, sort the resources that are actually locked.
+
+## What the automated tests prove
+
+`npm run test:db:reset` performs three layers:
+
+```text
+clean local reset
+  → six pgTAP SQL files
+  → two-session concurrency harness
+```
+
+### The 183 pgTAP assertions
+
+pgTAP is a PostgreSQL testing framework. Each SQL test begins a transaction,
+sets an expected assertion count, makes assertions, finishes, and rolls back.
+The rollback keeps test fixtures from becoming normal local data.
+
+| Test file | Main proof |
+| --- | --- |
+| `schema.test.sql` | Seven tables, expected constraints/indexes/triggers, and RLS enabled. |
+| `profiles.test.sql` | An Auth user creates exactly one profile; clients cannot execute the helper. |
+| `ratings.test.sql` | Valid ratings work; invalid ranges, duplicates, oversized notes, and identity changes fail. |
+| `aggregates.test.sql` | Zero state, insert/update/delete, rounding, cascade safety, and lock structure. |
+| `offers_images.test.sql` | Offer and image constraints, including finite numeric behavior and cascades. |
+| `security.test.sql` | No client table privilege, no policies, and no client execution of any internal helper. |
+
+The security tests inspect **effective** privileges with PostgreSQL catalog
+functions. That catches access inherited through `PUBLIC`, which a simple
+search for `GRANT ... TO anon` could miss.
+
+### The two concurrency races
+
+The Node harness uses `docker exec` to run real `psql` sessions inside the
+local PostgreSQL container. It proves:
+
+- same-product writers overlap, one waits on the expected advisory lock, both
+  commit, and the final aggregate includes both; and
+- two synchronized, fixture-only multi-product rating deletes both commit
+  without deadlock and leave both product aggregates at zero/null.
+
+The harness never deletes `auth.users`. It deletes deterministic test rating
+rows, because an agent-controlled database test must not normalize destructive
+account deletion.
+
+### The 24 secret-scanner regressions
+
+Task 11 also added a repository scanner because Expo bundles are public to the
+device owner. The bundle may contain only:
+
+- the Supabase project URL; and
+- a publishable key, or legacy anon key for compatibility.
+
+It must not contain a service-role key, modern secret key, privileged JWT,
+database password, JWT signing secret, Supabase management token, or direct
+PostgreSQL connection string.
+
+The scanner covers tracked application/configuration text plus recognized
+root, Expo/EAS, bundled-asset, dotfile, and lockfile paths—including relevant
+files that Git ignores. Its fixtures use synthetic values, and findings redact
+the matched value. A secret scanner should prove it can fail without ever
+planting a real secret.
+
+## How staging was promoted safely
+
+Linking a local repository to a hosted project changes the risk. A command that
+was disposable locally can now affect persistent remote state.
+
+For Task 11, staging contact required explicit human authorization. The hosted
+project reference and link metadata stayed in gitignored `supabase/.temp/`
+files; neither a project reference nor a credential was committed.
+
+The safe shape was:
+
+```bash
+# Discover the installed CLI's exact interface first.
+supabase migration list --help
+supabase db push --help
+
+# Only after confirming the authorized non-production target:
+DO_NOT_TRACK=1 supabase migration list --linked
+DO_NOT_TRACK=1 supabase db push --linked --dry-run
+
+# Review the exact migrations and confirm no seed or role files are included.
+# Apply only after that review and authorization.
+DO_NOT_TRACK=1 supabase db push --linked
+```
+
+The dry run is not ceremonial. It is the last point to notice an unexpected
+migration, seed, role file, or target before persistent change.
+
+Staging acceptance on July 28, 2026 proved:
+
+- all four migration timestamps matched local history;
+- all seven tables had RLS enabled;
+- there were zero client policies;
+- prohibited roles had zero effective table privileges;
+- all six internal functions denied client execution;
+- the obsolete row trigger was absent;
+- the three statement triggers and their transition tables were present;
+- the actual 64-bit lock-key ordering was installed;
+- transaction-rolled-back behavior checks passed;
+- no deterministic fixture residue remained; and
+- linked database lint reported no schema errors.
+
+The hosted pgTAP runner resolved none of its temporary test functions and
+reported zero assertions. That output was treated as a failed evidence path,
+not as a passing test. After two equivalent attempts, verification switched to
+direct, transaction-rolled-back catalog and behavior checks. Tool output counts
+only when it proves the intended thing.
+
+## Reading the agent's work as an engineering narrative
+
+The work becomes much easier to follow when it is read in this order:
+
+1. **Read the task boundary.** Start with the Task 11 goal, explicit exclusions,
+   and acceptance criteria in `docs/TASKS.md`.
+2. **Read the canonical contract.** `docs/DATA_MODEL.md` defines tables,
+   relationships, authorization, and aggregate behavior.
+3. **Read migrations in timestamp order.** Do not review only the newest file;
+   later migrations modify the state created by earlier ones.
+4. **Translate each SQL object into a sentence.** For every table, constraint,
+   function, trigger, policy, revoke, and grant, write down what it permits or
+   prevents.
+5. **Match claims to tests.** Find the assertion that proves each important
+   behavior. Source text alone cannot prove a concurrency race or effective
+   remote privilege.
+6. **Separate environments.** Mark every result local, staging, or production.
+   Never let a staging sentence imply production acceptance.
+7. **Check history and residue.** Confirm migration parity and ensure test
+   fixtures were rolled back or removed.
+8. **Read the handoff last.** The handoff should summarize evidence already
+   available elsewhere; it should not be the only proof.
+
+A useful personal worksheet has four columns:
+
+| Claim | Implemented by | Proved by | Environment |
+| --- | --- | --- | --- |
+| New products have an empty aggregate | Product insert trigger | Aggregate pgTAP test | Local + staging smoke |
+| Clients cannot call refresh helpers | Function revokes | Effective execute checks | Local + staging catalog |
+| Concurrent same-product writes are correct | Per-product advisory lock | Two-session overlap harness | Local |
+| Multi-product deletes do not deadlock | Statement triggers + ordered lock keys | Synchronized delete race | Local + staging structure/behavior |
+
+If a row is missing one of those columns, the claim is not yet easy to audit.
+
+## Reconstructing the evidence locally
+
+The following reconstruction is local-only. It shows how the claims in the
+journal entry map back to observable services, migrations, and tests. None of
+these commands belongs against staging or production.
+
+### Seeing the runtime layers
+
+Run:
+
+```bash
+DO_NOT_TRACK=1 supabase start
+docker ps
+DO_NOT_TRACK=1 supabase status
+```
+
+The output connects the abstract layers to concrete runtime evidence:
+
+- the Docker container running each service;
+- the host port that reaches it;
+- whether it stores durable data or acts as a stateless gateway; and
+- whether the future Expo app would talk to it directly, indirectly, or never.
+
+### Rebuilding the accepted state from code
+
+Run:
+
+```bash
+npm run test:db:reset
+```
+
+The resulting output should expose:
+
+- the order in which the four migrations applied;
+- the six pgTAP files and final assertion count;
+- the line proving the second writer actually waited; and
+- the final state asserted by each race.
+
+### Tracing one product rating
+
+Starting from an insert into `public.user_ratings`, the story moves through:
+
+1. the row constraints;
+2. the statement trigger;
+3. the transition table;
+4. the affected product list;
+5. the 64-bit advisory-lock key;
+6. the aggregate query;
+7. the `rating_aggregates` update; and
+8. the transaction commit.
+
+Update, last-rating delete, multi-product cascade delete, and product delete
+take related but distinct paths. Those delete cases explain most of the
+defensive SQL.
+
+### Reading denial as evidence
+
+The tests for `PUBLIC`, `anon`, and `authenticated` show:
+
+- which grant would be required before a role could attempt access;
+- which RLS policy would be required for a row;
+- why Task 11 intentionally has neither; and
+- which exact Task 12 scenario will eventually change that.
+
+This reconstruction does not require linking to or running commands against
+staging or production.
+
+## Troubleshooting without guessing
+
+### `supabase start` cannot reach Docker
+
+Confirm Docker Desktop is running, then use `docker version` and `docker info`.
+If those fail, Supabase SQL is not the problem.
+
+### A local port is already in use
+
+Use `supabase status` and inspect the configured ports in `config.toml`.
+Identify the owning process before changing configuration. A random port edit
+can break scripts and documentation.
+
+### `db reset` fails
+
+Read the first migration error and its file timestamp. A reset begins from a
+clean local state, so fix the forward migration under active development or add
+a new forward migration if the failing file has already been applied to a
+shared environment. Do not edit applied history casually.
+
+### Local and remote migration lists differ
+
+Stop before `db push`. Determine whether a migration is missing, the remote was
+changed directly, or history metadata is wrong. Repairing history changes the
+record, not the schema, so it requires evidence of the actual state.
+
+### A database test reports zero assertions
+
+Treat it as zero evidence. Check the test runner, extension/function resolution,
+and output. Use an equivalent direct catalog/behavior test when the runner
+cannot execute its assertions; do not rewrite production migrations to satisfy
+a broken test harness.
+
+### A concurrency test passes too quickly
+
+Check whether the sessions truly overlapped and whether one observed the
+expected wait event. Two operations that happened sequentially do not prove a
+race is safe.
+
+## What Task 11 deliberately did not do
+
+The following work remains outside this completed stage:
+
+- **Task 12:** RLS policies, explicit Data API grants, and authorization tests.
+- **Task 13:** trusted product seed data.
+- **Task 14:** real Browse and Product Detail reads plus the temporary
+  Rate/Edit compatibility adapter.
+- **Task 15:** authentication, recovery, protected account deletion, and
+  auth-aware screens.
+- **Task 16:** persistent **My Rating** writes and Rated Products.
+- **Task 17:** additional verification and hardening of server-owned
+  **Community Score** behavior.
+- **Task 18:** TanStack Query, user-scoped cache keys, runtime validation, and
+  invalidation.
+- **Production:** project creation and ownership confirmation, secrets and
+  environment configuration, controlled migration promotion, data/seed
+  decisions, end-to-end authorization, monitoring, backup and restore
+  rehearsal, release checks, rollback criteria, and post-deploy smoke tests.
+
+Each future Journal entry in this subsection will be written from the actual
+accepted implementation. If implementation changes the plan, the entry will
+explain the accepted reality rather than preserve obsolete pseudocode.
+
+## Questions this reconstruction answers
+
+This entry makes the following questions legible:
+
+1. Why does Supabase need Docker for local development but not inside the Expo
+   production app?
+2. What is the difference between an image, container, volume, network, and
+   published port?
+3. What does `supabase start` do that `supabase db reset` does not?
+4. Why is the local `project_id` not a hosted project reference?
+5. Why are applied migrations corrected with new forward migrations?
+6. What different jobs do constraints, grants, and RLS policies perform?
+7. Why is Task 11 intentionally inaccessible to `anon` and `authenticated`?
+8. Why are **Community Score** writes owned by triggers instead of the client?
+9. How does the same-product concurrency test prove real overlap?
+10. Why must lock ordering use the actual advisory-lock keys?
+11. Why did zero hosted pgTAP assertions count as a failed evidence path?
+12. What evidence would still be required before anyone could call this a
+    production Supabase implementation?
+
+Where an answer remains unclear, the engineering-evidence worksheet above can
+trace one claim from task → migration → test → environment.
+
+## Sources and review status
+
+The implementation facts in this draft are pinned to the Task 11 merge commit
+and its four migrations, database tests, concurrency harness, data-model
+contract, and task acceptance record. General concepts are cross-checked
+against the current official Supabase, Docker, and PostgreSQL documentation
+listed in the page metadata.
+
+This journal entry is an AI-assisted private draft. Human technical and editorial
+review is pending; it is intentionally excluded from generated public routes,
+search, feeds, sitemap, and agent surfaces.

@@ -12,11 +12,15 @@ Everything in `src/` is yours to edit.
 | **M2** | Frozen GitHub evidence, derived classifications, flagship report, charts | Feeds, CI/CD, custom domain |
 | **M3** | RSS/JSON feeds, GitHub Actions, Workers Builds, `lab.tianzhe.me`, blog contract | Silent rewrites of published M2 evidence |
 | **M4** | Editorial runbook, first post-launch journal cycle, stale section copy, journal public-behavior tests, publication record | App or personal-blog changes, M2 evidence refresh, automatic publishing, deferred features |
+| **M5** | `Journal / Supabase From Start` subsection and fully detailed entries through verified production | App changes, personal-blog implementation, database access, unverified future claims, publication before human review |
 
 Stop at each milestone for review. Do not merge milestones into one change.
 M4 also stops at its human editorial gate: a draft may be prepared and tested,
 but only Tyson Hu can approve its final text and actual review/publication
 timestamp.
+M5 uses the same gate for every entry. A future Supabase stage may be listed in
+the series, but its entry must not describe implementation or environment
+acceptance as complete before the app evidence exists.
 
 ## Read-only application repository
 
@@ -131,6 +135,14 @@ publishable =
 AI-assisted published articles must include:
 `Drafted with AI, reviewed by Tyson Hu.`
 
+All Lab journal entries use `kind: journal`. Detailed implementation entries
+are long-form technical narratives, not click-by-click tutorials. They explain
+unfamiliar terms in context, distinguish general concepts from Eazy
+Review-specific choices, pin implementation claims to immutable sources, and
+label evidence local/staging/production. A separate personal-blog post may
+present the same journey more generally and link back to the Lab; it does not
+replace or duplicate the Lab's detailed record.
+
 ## M4 editorial loop
 
 Follow `docs/notes/editorial-publishing-loop.md` for topic selection, sourcing,
@@ -143,6 +155,16 @@ drafting, review, publication, correction, validation, and rollback.
   sitemap, and agent surfaces.
 - Material corrections require `lastUpdated` and a visible correction note.
 - Record repository HEAD and the deployed Workers Builds source separately.
+
+## M5 Supabase journal
+
+The active M5 plan is in `PLAN.md`, section 16. The first Task 11 entry is a
+private draft under
+`src/content/docs/journal/supabase-from-start/`. Do not add publication
+metadata, link the draft from the public **Supabase From Start** overview,
+contact the application repository remotely, implement the personal-blog
+companion, or begin Task 12. Continue the series only from accepted app
+implementation and environment-specific evidence.
 
 ## Don't
 
