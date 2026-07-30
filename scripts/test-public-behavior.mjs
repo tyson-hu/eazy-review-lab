@@ -75,6 +75,7 @@ const REQUIRED_HTML = [
 const DRAFT_SLUGS = [
   "m1-fixture-draft",
   "task-11-supabase-foundation",
+  "task-12-least-privilege-authorization",
 ];
 
 let failed = 0;

@@ -1,0 +1,871 @@
+---
+title: "Inside Task 12: Opening Eazy Review's Supabase Data API Without Opening Everything"
+description: "A long-form reconstruction of Row Level Security, explicit table and column grants, role boundaries, authorization tests, and staging acceptance in Eazy Review Task 12."
+draft: true
+kind: journal
+project: eazy-review
+tags:
+  - journal
+  - supabase-from-start
+  - supabase
+  - postgresql
+  - row-level-security
+  - authorization
+  - testing
+featured: false
+aiGenerated: true
+sidebar:
+  order: 2
+  label: Task 12 authorization
+sourceRefs:
+  - label: "Eazy Review PR #23"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/23
+  - label: "Task 12 merge"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/32b13265c7ce57a66876ca4153d584ae8135ff99
+  - label: "Task 12 contract"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/TASKS.md
+  - label: "Task 12 data-model contract"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/DATA_MODEL.md
+  - label: "Task 12 security contract"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/SECURITY.md
+  - label: "RLS-before-grants decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/decisions/2026-07-24-rls-before-client-grants.md
+  - label: "Task 12 least-privilege migration"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/migrations/20260729214448_task_12_least_privilege_rls_grants.sql
+  - label: "Task 12 policy and privilege inventory tests"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/security.test.sql
+  - label: "Task 12 authorization behavior tests"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/authorization.test.sql
+  - label: "Supabase Data API security"
+    url: https://supabase.com/docs/guides/api/securing-your-api
+  - label: "Supabase Row Level Security"
+    url: https://supabase.com/docs/guides/database/postgres/row-level-security
+  - label: "Supabase Postgres roles"
+    url: https://supabase.com/docs/guides/database/postgres/roles
+  - label: "Supabase database testing"
+    url: https://supabase.com/docs/guides/database/testing
+  - label: "PostgreSQL CREATE POLICY"
+    url: https://www.postgresql.org/docs/current/sql-createpolicy.html
+  - label: "PostgreSQL privileges"
+    url: https://www.postgresql.org/docs/current/ddl-priv.html
+  - label: "PostgreSQL GRANT"
+    url: https://www.postgresql.org/docs/current/sql-grant.html
+  - label: "PostgreSQL privilege inquiry functions"
+    url: https://www.postgresql.org/docs/current/functions-info.html
+---
+
+This is the second entry in **Supabase From Start**, the detailed Journal
+subsection following Eazy Review from an empty backend to a verified production
+system.
+
+[Task 11](/journal/supabase-from-start/task-11-supabase-foundation/) created the
+tables, constraints, triggers, and local-to-staging migration path. It
+deliberately left every client-facing table locked. Row Level Security was
+enabled, but no client policy and no positive `anon` or `authenticated` Data API
+grant existed.
+
+Task 12 opened only the paths the product already required. It was merged in
+[Eazy Review PR #23](https://github.com/tyson-hu/Eazy-Review/pull/23) on July
+29, 2026 at commit
+[`32b13265c7ce57a66876ca4153d584ae8135ff99`](https://github.com/tyson-hu/Eazy-Review/commit/32b13265c7ce57a66876ca4153d584ae8135ff99).
+Its policies, grants, authorization behavior, and regression suite were
+accepted locally and on an explicitly authorized staging project.
+
+That is not the same as saying the app used Supabase. Expo remained
+disconnected. Task 13 seed data had not started. No production database was
+contacted.
+
+## What Task 12 was trying to achieve
+
+The shortest description of Task 12 is "add RLS," but that leaves out half of
+the security boundary.
+
+Supabase's Data API relies on two PostgreSQL controls:
+
+```text
+Object privileges
+  Can this role attempt SELECT, INSERT, UPDATE, or DELETE on this table?
+          ↓
+Row Level Security policies
+  Which rows may this role see or change for this operation?
+          ↓
+Schema rules and triggers
+  Is the resulting data valid, and what server-owned effects must run?
+```
+
+A request has to pass every relevant layer. A correct policy cannot compensate
+for a missing grant because PostgreSQL rejects the operation before the policy
+can make it useful. A broad grant does not replace a policy because the grant
+answers only whether the operation may reach the table, not which rows it may
+touch.
+
+Task 12 therefore had four connected goals:
+
+1. define complete policies for anonymous catalog reads, private profiles, and
+   owner-only **My Rating** rows;
+2. erase inherited or stale privileges before rebuilding an exact role and
+   column allowlist;
+3. prove both allowed and denied behavior, including failures at each separate
+   control layer; and
+4. apply that one forward-only migration to staging without seeds, user roles,
+   fixture residue, or production contact.
+
+The final migration contains 16 policies. Ten cover the public catalog for
+`anon` and `authenticated`, two protect profiles, and four protect
+`user_ratings`. The same migration then rebuilds table and column privileges
+and reasserts that client roles cannot execute the six Task 11 helper
+functions.
+
+## Authentication and authorization are different questions
+
+Authentication answers:
+
+> Who is making this request?
+
+Authorization answers:
+
+> Given that identity and this operation, what may the requester do?
+
+Supabase Auth can issue a session whose JSON Web Token identifies a user.
+PostgREST validates the token and runs the database request under a PostgreSQL
+role. In Eazy Review's current model:
+
+- an unauthenticated request uses `anon`;
+- a signed-in user request uses `authenticated`;
+- the user's UUID is available to policy code through `auth.uid()`; and
+- trusted backend work may use `service_role`, which is never a frontend
+  credential.
+
+Signing in does not itself grant access to another user's profile, rating, or
+private note. It provides identity evidence that a policy can compare with the
+row's owner.
+
+That distinction becomes concrete in a policy such as:
+
+```sql
+using (
+  (select auth.uid()) is not null
+  and (select auth.uid()) = user_ratings.user_id
+)
+```
+
+The `authenticated` role identifies the class of request. `auth.uid()` narrows
+that class to one user. Both are needed.
+
+## The four PostgreSQL roles that mattered
+
+### `PUBLIC` is a pseudo-role, not the public catalog
+
+PostgreSQL's `PUBLIC` means every role. It is easy to confuse that name with
+"published products," but they are unrelated ideas.
+
+If a table or function privilege leaks through `PUBLIC`, both `anon` and
+`authenticated` can inherit effective access even when their direct grant rows
+look clean. That is why the implementation revoked privileges from `PUBLIC`
+and why its tests checked effective access instead of reading only the obvious
+grant rows.
+
+### `anon` represents an unauthenticated Data API request
+
+`anon` needed a narrow read path:
+
+- published products;
+- images belonging to published products;
+- current Eazy assessments belonging to published products;
+- server-owned aggregates belonging to published products; and
+- offers belonging to published products.
+
+It received no profile access, no raw rating access, no writes, and no helper
+execution.
+
+The word "anonymous" here means the PostgreSQL role used by an unauthenticated
+request. Supabase also supports anonymous Auth users, which still use the
+`authenticated` database role. Eazy Review did not implement anonymous sign-in
+in this task.
+
+### `authenticated` represents a request with a valid user session
+
+`authenticated` received the same published-catalog reads as `anon`, plus
+private owner-scoped access:
+
+- select its own profile;
+- update only its own mutable profile columns;
+- select and delete its own rating rows;
+- insert its own rating for a published product; and
+- update only scores and `private_note` on its own rating while the product
+  remains published.
+
+It could not insert profiles, read another user's `private_note`, change rating
+identity, write aggregate rows, or execute internal helpers.
+
+### `service_role` is a trusted server boundary
+
+`service_role` received `SELECT`, `INSERT`, `UPDATE`, and `DELETE` on the seven
+public tables. The tests used it to prove that trusted rating writes still
+caused Task 11's aggregate triggers to update **Community Score** state.
+
+This was a positive server-path test, not a suggestion to place the credential
+in Expo. Supabase's service role bypasses RLS. Eazy Review's secret scanner and
+security contract therefore treat its key as server-only and forbid it from
+the mobile bundle.
+
+## Reading an RLS policy
+
+An RLS policy attaches to one table and can be limited by operation and role:
+
+```sql
+create policy "authenticated_select_own_profile"
+on public.profiles
+for select
+to authenticated
+using (
+  (select auth.uid()) is not null
+  and (select auth.uid()) = profiles.id
+);
+```
+
+Read that from top to bottom:
+
+- the quoted string is a descriptive policy name;
+- `on public.profiles` identifies the protected table;
+- `for select` limits the policy to reads;
+- `to authenticated` limits it to signed-in Data API requests; and
+- `using (...)` decides which existing rows are visible.
+
+If RLS is enabled but no applicable policy exists, PostgreSQL uses default
+deny. Task 11 relied on that property to keep the new schema locked. Task 12
+replaced the blanket absence of policy with a complete, explicit matrix.
+
+### `USING` asks whether an existing row is eligible
+
+`USING` applies to rows that already exist. It determines which rows can be
+seen by `SELECT` and which existing rows are candidates for `UPDATE` or
+`DELETE`.
+
+For an owner-only rating delete, Eazy Review needed only the old row:
+
+```sql
+create policy "authenticated_delete_own_user_rating"
+on public.user_ratings
+for delete
+to authenticated
+using (
+  (select auth.uid()) is not null
+  and (select auth.uid()) = user_ratings.user_id
+);
+```
+
+If the caller does not own the row, it is not eligible for deletion.
+
+### `WITH CHECK` asks whether a new row state is allowed
+
+`WITH CHECK` applies to a row being inserted or to the result of an update.
+For a new **My Rating** row, Task 12 required both ownership and a published
+product:
+
+```sql
+with check (
+  (select auth.uid()) is not null
+  and (select auth.uid()) = user_ratings.user_id
+  and exists (
+    select 1
+    from public.products as p
+    where p.id = user_ratings.product_id
+      and p.is_published = true
+  )
+)
+```
+
+For an update, Eazy Review used both clauses:
+
+- `USING` ensures the current row belongs to the caller.
+- `WITH CHECK` ensures the resulting row still belongs to the caller and still
+  points to a published product.
+
+That old-row/new-row distinction is why a complete update policy is more than
+"owner equals current user."
+
+## Designing the published catalog boundary
+
+The catalog spans five tables, but publication state lives on `products`.
+Related rows must not become public merely because they exist.
+
+The product policy is direct:
+
+```sql
+using (is_published = true)
+```
+
+The related-table policies use a correlated existence check:
+
+```sql
+using (
+  exists (
+    select 1
+    from public.products as p
+    where p.id = product_images.product_id
+      and p.is_published = true
+  )
+)
+```
+
+The same shape protects offers and aggregate rows. Eazy assessments add one
+more condition:
+
+```sql
+is_current = true
+```
+
+Together, those rules mean:
+
+- an unpublished product is hidden;
+- its images, offers, assessment, and aggregate are hidden with it;
+- an older Eazy assessment remains hidden even when its product is published;
+  and
+- `anon` and `authenticated` see the same public catalog slice.
+
+The migration uses separate policies for the two client roles rather than one
+broad policy. That adds repetition, but it makes the inventory explicit and
+lets the tests prove each role independently.
+
+## Keeping profiles private
+
+An earlier planning version described public profile reads. Before
+implementation, the contract was tightened: profiles became owner-only client
+data.
+
+Task 12 created:
+
+- one `SELECT` policy where `auth.uid() = profiles.id`; and
+- one `UPDATE` policy with that same comparison in both `USING` and
+  `WITH CHECK`.
+
+No anonymous profile policy exists. `anon` also has no profile table grant.
+Authenticated users have no profile `INSERT` grant or policy because Task 11's
+`handle_new_user` trigger owns profile creation when an Auth user is created.
+
+This preserves a useful separation:
+
+```text
+Supabase Auth creates the user
+          ↓
+trusted database trigger creates profiles(id)
+          ↓
+the signed-in owner may read the row
+          ↓
+the owner may update only display_name, username, avatar_url
+```
+
+The client cannot choose a different profile identity or create a detached
+profile row.
+
+## Protecting My Rating and private notes
+
+Raw `user_ratings` rows are private. They contain the six score inputs and an
+optional `private_note`; they are not the public source for **Community
+Score**.
+
+Task 12 gave an authenticated user four owner-scoped operations:
+
+- `SELECT` its own rows;
+- `INSERT` its own row for a published product;
+- `UPDATE` its own mutable values while the product remains published; and
+- `DELETE` its own row, even after the product is unpublished.
+
+The final condition is deliberate. Once a product is unpublished, the user
+cannot create or continue editing a rating for it, but may still remove
+existing personal data. Delete checks only ownership.
+
+There is no public `user_ratings SELECT` policy. Other users therefore cannot
+read another person's individual score inputs or `private_note`. Public
+community information comes from the server-maintained `rating_aggregates`
+row.
+
+## Why RLS was not enough
+
+Imagine a correct owner-only update policy on `profiles`, paired with a
+table-wide `UPDATE` grant.
+
+RLS can restrict the row, but the broad grant still says the role may update
+every column. The user might remain confined to their own profile yet attempt
+to rewrite server-owned identity or audit fields on that row.
+
+Task 12 used column grants to narrow the operation:
+
+```sql
+grant update (display_name, username, avatar_url)
+  on table public.profiles
+  to authenticated;
+```
+
+For ratings, the insert allowlist includes:
+
+- `product_id`;
+- `user_id`;
+- the six score columns; and
+- `private_note`.
+
+The update allowlist includes only:
+
+- the six score columns; and
+- `private_note`.
+
+It excludes rating `id`, both identity columns on update, `created_at`, and
+`updated_at`.
+
+The layers now divide responsibility:
+
+```text
+Column grant
+  Which fields may this operation write?
+
+RLS policy
+  Which row may this user write, and is the result authorized?
+
+Constraint or trigger
+  Is the value valid, is identity immutable, and is updated_at server-owned?
+```
+
+Defense in depth matters because these controls fail in different ways. A
+mistake in one layer should not silently erase the other boundaries.
+
+## Why the migration revoked before it granted
+
+Privileges accumulate. Adding a narrow column grant does not necessarily
+remove an older table-wide grant, and a direct role inventory can miss access
+inherited through `PUBLIC`.
+
+The migration therefore began its privilege phase by revoking all table
+privileges on the seven public tables from:
+
+- `PUBLIC`;
+- `anon`;
+- `authenticated`; and
+- `service_role`.
+
+It then rebuilt the complete allowlist from a known empty state.
+
+Revoking and regranting `service_role` may look unnecessary because it is
+trusted, but it makes the migration deterministic across environments. The
+result does not depend on whichever project defaults or prior grants happened
+to exist.
+
+This order also matches the Task 11/Task 12 sequencing decision:
+
+```text
+Task 11
+  create schema → enable RLS → revoke client access
+
+Task 12
+  create complete policies → clear privileges → grant exact allowlist
+```
+
+At no committed stage did positive client access precede its authorizing
+policies.
+
+## The exact allowlist
+
+After the rebuild, both client roles can select the published catalog tables:
+
+- `products`;
+- `product_images`;
+- `eazy_assessments`;
+- `rating_aggregates`; and
+- `product_offers`.
+
+Only `authenticated` receives:
+
+- `SELECT` on `profiles`;
+- column-level `UPDATE` on the three mutable profile fields;
+- `SELECT` and `DELETE` on `user_ratings`;
+- column-level rating `INSERT`; and
+- score/private-note-only rating `UPDATE`.
+
+Neither client role receives:
+
+- profile insert;
+- catalog writes;
+- aggregate writes;
+- raw-rating access outside the owner policies;
+- rating identity or audit-field updates; or
+- `EXECUTE` on Task 11's six public-schema helper functions.
+
+`service_role` receives table CRUD on all seven tables, but its credential
+remains outside Expo.
+
+## Preserving the internal function boundary
+
+Task 11 used functions and triggers to own profile creation, timestamps,
+identity immutability, and aggregate refresh. PostgreSQL grants function
+`EXECUTE` to `PUBLIC` by default unless that privilege is revoked or default
+privileges are changed.
+
+Task 12 did not assume the earlier environment was still correct. It
+reasserted `REVOKE EXECUTE` from `PUBLIC`, `anon`, and `authenticated` for:
+
+- `set_updated_at`;
+- `reject_user_rating_identity_change`;
+- `handle_new_user`;
+- `create_zero_rating_aggregate`;
+- `refresh_rating_aggregates`; and
+- `handle_user_rating_change`.
+
+The Data API did not gain a callable aggregate-refresh escape hatch. Rating
+changes still reach those helpers only through the database's trusted trigger
+path.
+
+## One forward-only migration
+
+Task 12 did not edit any of Task 11's four accepted migrations. It added:
+
+```text
+supabase/migrations/
+├── 20260727213403_task_11_core_schema.sql
+├── 20260728001835_task_11_review_hardening.sql
+├── 20260728115256_prevent_rating_lock_inversion.sql
+├── 20260728162303_order_rating_advisory_lock_keys.sql
+└── 20260729214448_task_12_least_privilege_rls_grants.sql
+```
+
+The fifth migration:
+
+1. re-enables RLS defensively on all seven tables;
+2. creates the 16 policies;
+3. revokes every relevant table privilege from the four roles;
+4. grants the exact table and column allowlists; and
+5. reasserts helper-function execution denial.
+
+It adds no table, RPC, seed row, client library, environment variable, or
+aggregate redesign.
+
+Forward-only migration history matters because staging had already accepted
+Task 11. Editing an applied file would make a fresh local reset describe one
+history while the hosted database retained another.
+
+## Testing the definition, not only the happy path
+
+The local database suite grew to seven pgTAP files and 418 assertions:
+
+| File | Assertions | What it proves |
+| --- | ---: | --- |
+| `security.test.sql` | 268 | exact policy, table/column privilege, helper execution, and service-role inventory |
+| `authorization.test.sql` | 70 | behavior as anonymous, owners, other users, missing/malformed claims, and service role |
+| five Task 11 test files | 80 | schema, profiles, ratings, aggregates, offers, and images still behave correctly |
+
+Every SQL test begins a transaction and rolls it back. Tests can create
+deterministic fixtures without turning them into seed data.
+
+### Inventory tests proved the security objects exactly
+
+The 268 security assertions were intentionally broader than "RLS is enabled."
+They covered:
+
+- all expected policy names, commands, roles, and expressions;
+- effective table privileges for the role/table/operation matrix;
+- authenticated column-level insert and update privileges;
+- denial of client helper execution; and
+- the server-only role attribute needed for the trusted path.
+
+Exact inventory tests catch two opposite errors:
+
+- a missing policy or grant that breaks intended behavior; and
+- an extra policy or privilege that expands access without appearing in the
+  product contract.
+
+### Behavior tests ran as the real database roles
+
+The 70 authorization scenarios changed the local transaction's role and JWT
+claims to exercise the same policy inputs used by Data API requests.
+
+They proved that:
+
+- `anon` sees published catalog rows and not unpublished related rows;
+- `anon` cannot see profiles or raw ratings and cannot create ratings;
+- an authenticated owner sees its own profile and rating;
+- another authenticated user cannot see the owner's `private_note`;
+- cross-user update and delete attempts do not alter the victim's row;
+- profile writes are limited to the owner and mutable columns;
+- rating insert and update reject unpublished products;
+- an owner can still delete a rating after unpublish;
+- missing claims authorize nothing;
+- a malformed subject fails rather than accidentally becoming an identity; and
+- `service_role` table CRUD still drives aggregate trigger side effects.
+
+### One test deliberately removed an intended grant
+
+A particularly useful scenario revoked `anon`'s product `SELECT` grant while
+the published-product policy still existed. The read failed.
+
+The test then restored the grant for the rest of the transaction.
+
+That failure proves the policy did not secretly replace object privileges. It
+also makes future test failures easier to interpret: "permission denied" before
+row filtering and "zero visible rows" under RLS are different security
+outcomes.
+
+### Task 11's concurrency races still passed
+
+Task 12 changed who could reach rating rows, not how aggregates were
+serialized. Even so, the full local database gate reran both real concurrency
+races from Task 11:
+
+- overlapping inserts for one product; and
+- overlapping multi-product deletes in the order that had previously exposed
+  lock inversion.
+
+Both passed. The final authorization layer did not break **Community Score**
+correctness or the advisory-lock ordering repair.
+
+## Staging acceptance without leaving test users behind
+
+Staging promotion was separately authorized. Before applying anything, the
+operator verified the target and its healthy Task 11 baseline. Only the fifth
+migration was pending.
+
+The accepted sequence proved:
+
+- all five local and staging migration timestamps matched after apply;
+- a post-apply dry run was empty;
+- linked security advisors reported no issue;
+- public-schema lint reported no error;
+- all 16 policies matched;
+- effective table and column allowlists matched;
+- client helper execution remained denied;
+- anonymous and owner behavior matched local tests;
+- unpublished-product rules held;
+- `service_role` rating writes produced the expected aggregate effects; and
+- no fixture residue remained.
+
+The hosted runner did not provide the pgTAP functions used by the local suite.
+Repeating the same unavailable approach would not have improved confidence.
+The approved fallback executed direct catalog and behavior assertions inside a
+caught subtransaction, then rolled the fixtures back.
+
+That distinction is important:
+
+- local acceptance used the complete reusable pgTAP suite;
+- staging acceptance used equivalent direct checks because the linked pgTAP
+  surface was unavailable; and
+- neither path required deleting Auth users or preserving test rows.
+
+Production remained outside the task and was not contacted.
+
+## The validation blocker was outside the SQL
+
+The Task 12 database packet passed, but the repository-wide gate still found a
+dependency alignment problem. Expo's canonical alignment workflow updated
+seven patch-level packages within the existing Expo SDK 57 contract. A bounded
+npm audit then applied only non-breaking transitive fixes.
+
+The install also exposed a supply-chain review boundary: two dependency
+lifecycle scripts needed explicit, version-pinned approval after inspection.
+The final remediation:
+
+- declared npm `>=11.16.0 <12`;
+- pinned CI to npm `11.17.0`;
+- enabled strict allow-script enforcement; and
+- recorded the two reviewed package/version entries.
+
+The only PR review thread concerned enforcing that npm policy consistently. It
+was fixed and resolved without changing the Task 12 migration or database
+tests.
+
+This belongs in the Task 12 record because the task could not honestly be
+called complete while its required repository gate failed. It should not be
+misdescribed as an RLS defect: the SQL needed no correction from that review.
+
+## What the final evidence proved
+
+By the reviewed head, the evidence chain was:
+
+```text
+Task and data-model contract
+  ↓
+one forward-only policy/grant migration
+  ↓
+exact catalog and effective-privilege inventory
+  ↓
+role-and-claim authorization behavior
+  ↓
+Task 11 schema and concurrency regressions
+  ↓
+secret scan and full repository gate
+  ↓
+target-verified, transaction-rolled-back staging acceptance
+  ↓
+reviewed PR merged without changing the accepted head
+```
+
+Specifically:
+
+- 16 least-privilege policies existed with the expected roles and operations;
+- `PUBLIC` contributed no client table or helper access;
+- anonymous access stopped at published catalog data;
+- profiles and raw ratings remained owner-only;
+- rating identity, audit fields, and aggregate rows remained client-protected;
+- public **Community Score** reads came from server-owned aggregates;
+- missing grants and failed policies were tested as separate controls;
+- the server-only path remained functional without exposing its credential;
+- 418 pgTAP assertions and two concurrency races passed locally;
+- equivalent authorization acceptance passed on staging without residue;
+- Expo Doctor passed 20 of 20 checks and the repository gate passed;
+- PR #23 merged at the unchanged reviewed head; and
+- Expo, Task 13, and production remained untouched.
+
+## Reading the implementation yourself
+
+Start with the contract, not the SQL:
+
+1. Read
+   [`docs/TASKS.md`](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/TASKS.md)
+   for the role matrix, scenarios, and environment boundary.
+2. Read
+   [`docs/DATA_MODEL.md`](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/DATA_MODEL.md)
+   for the exact table, column, and RLS allowlists.
+3. Read the
+   [forward-only migration](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/migrations/20260729214448_task_12_least_privilege_rls_grants.sql)
+   in policy → revoke → grant → helper-denial order.
+4. Read
+   [`security.test.sql`](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/security.test.sql)
+   for exact structure and effective privilege assertions.
+5. Read
+   [`authorization.test.sql`](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/authorization.test.sql)
+   for request-role and JWT-claim behavior.
+6. Finish with
+   [PR #23](https://github.com/tyson-hu/Eazy-Review/pull/23) to see the review
+   and merge boundary around the accepted implementation.
+
+When auditing another project, resist starting with the policy names alone.
+Trace one product action through all four questions:
+
+```text
+Which database role receives the request?
+Which object and column privileges does it effectively have?
+Which rows survive the applicable USING / WITH CHECK policy?
+Which constraints and trusted triggers govern the accepted change?
+```
+
+Then write at least one test for the intended success, the nearest
+unauthorized identity, the wrong row state, and the missing-grant case.
+
+## Troubleshooting authorization failures
+
+### "Permission denied" even though the policy looks correct
+
+Check the effective table and column privileges first. The role may not have
+the object grant needed to reach the policy.
+
+Use PostgreSQL's privilege inquiry functions in tests rather than assuming a
+direct grant row tells the whole story.
+
+### A query returns zero rows instead of an error
+
+That often means the role reached the table but RLS filtered every row. Verify:
+
+- the active database role;
+- the JWT claims seen by `auth.uid()`;
+- the target row's ownership or publication state; and
+- the policy's `TO` role and operation.
+
+Zero rows can be the correct denial result.
+
+### `UPDATE` does nothing even though `WITH CHECK` passes
+
+An update also needs an eligible existing row. Inspect the `USING` expression
+and confirm a matching `SELECT` policy exists. Then check whether the role has
+`UPDATE` on the specific columns being changed.
+
+### Related catalog rows leak after a product is unpublished
+
+Inspect the related-table policy. It should derive visibility from the parent
+product's `is_published` state, not merely from the child row's existence.
+Eazy assessments also need `is_current = true`.
+
+### A column grant appears narrow but a forbidden field still updates
+
+Look for an inherited or old table-wide grant, especially through `PUBLIC`.
+Privileges are cumulative. Revoke the broad source before relying on the
+narrow column allowlist, and test effective privileges.
+
+### Local pgTAP passes but linked pgTAP cannot run
+
+First determine whether the hosted runner actually exposes the same pgTAP
+functions. After two equivalent unavailable attempts, use a reviewed direct
+catalog and behavior packet inside a transaction or caught subtransaction.
+Prove rollback and zero residue explicitly.
+
+Do not weaken the acceptance claims. Record which environment used which test
+mechanism.
+
+### A trusted server test works in Expo
+
+Stop. A service-role or secret key in a client bundle is a security defect, not
+a successful shortcut. The mobile app may eventually use a project URL and
+publishable key with RLS; privileged credentials belong only in protected
+server environments.
+
+## What is deliberately not done yet
+
+Task 12 authorized database access patterns. It did not make the app use them.
+
+Still outside this entry:
+
+- **Task 13:** trusted product seed data;
+- **Task 14:** real Browse and Product Detail reads;
+- **Task 15:** sign-in, sessions, password recovery, and protected account
+  deletion;
+- **Task 16:** Expo-side **My Rating** persistence and Rated Products;
+- **Task 17:** final server-owned **Community Score** hardening;
+- **Task 18:** TanStack Query caching and auth-transition behavior;
+- production Supabase creation, configuration, migration promotion, recovery,
+  observability, and release validation; and
+- any personal-blog companion post.
+
+No seed row, Supabase client, app environment variable, authentication screen,
+or production resource was added by Task 12.
+
+## Questions this entry answers
+
+1. Why do Supabase Data API grants and RLS policies protect different layers?
+2. What do `anon`, `authenticated`, `PUBLIC`, and `service_role` mean?
+3. How do `USING` and `WITH CHECK` differ for select, insert, update, and
+   delete?
+4. Why does an owner-only row policy still need column-level grants?
+5. Why did the migration revoke all privileges before rebuilding the allowlist?
+6. How did related catalog rows inherit publication visibility from products?
+7. Why can an owner delete a rating after unpublish but not insert or update
+   one?
+8. Why are raw ratings and `private_note` private while **Community Score**
+   remains public?
+9. How did the tests prove both exact security objects and real authorization
+   behavior?
+10. What evidence justified staging acceptance when linked pgTAP functions
+    were unavailable?
+11. Which validation blocker was unrelated to the SQL, and why was it still
+    part of task completion?
+12. What remains before Expo or production can use this backend?
+
+## Sources
+
+Eazy Review implementation claims in this entry are pinned to merge
+[`32b13265c7ce57a66876ca4153d584ae8135ff99`](https://github.com/tyson-hu/Eazy-Review/commit/32b13265c7ce57a66876ca4153d584ae8135ff99),
+its
+[Task 12 migration](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/migrations/20260729214448_task_12_least_privilege_rls_grants.sql),
+the
+[security inventory](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/security.test.sql),
+the
+[authorization behavior suite](https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/supabase/tests/database/authorization.test.sql),
+and
+[PR #23](https://github.com/tyson-hu/Eazy-Review/pull/23).
+
+General platform concepts were checked against Supabase's current
+[Data API security](https://supabase.com/docs/guides/api/securing-your-api),
+[Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security),
+[Postgres role](https://supabase.com/docs/guides/database/postgres/roles), and
+[database testing](https://supabase.com/docs/guides/database/testing)
+documentation, plus PostgreSQL's current
+[`CREATE POLICY`](https://www.postgresql.org/docs/current/sql-createpolicy.html),
+[privilege](https://www.postgresql.org/docs/current/ddl-priv.html),
+[`GRANT`](https://www.postgresql.org/docs/current/sql-grant.html), and
+[privilege inquiry](https://www.postgresql.org/docs/current/functions-info.html)
+references.

@@ -7,10 +7,11 @@
 > M4 authorized: 2026-07-26
 > M4 completed: 2026-07-26
 > M5 authorized: 2026-07-29
+> M5 updated: 2026-07-30
 > Maintenance updated: 2026-07-29
 > Workspace: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab`  
 > Detailed plan: `/Users/tysonhu/Documents/EazyCopProjects/eazy-review-lab/PLAN.md`  
-> State: **M5 active — Supabase From Start nested under Journal; Task 11 entry awaiting review**
+> State: **M5 active — Task 11 and Task 12 entries awaiting review**
 
 ## Start Here
 
@@ -25,9 +26,10 @@ also deployed and verified.
 
 **M5 is active locally.** It adds a permanent **Supabase From Start** subsection
 under the existing Journal, covering Eazy Review Task 11 through a future
-verified production implementation. The Task 11 entry is an AI-assisted private
-draft. Do not add `publishedAt`, `humanReviewedAt`, or `reviewedBy`, link it
-from the public subsection overview, merge, deploy, or publish it until Tyson
+verified production implementation. The Task 11 foundation and Task 12
+authorization entries are AI-assisted private drafts. Do not add
+`publishedAt`, `humanReviewedAt`, or `reviewedBy`, link either entry from the
+public subsection overview, merge, deploy, or publish either entry until Tyson
 Hu approves the final text and actual approval timestamp.
 
 The Lab journal is the fully detailed technical account. A separate
@@ -35,7 +37,7 @@ personal-blog post may present the Supabase implementation more generally and
 link back to the Lab, but personal-blog implementation and publication are not
 part of this workspace or authorization.
 
-Do not begin Task 12 or later app implementation, contact a database
+Do not begin Task 13 or later app implementation, contact a database
 environment, or begin other deferred work (R2, analytics, comments, auth, CMS,
 automatic article generation, cross-repo sync, or personal-blog
 implementation) without the separate authority required for that work.
@@ -47,15 +49,22 @@ implementation) without the separate authority required for that work.
   `src/content/docs/journal/supabase-from-start/index.mdx`
 - Private draft:
   `src/content/docs/journal/supabase-from-start/task-11-supabase-foundation.mdx`
+- Private Task 12 draft:
+  `src/content/docs/journal/supabase-from-start/task-12-least-privilege-authorization.mdx`
 - Template: `templates/journal.mdx`
 - Proposed draft route:
   `/journal/supabase-from-start/task-11-supabase-foundation/`
-- App evidence pin:
+- Proposed Task 12 route:
+  `/journal/supabase-from-start/task-12-least-privilege-authorization/`
+- Task 11 app evidence pin:
   `b407c08529d7d0a332a4ef772d076cf7164940ea`
+- Task 12 app evidence pin:
+  `32b13265c7ce57a66876ca4153d584ae8135ff99`
 - Task 11: merged; local and authorized staging acceptance complete
-- Task 12: not started
+- Task 12: merged; local and authorized staging acceptance complete
+- Task 13: not started
 - Production Supabase: not touched
-- Current gate: Tyson Hu technical/editorial review
+- Current gate: Tyson Hu technical/editorial review of both private drafts
 - Current revised dev preview:
   https://m5-supabase-from-start-review-eazy-review-lab.tyson-ec2.workers.dev/journal/supabase-from-start/
 - Current Task 11 review URL:
@@ -68,25 +77,36 @@ implementation) without the separate authority required for that work.
   Task 11 article in this no-index preview. The tracked source remains
   `draft: true`; the review artifact adds a visible preview-only warning and
   receives no production traffic.
+- Task 12 preview boundary: no Task 12 review artifact has been uploaded or
+  deployed. Its tracked source remains `draft: true` and private.
 - Remote smoke check: the friendly alias serves the article after propagation
   with its exact title, preview-only warning, and `noindex, nofollow`
 - Source publication, merge, production deployment, and production rollout:
   not performed
 
-The long-form entry explains Docker, the Supabase CLI/local services, all four
-Task 11 migrations, all seven tables, constraints versus grants/RLS, the six
-internal functions, **Community Score** aggregation, advisory-lock concurrency,
-183 pgTAP assertions, two real concurrency races, 24 secret-scanner
-regressions, staging promotion, troubleshooting, and a reusable method for
-auditing agent work. Future series entries remain implementation-gated.
+The Task 11 long-form entry explains Docker, the Supabase CLI/local services,
+all four Task 11 migrations, all seven tables, constraints versus grants/RLS,
+the six internal functions, **Community Score** aggregation, advisory-lock
+concurrency, 183 pgTAP assertions, two real concurrency races, 24
+secret-scanner regressions, staging promotion, troubleshooting, and a reusable
+method for auditing agent work.
+
+The Task 12 long-form entry explains grants versus RLS, `PUBLIC`, `anon`,
+`authenticated`, and `service_role`, `USING` versus `WITH CHECK`, 16 policies,
+table and column allowlists, private profiles and **My Rating**, public
+**Community Score** aggregates, 7 pgTAP files / 418 assertions, direct
+transaction-rolled-back staging acceptance, the Expo/npm validation blocker,
+and the unchanged Expo/production boundary. Future series entries remain
+implementation-gated.
 
 ### M5 local validation
 
 - `git diff --check` — pass
 - `node scripts/validate-publication.mjs` — pass
-- `pnpm run check` — pass outside the managed sandbox; loopback Pagefind and
-  Wrangler tests require localhost bind permission
-- `SITE_INDEXABLE=true pnpm run check` — pass outside the managed sandbox
+- `pnpm run check` — pass outside the managed sandbox on 2026-07-30; loopback
+  Pagefind and Wrangler tests require localhost bind permission
+- `SITE_INDEXABLE=true pnpm run check` — pass outside the managed sandbox on
+  2026-07-30
 - Information architecture — one Journal group; **Supabase From Start**
   appears as its labeled subsection; the legacy Engineering Journal route is
   absent
@@ -94,12 +114,12 @@ auditing agent work. Future series entries remain implementation-gated.
   noindex/disallow
 - Production-indexable build — Journal subsection present; indexable HTML and
   allow/sitemap contract pass
-- Task 11 draft — absent from generated files, search, feeds, sitemap, and
-  agent surfaces in both build modes
+- Task 11 and Task 12 drafts — absent from generated files, search, feeds,
+  sitemap, and agent surfaces in both build modes
 - M2 frozen evidence/generated visuals — freshness and invariant checks pass
-- Adjacent app — inspected read-only; clean checkout at Task 11 head
-  `d089f3a7da57f7d096032d0188badadf7864b3bc`, with `origin/master` at merge
-  `b407c08529d7d0a332a4ef772d076cf7164940ea`
+- Adjacent app — inspected read-only; clean Task 12 branch at reviewed head
+  `211509e7347ff25e6a08bda765a9c7436b79f2f8`, with `origin/master` at Task 12
+  merge `32b13265c7ce57a66876ca4153d584ae8135ff99`
 
 ## Repository vs deployment state
 

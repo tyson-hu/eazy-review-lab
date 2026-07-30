@@ -158,12 +158,12 @@ drafting, review, publication, correction, validation, and rollback.
 
 ## M5 Supabase journal
 
-The active M5 plan is in `PLAN.md`, section 16. The first Task 11 entry is a
-private draft under
+The active M5 plan is in `PLAN.md`, section 16. The Task 11 foundation and
+Task 12 authorization entries are private drafts under
 `src/content/docs/journal/supabase-from-start/`. Do not add publication
-metadata, link the draft from the public **Supabase From Start** overview,
+metadata, link either draft from the public **Supabase From Start** overview,
 contact the application repository remotely, implement the personal-blog
-companion, or begin Task 12. Continue the series only from accepted app
+companion, or begin Task 13. Continue the series only from accepted app
 implementation and environment-specific evidence.
 
 ## Don't

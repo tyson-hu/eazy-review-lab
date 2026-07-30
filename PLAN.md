@@ -1,6 +1,6 @@
 # Eazy Review Lab — Approved Implementation Plan
 
-> Status: M5 active — Supabase From Start added under Journal; Task 11 entry awaiting review
+> Status: M5 active — Task 11 and Task 12 Supabase entries awaiting review
 > Plan date: 2026-07-26  
 > Revision basis: Final architecture review — substantially approved with targeted edits  
 > Revision date: 2026-07-26  
@@ -1355,6 +1355,14 @@ The first entry is:
 Its proposed canonical route is
 `/journal/supabase-from-start/task-11-supabase-foundation/`.
 
+The second entry is:
+
+> **Inside Task 12: Opening Eazy Review's Supabase Data API Without Opening
+> Everything**
+
+Its proposed canonical route is
+`/journal/supabase-from-start/task-12-least-privilege-authorization/`.
+
 ### M5.2 Owned work and boundaries
 
 M5 owns:
@@ -1366,6 +1374,10 @@ M5 owns:
   local service stack, PostgreSQL, migrations, schema design, constraints,
   grants, RLS, functions, triggers, advisory locks, concurrency, pgTAP, secret
   scanning, staging promotion, and evidence review;
+- a Task 12 authorization entry that explains PostgreSQL roles, Data API
+  grants versus RLS, `USING` versus `WITH CHECK`, column privileges, owner-only
+  data, public aggregates, positive and negative authorization tests, staging
+  fallback verification, and the repository-wide validation blocker;
 - stable draft-exclusion and, after approval, publication-surface tests;
 - one future entry for each materially distinct Supabase implementation stage;
   and
@@ -1375,7 +1387,7 @@ M5 owns:
 M5 does not own:
 
 - any change to the adjacent Eazy Review app repository;
-- authorization to begin Task 12 or any later app task;
+- authorization to begin Task 13 or any later app task;
 - access to a local, staging, or production database;
 - creation, linking, migration, seeding, or configuration of a hosted Supabase
   project;
@@ -1484,10 +1496,14 @@ documentation. The entry needs both.
 - Task 11 source of truth:
   `b407c08529d7d0a332a4ef772d076cf7164940ea`
 - Task 11 state: merged and accepted locally and in authorized staging
-- Task 12 state: not started
+- Task 12 source of truth:
+  `32b13265c7ce57a66876ca4153d584ae8135ff99`
+- Task 12 state: merged and accepted locally and in authorized staging
+- Task 13 state: not started
 - Production state: not touched
 - `Journal / Supabase From Start` subsection: implemented locally
 - Task 11 entry: private draft; technical/editorial review pending
+- Task 12 entry: private draft; technical/editorial review pending
 - Publication metadata: intentionally absent
 - Merge, deployment, and production publication: not authorized by this slice
 
@@ -1509,6 +1525,21 @@ The initial Task 11 slice is ready for editorial review when:
   agent surfaces while `draft: true`;
 - normal and indexable local validation pass;
 - frozen M2 evidence and generated visuals remain unchanged; and
+- the adjacent app repository remains untouched.
+
+The Task 12 slice is ready for editorial review when:
+
+- the new entry is pinned to Task 12 merge
+  `32b13265c7ce57a66876ca4153d584ae8135ff99`;
+- it explains the separate grant and RLS layers, all four relevant roles,
+  `USING` versus `WITH CHECK`, the 16-policy matrix, column-level write grants,
+  helper denial, local and staging tests, and the non-SQL validation blocker;
+- it accurately records 7 pgTAP files / 418 assertions, both retained
+  concurrency races, the linked pgTAP fallback, zero staging fixture residue,
+  Expo remaining disconnected, and production remaining untouched;
+- its slug is included in stable draft-exclusion checks and remains absent
+  from every generated public surface;
+- normal and indexable local validation pass; and
 - the adjacent app repository remains untouched.
 
 M5 as a whole is complete only when the series reaches the actual verified
