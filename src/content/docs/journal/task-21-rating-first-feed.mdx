@@ -1,0 +1,115 @@
+---
+title: "Task 21: From Browse Clone to Rating-First Feed"
+description: "How Eazy Review replaced its Feed placeholder with a rating-first scoreboard and a small, flexible collection model."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - feed
+  - product-design
+  - supabase
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 21 implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/92e7ce318ef52b76fccd8e7b699fad0ea0425195
+  - label: "Task 21 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/52
+  - label: "Feed scoreboard decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/92e7ce318ef52b76fccd8e7b699fad0ea0425195/docs/decisions/2026-09-03-feed-scoreboard-layout.md
+  - label: "Curated Feed collections decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/92e7ce318ef52b76fccd8e7b699fad0ea0425195/docs/decisions/2026-09-03-curated-feed-collections.md
+  - label: "Task 21 web-preview evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/92e7ce318ef52b76fccd8e7b699fad0ea0425195/docs/evidence/task-21-real-feed-mvp/RESULT.md
+  - label: "Curated-caption review finding"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/52#discussion_r3930557535
+  - label: "Feed accessibility review finding"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/52#discussion_r3930557541
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article records Task 21 at commit
+`92e7ce318ef52b76fccd8e7b699fad0ea0425195`; it does not claim that the pull
+request is accepted, merged, or released.
+
+## What I worked on
+
+Task 21 replaces Eazy Review's placeholder Feed with real product discovery.
+The first implementation derived Newly Added, Best Eazy Scores, and Most Rated
+from the same published catalog used by Browse. That made the data truthful,
+but it left the Feed looking like Browse with its search bar removed.
+
+The current pull request turns the Feed into a rating-first scoreboard and
+adds one deliberately small path for hand-picked collections. The Feed remains
+anonymous, and every product still opens Product Detail instead of adding a
+second rating flow.
+
+## Problem discovered
+
+Reusing Browse's full `ProductCard` stack solved the placeholder problem but
+not the product-design problem. Browse is for searching a catalog; Feed should
+help people scan why products are worth attention. With the same cards in both
+tabs, that distinction was not visible.
+
+The Feed also needed room for an editorial perspective such as Editor's Picks
+without turning Task 21 into a rule engine, content-management system, or
+admin dashboard. Computed rankings and human-picked series have different
+owners, so forcing both into either code or database configuration would make
+one of them harder to maintain.
+
+## Decision made
+
+The Feed now uses one spotlight card for the first product in the first
+populated section, followed by compact rows inside bordered lists. Newly Added
+rows remain unnumbered because recency is not a score. Ranked sections use
+numbers and label the signal they expose: Eazy Score for Best Eazy Scores and
+Community Score plus rating count for Most Rated.
+
+Section ownership stays simple. Code owns automatic sections and their
+selection rules. Supabase rows own published curated collections, their order,
+and their product IDs. Both kinds of section share the same presentation,
+five-product cap, published catalog, and duplicate-hiding behavior. Missing or
+unpublished products fall out during catalog resolution, and a failed
+collection request falls back to automatic sections rather than taking down
+the Feed.
+
+This creates flexibility without adding a client write path, database rule
+engine, or in-app editor. People can maintain curated collections through the
+existing SQL, seed, or Supabase Studio workflows until a later task proves
+that dedicated tooling is needed.
+
+## Evidence captured
+
+The Task 21 evidence report records the redesigned Feed against a local catalog
+of 27 published products at a 393×852 mobile-web viewport. The checked journey
+covered the Newly Added spotlight, ranked rows, the seeded Editor's Picks
+collection, and navigation from both automatic and curated sections into
+Product Detail.
+
+That report marks the mobile-web run as passing and records focused Feed tests,
+type checking, linting, and database tests. GitHub also reports passing Expo CI
+and Database CI for the exact draft source commit. These results demonstrate
+the tested web and automated paths only: iOS Simulator was not run, a physical
+device was not tested, and Dynamic Type was not exercised.
+
+## Result
+
+At this snapshot, pull request #52 is open and mergeable, but Task 21 is still
+in progress. Automated review has two unresolved P2 findings. One asks the
+implementation to enforce the rule that curated captions identify a list as
+hand-picked instead of allowing unsupported claims such as Trending. The other
+asks the spotlight and ranked rows to expose their rank and score context to
+VoiceOver and TalkBack.
+
+Passing CI and web-preview evidence do not resolve those findings or substitute
+for native and human acceptance. The draft therefore records a promising
+implementation boundary, not a completed feature or release.
+
+## Next question
+
+After the caption and accessibility findings are resolved, does the scoreboard
+remain clear and scannable under native Dynamic Type and human review?

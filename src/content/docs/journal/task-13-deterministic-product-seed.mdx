@@ -1,0 +1,66 @@
+---
+title: "Task 13: Creating a Deterministic Product Seed"
+description: "How two canonical products exercised complete and sparse connected-data behavior without inventing a production catalog."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - catalog
+  - supabase
+  - testing
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 13 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/29
+  - label: "Task 13 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/b874a4cc36b1eca0f841c59cca3ad36bf32a4488
+  - label: "Task 13 implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/5096ee068542fd9b16ec1837545e7eb16a568900
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article covers deterministic development
+fixtures, not a complete public inventory.
+
+## What I worked on
+
+Task 13 added two published products to the local Supabase seed. One represented
+a complete product with images, offers, and a current Eazy assessment; the
+other intentionally omitted optional data so connected screens could prove
+sparse behavior.
+
+## Problem discovered
+
+The client foundation needed stable server data, but a large catalog would
+make failures harder to isolate. Reapplying a seed could also drift values or
+duplicate rows unless idempotency and canonical contents were checked on the
+same database.
+
+## Decision made
+
+The task used fixed identifiers and deterministic values, asserted the expected
+rows after reapplication, and left Community Score aggregates trigger-owned.
+It did not add auth users, ratings, production data, or an import pipeline.
+
+## Evidence captured
+
+The implementation commit records the seed and same-database idempotency work.
+Pull request #29 and its merge commit preserve the review and acceptance
+history. The task ledger identifies these two fixtures as the canonical Task
+13 base retained by later catalog expansion.
+
+## Result
+
+Client work gained a small repeatable dataset that could expose missing-image,
+missing-offer, and missing-assessment behavior without network scraping or
+manual setup.
+
+## Next question
+
+How should Expo connect to this database once while keeping public catalog and
+user-scoped state separate?

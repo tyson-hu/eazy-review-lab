@@ -1,0 +1,63 @@
+---
+title: "Task 2: Turning the Starter into an Expo Router App"
+description: "How Eazy Review retained file-based navigation while preparing its own route hierarchy."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - foundation
+  - expo-router
+  - navigation
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Initial Expo Router structure"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/0bbeff2de8ac9dc3386e7a1501d805521f2bc60e
+  - label: "Eazy Review app-shell commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/fd868ea7f2cfa666464dababce7350b85ec083af
+  - label: "Archived Tasks 1–12 implementation record"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/e4cc0e3600f2bf9be72e6f4225dbdd7a5bcc3122/docs/archive/tasks/2026-07-29-pre-review-task-plan.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article records Task 2 from the shared
+foundation history rather than claiming a standalone pull request.
+
+## What I worked on
+
+Task 2 kept Expo Router as the application's navigation owner. The package
+entry pointed to `expo-router/entry`, and the root layout remained the place
+where routes and global application concerns were composed.
+
+## Problem discovered
+
+The generated starter proved file-based routing worked, but its sample route
+names and navigation did not describe Eazy Review. Replacing the router itself
+would add work without solving that product-language mismatch.
+
+## Decision made
+
+The project reused the installed native routing system and changed the route
+tree incrementally. Task 2 verified the router foundation; Task 4 would replace
+the sample destinations with Feed, Browse, and Account.
+
+## Evidence captured
+
+The initial commit records the router entry and root layout. The later app-shell
+commit records the first Eazy Review-specific route hierarchy. The archived
+task plan originally called Task 2 mostly done, while the current ledger later
+corrected that stale label to fully done.
+
+## Result
+
+Navigation stayed on one platform-native path instead of gaining a competing
+router or custom coordinator. That made later product routes ordinary files in
+the same hierarchy.
+
+## Next question
+
+What visual system should those routes share before product screens are added?

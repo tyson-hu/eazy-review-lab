@@ -1,0 +1,61 @@
+---
+title: "Task 3: Establishing the NativeWind Styling Pipeline"
+description: "How Eazy Review configured one utility styling path for its Expo application shell."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - foundation
+  - nativewind
+  - styling
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "NativeWind and app-shell commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/fd868ea7f2cfa666464dababce7350b85ec083af
+  - label: "Archived Tasks 1–12 implementation record"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/e4cc0e3600f2bf9be72e6f4225dbdd7a5bcc3122/docs/archive/tasks/2026-07-29-pre-review-task-plan.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article covers the recorded Task 3
+configuration and makes no claim about later visual acceptance.
+
+## What I worked on
+
+Task 3 added NativeWind and the configuration needed to use it with Expo SDK
+57. The shared app-shell change introduced Tailwind, Babel, and Metro
+configuration, a global stylesheet, and the TypeScript environment declaration.
+
+## Problem discovered
+
+The starter application's styling conventions were not the intended Eazy
+Review component language. Building each screen with unrelated inline styles
+would make the early prototype quick to start but expensive to keep coherent.
+
+## Decision made
+
+The project chose one utility-class pipeline and verified it through the root
+layout and build configuration. The task stopped at the styling foundation;
+reusable components and product-specific presentation remained later work.
+
+## Evidence captured
+
+Commit `fd868ea7f2cfa666464dababce7350b85ec083af` contains the configuration and
+the first components using it. The archived task record names the expected
+files and the repository check as the task's quality boundary.
+
+## Result
+
+The app gained a consistent styling mechanism shared by native and web
+development paths. No second styling dependency or custom theme framework was
+introduced.
+
+## Next question
+
+How should that shared styling foundation express the app's primary
+destinations?

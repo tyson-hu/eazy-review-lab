@@ -1,0 +1,66 @@
+---
+title: "Task 14: Establishing the Connected Client and Query Foundation"
+description: "How one typed Supabase client and TanStack Query lifecycle prepared Eazy Review for real reads."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - supabase
+  - tanstack-query
+  - testing
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 14 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/31
+  - label: "Task 14 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/9d298cfe86779f4f2000dbadf1445b28e7a72580
+  - label: "Connected-client sequencing decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/9d298cfe86779f4f2000dbadf1445b28e7a72580/docs/decisions/2026-07-30-sequence-connected-client-before-screen-integration.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes the shared client
+foundation; Task 15 owns the first screen integration.
+
+## What I worked on
+
+Task 14 added validated public Supabase configuration, one generated database
+type surface, one shared client, TanStack Query providers, connectivity and app
+lifecycle handling, public and user-scoped query-key conventions, and the
+first jest-expo test harness.
+
+## Problem discovered
+
+Connecting Browse directly inside its screen would make environment parsing,
+client creation, cache ownership, connectivity, and UI behavior one change.
+It would also risk leaking user-scoped results through public cache keys.
+
+## Decision made
+
+The project built and tested the connection layer before changing a product
+screen. Public environment values were validated centrally, the service-role
+key stayed outside Expo, and query keys encoded whether data was public or
+owned by a user.
+
+## Evidence captured
+
+The sequencing decision records why foundation preceded screen integration.
+Pull request #31 and its merge commit contain the typed client, providers,
+lifecycle behavior, and frontend test setup. Human acceptance applied to this
+foundation, not yet to real Browse or Product Detail reads.
+
+## Result
+
+Connected features could reuse one client and one query lifecycle rather than
+inventing network ownership per screen. The next task could focus on catalog
+behavior and presentation.
+
+## Next question
+
+Can Browse and Product Detail replace mock lookups while preserving every
+complete, sparse, loading, retry, and offline state?

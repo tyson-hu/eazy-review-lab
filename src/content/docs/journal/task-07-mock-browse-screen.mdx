@@ -1,0 +1,64 @@
+---
+title: "Task 7: Making the Mock Catalog Browsable"
+description: "How Eazy Review built local search, product cards, and explicit screen states before network reads."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - browse
+  - catalog
+  - product-design
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Tasks 6–7 implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/27dccef07af150855bf699940ef089ec96811c54
+  - label: "Deterministic Browse error-state commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/180904dac684a9d4aad1fa65bb7b4247f2a578bd
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article covers the mock Browse phase;
+Task 15 later replaced its catalog reads with Supabase.
+
+## What I worked on
+
+Task 7 turned the eight fixtures into a searchable Browse screen. People could
+filter locally by brand, product name, or SKU, see product cards, reach empty,
+loading, and error states, and open a placeholder Product Detail route.
+
+## Problem discovered
+
+The first product list needed more than a successful render. Without reachable
+non-happy paths, error and empty-state components could exist in source while
+remaining impossible to evaluate. Filter and Sort also appeared in the design
+before their real behavior was defined.
+
+## Decision made
+
+Browse implemented useful local search and navigation, kept Filter and Sort as
+disabled placeholders, and added `__error__` as a deterministic mock trigger.
+The screen also included an end-of-list placeholder required by the recorded
+flow review.
+
+## Evidence captured
+
+The shared Tasks 6–7 commit contains the product list, search, card navigation,
+and state handling. A focused follow-up commit makes the error state directly
+reachable. These commits show implementation; Task 10 later supplied the
+broader UX evidence.
+
+## Result
+
+Browse became the first complete catalog surface without requiring backend
+credentials or network availability. Its deliberate limitations made the next
+screen and later connection work easier to isolate.
+
+## Next question
+
+What information must Product Detail add beyond the summary available on a
+Browse card?

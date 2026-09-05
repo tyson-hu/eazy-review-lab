@@ -1,0 +1,66 @@
+---
+title: "Task 15: Replacing Mock Catalog Reads with Supabase"
+description: "How anonymous Browse and Product Detail moved to one typed public-catalog request per surface."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - catalog
+  - supabase
+  - offline
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 15 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/32
+  - label: "Task 15 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/f7cb8856ccdebece51e007df301e4ce578892c1a
+  - label: "Task 15 acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/f7cb8856ccdebece51e007df301e4ce578892c1a/docs/evidence/task-15-public-catalog/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article reports accepted anonymous
+catalog reads and does not claim later authentication or rating persistence.
+
+## What I worked on
+
+Task 15 replaced mock lookups on Browse and Product Detail with typed Supabase
+queries. Each surface used one request for its public data and normalized the
+database response into the existing UI contracts.
+
+## Problem discovered
+
+Real reads introduced loading, cached refresh, timeout, offline, retry, empty,
+and not-found states that local fixtures could only imitate. Sparse rows also
+needed to remain honest rather than acquiring client-invented images, offers,
+or scores.
+
+## Decision made
+
+The feature kept browsing anonymous, reused the Task 14 client and query
+lifecycle, and preserved screen-facing contracts through a product feature
+slice. My Rating stayed out of the public cache because it is user-scoped and
+belonged to Task 17.
+
+## Evidence captured
+
+Pull request #32 and its merge commit record the connected implementation. The
+evidence report distinguishes automated checks, web behavior, physical iPhone
+LAN reads, development-build cache behavior, and a Metro-independent Release
+cold-start offline/reconnect walk.
+
+## Result
+
+Browse and Product Detail displayed the deterministic published catalog from
+Supabase while retaining the sparse states established during the mock phase.
+Feed remained a placeholder and authentication remained separate.
+
+## Next question
+
+How should the app introduce account state without making public discovery
+depend on signing in?

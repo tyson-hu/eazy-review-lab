@@ -1,0 +1,67 @@
+---
+title: "Task 10: Auditing the Mock Product Journey before Supabase"
+description: "How repeated web and iOS review turned a working prototype into an accepted UX baseline."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - ux-review
+  - accessibility
+  - evidence
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 10 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/11
+  - label: "Task 10 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/20ebfcb98f1bf9fe362d4b1cce21dbafdd5b5948
+  - label: "Task 10 re-audit evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/20ebfcb98f1bf9fe362d4b1cce21dbafdd5b5948/docs/evidence/task-10-reaudit/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article reports the recorded mock-flow
+audit and does not extend its results to connected data or later releases.
+
+## What I worked on
+
+Task 10 reviewed the complete mock Browse → Product Detail → Rate/Edit journey
+on mobile web and iOS. The work captured screenshots, classified findings, and
+corrected navigation, hierarchy, form reachability, product imagery, and
+shared presentation issues.
+
+## Problem discovered
+
+Individual screens passed their implementation checks, but that did not prove
+the journey worked as a system. Back behavior, keyboard obstruction, sticky
+actions, sparse-score copy, and invalid submissions only became clear during
+an interactive walk.
+
+## Decision made
+
+The project treated UX review as its own gate before Supabase. It preserved a
+small evidence set in Git, separated style references from authoritative
+product rules, and remediated findings against the same mock contract rather
+than beginning backend integration early.
+
+## Evidence captured
+
+Pull request #11 records the audit and remediation work. The committed re-audit
+report distinguishes web and iOS observations and retains representative
+screenshots. Those artifacts support the accepted mock-flow baseline, not
+physical-device or production claims for later connected features.
+
+## Result
+
+Tasks 1–10 ended with an accepted, inspectable product journey. That gave the
+database work a stable behavior target instead of asking schema design to
+define the interface by accident.
+
+## Next question
+
+What database foundation can preserve this product model while making public
+catalog data and user ratings secure by default?

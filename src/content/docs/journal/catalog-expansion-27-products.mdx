@@ -1,0 +1,70 @@
+---
+title: "Expanding the Development Catalog to 27 Products"
+description: "How a seed-only data packet added enough reviewed product variety to evaluate Feed without building an importer."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - catalog
+  - seed-data
+  - provenance
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Catalog expansion pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/50
+  - label: "Catalog expansion merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/df92a71cd890c8d60f203e3a38488aab581b5d59
+  - label: "Catalog data implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/ea4b75a656699dbc2a99435f2ec8ec7b541c3500
+  - label: "Pinned product-image commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/788b356109ccadf28b43a65851810aa84bdd33de
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes deterministic
+development seed data and its recorded provenance, not a production catalog or
+general image-rights conclusion.
+
+## What I worked on
+
+The catalog expansion grew the Task 13 seed from two to 27 published products.
+It preserved the original fixtures, added 25 products with official supplied
+Eazy assessments, matched product facts and offers by exact style code, and
+pinned committed product-image URLs to an immutable commit.
+
+## Problem discovered
+
+Two products were enough to prove connected states but not enough to judge a
+Feed containing ranked and repeated catalog sections. Expanding the data could
+easily turn into a scraper, importer, new schema, or production write—none of
+which was required to answer the immediate product question.
+
+## Decision made
+
+The project used one seed-only packet and kept the established schema,
+triggers, RLS, grants, and Task 13 identifiers unchanged. The seed did not
+create users or ratings, did not write aggregates, and did not create an admin
+or import pipeline.
+
+## Evidence captured
+
+Pull request #50 and its merge commit record human acceptance and database
+checks. The implementation commit contains the deterministic data block, while
+the image commit remains reachable because the merge strategy preserved it.
+The task record limits the image use to the maintainer-directed personal-study
+seed context.
+
+## Result
+
+The local catalog became large and varied enough to evaluate Feed composition
+and remeasure Browse scale. Production application remained a separate gate.
+
+## Next question
+
+Does a 27-product catalog cross any measured threshold that justifies moving
+Browse search or pagination to the server?

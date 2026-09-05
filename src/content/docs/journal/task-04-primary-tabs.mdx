@@ -1,0 +1,63 @@
+---
+title: "Task 4: Naming the App through Its Primary Tabs"
+description: "How the starter navigation became Feed, Browse, and Account for the first Eazy Review shell."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - foundation
+  - navigation
+  - product-design
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Eazy Review app-shell commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/fd868ea7f2cfa666464dababce7350b85ec083af
+  - label: "Archived Tasks 1–12 implementation record"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/e4cc0e3600f2bf9be72e6f4225dbdd7a5bcc3122/docs/archive/tasks/2026-07-29-pre-review-task-plan.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes the first tab model;
+later work changed the initial destination from Feed to Browse.
+
+## What I worked on
+
+Task 4 removed the sample Expo tabs and created Eazy Review's first three
+destinations: Feed, Browse, and Account. It also replaced the starter modal and
+route names with product-specific files and icons.
+
+## Problem discovered
+
+A working router still presented a generic starter application. Until the
+top-level destinations matched the product vocabulary, later screens would be
+attached to a navigation model that communicated the wrong priorities.
+
+## Decision made
+
+The application adopted three small tab surfaces and initially redirected the
+root route to Feed. That initial-route choice was not permanent: the later
+post-Task-12 roadmap review made Browse the default while preserving the same
+three destinations.
+
+## Evidence captured
+
+The app-shell commit shows the deleted starter routes and the new Feed, Browse,
+and Account files. The archived task plan records the required tab names and
+root redirect. This is implementation evidence, not proof of the later Browse
+default or current Feed behavior.
+
+## Result
+
+Eazy Review became recognizable at the navigation level before its catalog and
+rating experiences existed. The shell was small enough to evolve without a
+migration to another navigation system.
+
+## Next question
+
+Which presentation elements should be shared across those screens instead of
+rebuilt inside each route?

@@ -1,0 +1,66 @@
+---
+title: "Task 11: Building a Deny-by-Default Supabase Schema"
+description: "How Eazy Review established relational catalog and rating tables with server-owned aggregate updates."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - supabase
+  - postgres
+  - security
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 11 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/22
+  - label: "Task 11 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/b407c08529d7d0a332a4ef772d076cf7164940ea
+  - label: "Tasks 11–12 database acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/evidence/task-11-12-database-acceptance/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article separates Task 11 schema and
+aggregate behavior from the Task 12 client-authorization layer.
+
+## What I worked on
+
+Task 11 created the seven-table Supabase foundation for products, images,
+offers, versioned Eazy assessments, profiles, user ratings, and rating
+aggregates. Database triggers owned Community Score recalculation and profile
+creation, while the initial table posture denied client access.
+
+## Problem discovered
+
+Catalog facts, expert assessment, community aggregation, and private user input
+could not safely share one loose record. Aggregate writes also needed to remain
+correct under concurrent rating changes instead of trusting each client to
+recalculate shared state.
+
+## Decision made
+
+The schema separated those responsibilities and enforced important invariants
+with keys, constraints, triggers, and ordered transaction advisory locks. One
+rating belongs to one user and product; Eazy assessments are versioned; and
+Community Score is derived by PostgreSQL rather than accepted from Expo.
+
+## Evidence captured
+
+Pull request #22 contains the forward migrations, pgTAP coverage, concurrency
+harnesses, and review remediations. The combined acceptance report records
+local and explicitly authorized staging checks. Production was not contacted.
+
+## Result
+
+Eazy Review gained a server-owned data model whose correctness did not depend
+on a well-behaved mobile client. Because clients still had no intended access,
+Task 12 remained necessary before connecting the application.
+
+## Next question
+
+Which exact rows and columns should anonymous and authenticated clients be
+allowed to read or change?

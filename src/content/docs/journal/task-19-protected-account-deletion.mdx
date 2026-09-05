@@ -1,0 +1,73 @@
+---
+title: "Task 19: Protecting Account Deletion End to End"
+description: "How current-password reauthentication, server-derived identity, global revocation, and local settlement bounded self-deletion."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - account
+  - security
+  - edge-functions
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 19 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/43
+  - label: "Task 19 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/ce2f6eccb4b48618094b3eb896470d1aa7003cf5
+  - label: "Task 19 acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/ce2f6eccb4b48618094b3eb896470d1aa7003cf5/docs/evidence/task-19-protected-account-deletion/RESULT.md
+  - label: "Self-deletion architecture decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/ce2f6eccb4b48618094b3eb896470d1aa7003cf5/docs/decisions/2026-07-26-caller-derived-session-aware-self-deletion.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes accepted staging
+evidence; agents and tools did not execute account deletion, and production
+remained separate.
+
+## What I worked on
+
+Task 19 added a protected self-deletion flow. The Account screen required the
+current password and explicit destructive confirmation, while a server-only
+Edge Function derived the target identity from the caller's verified token,
+revoked refresh sessions globally, and deleted that same account.
+
+## Problem discovered
+
+Deletion combines an irreversible remote action with uncertain client state.
+Accepting a user identifier from the request body could target the wrong
+principal, and reporting success before local caches and navigation settled
+could leave private data visible. Other clients may also retain UI state until
+their access token expires even after refresh sessions are revoked.
+
+## Decision made
+
+The server trusted only the authenticated caller identity. The client
+reauthenticated immediately before deletion, prevented duplicate submission,
+classified honest server outcomes, and cleared principal-bound local state
+before leaving the account flow. Human-only staging execution remained a hard
+acceptance boundary.
+
+## Evidence captured
+
+Pull request #43 and its merge commit record the implementation and review.
+The evidence report records exact-head automated checks plus human-executed H1
+and H2 staging deletion paths on the reviewed head. Residual UI on a second
+client without rating access through JWT expiry was documented as expected,
+not described as instant remote sign-out.
+
+## Result
+
+Eazy Review gained a caller-bound deletion path with explicit reauthentication
+and recoverable client settlement around the irreversible server operation.
+No production deletion or production configuration was performed.
+
+## Next question
+
+Before adding more features, which accumulated code and test paths can be
+removed or consolidated without changing accepted behavior?

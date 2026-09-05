@@ -1,0 +1,70 @@
+---
+title: "Task 17: Making My Rating Durable"
+description: "How Eazy Review connected its ten-dimension form to owner-only persistence and server-owned community aggregates."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - ratings
+  - supabase
+  - reliability
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 17 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/36
+  - label: "Task 17 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/3af5e33f202d382c073d2377ee85966d75ac9002
+  - label: "Task 17 acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/3af5e33f202d382c073d2377ee85966d75ac9002/docs/evidence/task-17-my-rating-persistence/RESULT.md
+  - label: "Shared rating-rubric decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/3af5e33f202d382c073d2377ee85966d75ac9002/docs/decisions/2026-08-09-sneaker-10-v1-shared-rubric.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article preserves the accepted Task 17
+limits, including deferred maximum Dynamic Type and full VoiceOver work.
+
+## What I worked on
+
+Task 17 connected the rating form to owner-only `user_ratings`, restored My
+Rating on Product Detail, added Rated Products, and let database triggers
+update Community Score. It retained the shared `sneaker-10-v1` ten-dimension
+rubric and derived 0–100 score.
+
+## Problem discovered
+
+Durable writes exposed failure modes the local prototype did not have: request
+timeouts, offline saves, incomplete submissions, session changes during work,
+and stale user-scoped responses. A direct PostgREST upsert would also exceed
+the accepted column-level authorization contract.
+
+## Decision made
+
+The client used explicit create or update behavior, shared request deadlines,
+auth-generation guards, and cache updates bound to the active principal. The
+server continued to own community aggregation, while the form gave recoverable
+feedback for incomplete or failed submissions.
+
+## Evidence captured
+
+Pull request #36 and its merge commit record the implementation. The evidence
+report separates automated and web passes, an iOS Simulator normal-text pass
+with limits, the full physical A–G matrix, and the final human-reported
+physical smoke. Maximum Dynamic Type failed twice and was explicitly deferred
+to post-launch Task 27; full VoiceOver was not claimed.
+
+## Result
+
+My Rating became durable and user-specific, while Community Score remained a
+database-derived public signal. The task closed without disguising deferred
+extreme accessibility work as accepted coverage.
+
+## Next question
+
+How should a person recover access when the password is forgotten without
+leaking whether an email address has an account?
