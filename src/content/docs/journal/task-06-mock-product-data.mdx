@@ -1,0 +1,62 @@
+---
+title: "Task 6: Designing Mock Product Data for Real Edge Cases"
+description: "How eight local products made the first catalog screens testable before Supabase was connected."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - catalog
+  - data-modeling
+  - prototype
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Tasks 6–7 implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/27dccef07af150855bf699940ef089ec96811c54
+  - label: "Archived Tasks 1–12 implementation record"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/e4cc0e3600f2bf9be72e6f4225dbdd7a5bcc3122/docs/archive/tasks/2026-07-29-pre-review-task-plan.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes local fixtures, not
+production catalog records.
+
+## What I worked on
+
+Task 6 created the first typed product contracts and eight mock products. The
+fixtures included ordinary products alongside missing Eazy Score and zero-
+rating cases so later screens could display honest empty states.
+
+## Problem discovered
+
+A list of uniformly complete sample products would make the happy path look
+finished while hiding the states a real catalog inevitably contains. At the
+same time, connecting Supabase before the screen flow was understood would
+couple product design to backend setup.
+
+## Decision made
+
+The project used deterministic local data with explicit product, card,
+breakdown, rating-summary, and offer types. It modeled absence instead of
+filling every field with invented values, while leaving network behavior and
+durable user state for later tasks.
+
+## Evidence captured
+
+Commit `27dccef07af150855bf699940ef089ec96811c54` records the mock catalog and
+its contracts together with the first Browse implementation. The archived task
+record identifies eight products and the null-score and zero-rating fixtures.
+
+## Result
+
+The UI could be developed against repeatable data that exposed both complete
+and sparse presentation paths. Those fixtures were a design tool, not a second
+source of truth for the eventual database.
+
+## Next question
+
+How should people search and scan this catalog on the first Browse screen?

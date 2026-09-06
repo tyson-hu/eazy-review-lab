@@ -1,0 +1,67 @@
+---
+title: "Task 5: Building the First Reusable UI Primitives"
+description: "How Eazy Review introduced a small shared component set and expanded it only when screens required more."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - foundation
+  - components
+  - product-design
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Initial shared-component commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/fd868ea7f2cfa666464dababce7350b85ec083af
+  - label: "Tasks 6–7 product-component commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/27dccef07af150855bf699940ef089ec96811c54
+  - label: "Task 8 Product Detail pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/9
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article treats Task 5 as an incremental
+component boundary, matching the archived record rather than one isolated
+delivery commit.
+
+## What I worked on
+
+Task 5 established `Screen`, `Button`, `Card`, `AppText`, `ScoreBadge`, and the
+shared loading, empty, and error states. Later task work added `Input`,
+`ProductCard`, `RatingRow`, and `RatingInputRow` when real screen requirements
+made each component necessary.
+
+## Problem discovered
+
+The app needed consistency, but extracting every possible component before a
+screen used it would turn a small prototype into a speculative design system.
+Keeping everything local to each screen would create the opposite problem:
+duplicated states, text, and score presentation.
+
+## Decision made
+
+The project created only the primitives already shared by the shell, then let
+Tasks 7–9 add screen-driven components. This kept reuse tied to demonstrated
+callers rather than imagined future variants.
+
+## Evidence captured
+
+The app-shell commit contains the original primitive set. The Tasks 6–7 commit
+adds the Browse input and product card, and Task 8's pull request adds the
+rating row used by Product Detail. The archived ledger later marks Task 5 fully
+done after those additions.
+
+## Result
+
+Subsequent screens could share ordinary UI states and product vocabulary
+without inheriting a large component framework. The component set grew with
+the product journey.
+
+## Next question
+
+What representative product data is needed to exercise those components before
+the real backend is connected?

@@ -1,0 +1,65 @@
+---
+title: "Task 9: Building the First Session-Only Rating Form"
+description: "How Eazy Review tested its ten-dimension rating interaction before adding authentication and persistence."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - ratings
+  - forms
+  - prototype
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 9 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/10
+  - label: "Task 9 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/15109ec8605ee92cb455ff2bfc7de0aca86edf92
+  - label: "Initial Task 9 implementation commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/a6231bd26fa8280ceea2965f6237fb62069009e7
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article describes a local interaction
+prototype; it does not claim authentication or database persistence.
+
+## What I worked on
+
+Task 9 replaced the rating placeholder with inputs for the shared ten
+dimensions, a live derived My Rating, an optional private note, validation,
+and create-versus-edit behavior within the current application session.
+
+## Problem discovered
+
+The rating model needed interaction proof before security and storage were
+added. A manually editable overall score would also conflict with the product
+rule that My Rating is derived from the individual dimensions.
+
+## Decision made
+
+The form kept the ten half-step inputs as the source values and computed the
+0–100 result. It supported prefilled editing and honest session-only save
+feedback, while deferring login, database writes, and server-owned Community
+Score updates.
+
+## Evidence captured
+
+The initial implementation commit records the local form and My Rating
+calculation. Pull request #10 and its merge commit contain the completed route,
+shared `RatingInputRow`, contract updates, and integration back into Product
+Detail.
+
+## Result
+
+The core rating interaction could be evaluated end to end without confusing a
+prototype save with durable product behavior. Its limitations became explicit
+requirements for Tasks 16 and 17.
+
+## Next question
+
+Does the complete mock Browse → Detail → Rate journey remain usable across its
+happy, sparse, invalid, and navigation states?

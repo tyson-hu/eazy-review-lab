@@ -1,0 +1,72 @@
+---
+title: "Task 20: Measuring Whether Browse Needed to Scale Up"
+description: "How two explicit measurements kept server-side Browse work conditional instead of turning expected growth into a feature."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - browse
+  - performance
+  - decision
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Initial Task 20 evaluation pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/49
+  - label: "27-product re-measure pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/51
+  - label: "Task 20 re-measure merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/0cd780df24f8d0365f93f00438d0792a55eee829
+  - label: "Browse scale-up trigger decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/0cd780df24f8d0365f93f00438d0792a55eee829/docs/decisions/2026-09-02-browse-scale-up-trigger.md
+  - label: "Task 20 measurement evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/0cd780df24f8d0365f93f00438d0792a55eee829/docs/evidence/task-20-browse-scale-up-trigger/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article reports local and previously
+recorded staging measurements; latency and UI were not measured on device.
+
+## What I worked on
+
+Task 20 defined measurable conditions for replacing client-side Browse search
+with server-side search or pagination, then evaluated them twice: first against
+the two-product seed and again after the catalog grew to 27 products.
+
+## Problem discovered
+
+“The catalog will grow” was not evidence that the current Browse path was too
+large or slow. Implementing server pagination early would add query, cache,
+search, and UI states before users or payload measurements required them.
+
+## Decision made
+
+Browse Scale-Up stayed conditional on recorded catalog-size, payload, latency,
+or UI-pressure criteria. The first measurement found a two-product response;
+the re-measure found 27 published products, a 32,747-byte response, about 1,213
+bytes per product, and a roughly 364 KB projection at 300 products. Neither
+evaluation met the accepted size criteria, so client-side brand, name, and SKU
+matching remained.
+
+## Evidence captured
+
+Pull requests #49 and #51 preserve the initial evaluation and accepted
+re-measure. The decision record defines the trigger, and the evidence report
+records methods and results. The 27-product local median was 19.14 ms, but no
+device latency or UI measurement was made, so those criteria remained
+unevaluated rather than passed.
+
+## Result
+
+Task 20 produced a “not yet” decision instead of unused scale infrastructure.
+The conditional task remained available for future measurements while Task 21
+could proceed against the larger catalog.
+
+## Next question
+
+With scale-up still unjustified, can the existing catalog support a Feed that
+is meaningfully different from Browse?

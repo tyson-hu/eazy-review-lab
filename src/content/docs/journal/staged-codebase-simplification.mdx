@@ -1,0 +1,71 @@
+---
+title: "Simplifying Eazy Review after the Connected Core"
+description: "How staged cleanup removed starter code, duplicate request ownership, proxy tests, and the retired global mock catalog."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - refactoring
+  - maintenance
+  - reliability
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Staged simplification pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/46
+  - label: "Staged simplification merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/38d64200e5d33603240e7d7fe1056e4e2585e1c0
+  - label: "Staged simplification decision"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/38d64200e5d33603240e7d7fe1056e4e2585e1c0/docs/decisions/2026-08-30-staged-codebase-simplification.md
+  - label: "Mock-catalog retirement evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/38d64200e5d33603240e7d7fe1056e4e2585e1c0/docs/evidence/s2-mock-catalog-retirement/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article covers the accepted PR #46
+program only; later cleanup candidates remained unselected.
+
+## What I worked on
+
+After Tasks 15–19 connected the critical product path, the staged
+simplification program removed unreachable starter files and dependencies,
+routed duplicate catalog reads through the existing timeout owner, retired
+low-value proxy tests, and deleted the global mock catalog and its bundled
+image protocol. Two bounded corrections also made Browse the stable tab root
+and surfaced Account connectivity state promptly.
+
+## Problem discovered
+
+The repository still carried scaffolding and mock-era ownership after real
+data became authoritative. Removing it all at once would make regressions hard
+to localize, while leaving duplicate request and navigation behavior in place
+would make later Feed work inherit avoidable complexity.
+
+## Decision made
+
+The work was split into independently checked packets: S1 for starter cleanup,
+E1 for request consolidation, E3 for proxy-test deletion, and S2 for mock
+catalog retirement. Existing production owners were reused; no replacement
+framework or speculative abstraction was added.
+
+## Evidence captured
+
+Pull request #46 and its merge commit preserve the packet sequence, review
+findings, and exact-head CI. The S2 evidence records connected web, simulator,
+and human-reported physical checks. Android, deployment, hosted configuration,
+database mutation, and production access were outside the accepted program.
+
+## Result
+
+The connected app became smaller and clearer before Feed expanded. Accepted
+fixtures remained where tests needed them, but the obsolete global runtime
+catalog no longer competed with Supabase.
+
+## Next question
+
+Is the two-product deterministic seed large enough to judge discovery and
+ranking behavior honestly?

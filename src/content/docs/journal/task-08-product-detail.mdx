@@ -1,0 +1,67 @@
+---
+title: "Task 8: Composing a Complete Product Detail Screen"
+description: "How product facts, offers, scores, rating context, and a rate action became one coherent detail route."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - product-detail
+  - ratings
+  - commerce
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 8 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/9
+  - label: "Task 8 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/0414e1b38a63ffc5117cf4e283f0b3161e780301
+  - label: "Task 8 data-contract commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/1e3f2cb4324e1c35677144ab3ff5892b4807c972
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article records the mock Product Detail
+implementation and does not describe later Supabase or My Rating persistence.
+
+## What I worked on
+
+Task 8 replaced the placeholder route with a composed Product Detail screen.
+It added product metadata, Eazy Score, Community Score and count, offers by
+size, a rating breakdown, session-local My Rating context, description, and a
+working route to the upcoming rating form.
+
+## Problem discovered
+
+The summary product type was not a safe owner for every detail concern.
+Commerce offers, community aggregates, and user-specific rating state have
+different lifecycles. Flattening them into one product object would make the
+later connected client harder to reason about.
+
+## Decision made
+
+The task introduced a composed detail contract and kept My Rating separate
+from public catalog data. Price display derived from usable offers, score copy
+handled missing values, and unknown identifiers produced an explicit not-found
+state. The screen was delivered in sequential packets rather than one large
+rewrite.
+
+## Evidence captured
+
+The data-contract commit fixes the ownership boundary before UI composition.
+Pull request #9 and its merge commit record the completed route, fixtures,
+formatting utility, shared rating row, and contract documentation.
+
+## Result
+
+Product Detail became a useful destination with enough honest sparse states to
+support UX review. It still depended on mock data and did not claim durable
+ratings or real offers.
+
+## Next question
+
+How should a person enter the ten rating dimensions and see a derived My
+Rating without pretending that local state is durable?

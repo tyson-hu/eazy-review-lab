@@ -1,0 +1,68 @@
+---
+title: "Task 12: Proving Least-Privilege Data API Access"
+description: "How explicit grants, row-level security, and authorization tests bounded every mobile-client capability."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - supabase
+  - authorization
+  - security
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 12 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/23
+  - label: "Task 12 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/32b13265c7ce57a66876ca4153d584ae8135ff99
+  - label: "Tasks 11–12 database acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/32b13265c7ce57a66876ca4153d584ae8135ff99/docs/evidence/task-11-12-database-acceptance/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article reports the accepted Task 12
+authorization boundary without claiming production application.
+
+## What I worked on
+
+Task 12 layered explicit Data API grants and row-level security onto the Task
+11 schema. Anonymous clients could read only published catalog data;
+authenticated clients could additionally read their own profile and manage
+their own rating fields. Aggregate tables and trigger helpers remained
+client-read-only or inaccessible.
+
+## Problem discovered
+
+Row-level security alone does not grant access, and table grants alone do not
+restrict rows. A secure mobile contract needed both layers to agree, including
+column-level limits that prevent clients from rewriting identities, audit
+fields, or server-owned aggregates.
+
+## Decision made
+
+The migration revoked broad privileges before rebuilding a narrow allowlist.
+Tests then exercised anonymous, owner, cross-user, unpublished-product,
+private-note, malformed-claim, and service-role cases. The service-role secret
+remained server-only and forbidden from Expo.
+
+## Evidence captured
+
+Pull request #23 and its merge commit record the policy and grant matrix. The
+acceptance report records 418 pgTAP assertions, concurrency races, local checks,
+and transaction-rolled-back staging authorization tests. Production remained
+untouched.
+
+## Result
+
+The database exposed only the capabilities required by the planned client.
+The project could proceed to deterministic seed data without weakening the
+deny-by-default foundation.
+
+## Next question
+
+What minimum catalog fixtures can prove complete and sparse product behavior
+repeatably on the same database?

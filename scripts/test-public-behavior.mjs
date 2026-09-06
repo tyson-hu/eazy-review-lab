@@ -61,6 +61,37 @@ const LAUNCH_JOURNAL = {
   slugToken: "launching-eazy-review-lab",
 };
 
+const HISTORY_JOURNALS = [
+  ["catalog-expansion-27-products", "Expanding the Development Catalog to 27 Products"],
+  ["staged-codebase-simplification", "Simplifying Eazy Review after the Connected Core"],
+  ["task-01-expo-typescript-foundation", "Task 1: Starting Eazy Review with Expo and TypeScript"],
+  ["task-02-expo-router-navigation", "Task 2: Turning the Starter into an Expo Router App"],
+  ["task-03-nativewind-configuration", "Task 3: Establishing the NativeWind Styling Pipeline"],
+  ["task-04-primary-tabs", "Task 4: Naming the App through Its Primary Tabs"],
+  ["task-05-reusable-ui-primitives", "Task 5: Building the First Reusable UI Primitives"],
+  ["task-06-mock-product-data", "Task 6: Designing Mock Product Data for Real Edge Cases"],
+  ["task-07-mock-browse-screen", "Task 7: Making the Mock Catalog Browsable"],
+  ["task-08-product-detail", "Task 8: Composing a Complete Product Detail Screen"],
+  ["task-09-session-rating-form", "Task 9: Building the First Session-Only Rating Form"],
+  ["task-10-ux-review", "Task 10: Auditing the Mock Product Journey before Supabase"],
+  ["task-11-supabase-core-schema", "Task 11: Building a Deny-by-Default Supabase Schema"],
+  ["task-12-least-privilege-authorization", "Task 12: Proving Least-Privilege Data API Access"],
+  ["task-13-deterministic-product-seed", "Task 13: Creating a Deterministic Product Seed"],
+  ["task-14-connected-client-foundation", "Task 14: Establishing the Connected Client and Query Foundation"],
+  ["task-15-real-public-catalog", "Task 15: Replacing Mock Catalog Reads with Supabase"],
+  ["task-16-core-authentication", "Task 16: Adding Authentication without Gating Browse"],
+  ["task-17-my-rating-persistence", "Task 17: Making My Rating Durable"],
+  ["task-18-password-recovery", "Task 18: Completing the Password-Recovery Loop"],
+  ["task-19-protected-account-deletion", "Task 19: Protecting Account Deletion End to End"],
+  ["task-20-browse-scale-up-trigger", "Task 20: Measuring Whether Browse Needed to Scale Up"],
+  ["task-21-rating-first-feed", "Task 21: From Browse Clone to Rating-First Feed"],
+].map(([slugToken, title]) => ({
+  slugToken,
+  title,
+  canonicalPath: `/journal/${slugToken}/`,
+  canonicalUrl: `https://lab.tianzhe.me/journal/${slugToken}/`,
+}));
+
 const REQUIRED_HTML = [
   "index.html",
   "project/index.html",
@@ -513,6 +544,111 @@ async function assertPagefindDiscoversLaunchJournal() {
 
 await assertPagefindDiscoversLaunchJournal();
 
+// --- Published Eazy Review task history ---
+const historyIndexHtml = read("journal/index.html");
+const historyAgentSurface = [llmsPath, journalLlmsPath]
+  .filter((file) => fs.existsSync(file))
+  .map((file) => fs.readFileSync(file, "utf8"))
+  .join("\n");
+const historySitemap = sitemapFile
+  ? [sitemapFile, path.join(dist, "sitemap-0.xml")]
+      .filter((file) => fs.existsSync(file))
+      .map((file) => fs.readFileSync(file, "utf8"))
+      .join("\n")
+  : "";
+
+for (const entry of HISTORY_JOURNALS) {
+  const htmlPath = existsAny([
+    `journal/${entry.slugToken}/index.html`,
+    `journal/${entry.slugToken}.html`,
+  ]);
+  const mdPath = existsAny([
+    `journal/${entry.slugToken}/index.md`,
+    `journal/${entry.slugToken}.md`,
+  ]);
+  const mdxPath = existsAny([
+    `journal/${entry.slugToken}/index.mdx`,
+    `journal/${entry.slugToken}.mdx`,
+  ]);
+
+  if (htmlPath) {
+    const html = fs.readFileSync(htmlPath, "utf8");
+    if (
+      html.includes(entry.title) &&
+      html.includes("Drafted with AI, reviewed by Tyson Hu.")
+    ) {
+      ok(`${entry.slugToken} published HTML`);
+    } else {
+      fail(`${entry.slugToken} published HTML`, "title or disclosure missing");
+    }
+  } else {
+    fail(`${entry.slugToken} published HTML`);
+  }
+
+  if (mdPath && mdxPath) ok(`${entry.slugToken} Markdown alternates`);
+  else fail(`${entry.slugToken} Markdown alternates`);
+
+  if (historyIndexHtml.includes(`href="${entry.canonicalPath}"`)) {
+    ok(`${entry.slugToken} journal index link`);
+  } else {
+    fail(`${entry.slugToken} journal index link`);
+  }
+
+  if (
+    historyAgentSurface.includes(entry.slugToken) &&
+    historyAgentSurface.includes(entry.title)
+  ) {
+    ok(`${entry.slugToken} agent surfaces`);
+  } else {
+    fail(`${entry.slugToken} agent surfaces`);
+  }
+
+  if (historySitemap.includes(entry.canonicalUrl.replace(/\/$/, ""))) {
+    ok(`${entry.slugToken} sitemap URL`);
+  } else {
+    fail(`${entry.slugToken} sitemap URL`);
+  }
+}
+
+async function assertPagefindDiscoversHistory() {
+  const pagefindDir = path.join(dist, "pagefind");
+  if (!fs.existsSync(pagefindDir)) return;
+
+  const { server, origin } = await serveDist();
+  try {
+    const pagefind = await import(
+      pathToFileURL(path.join(pagefindDir, "pagefind.js")).href
+    );
+    await pagefind.options({ basePath: `${origin}/pagefind/` });
+    await pagefind.init();
+
+    for (const entry of HISTORY_JOURNALS) {
+      const search = await pagefind.search(entry.title);
+      const hits = await Promise.all(
+        search.results.slice(0, 10).map((result) => result.data()),
+      );
+      if (
+        hits.some(
+          (hit) =>
+            hit.meta?.title === entry.title ||
+            String(hit.url || "").includes(entry.slugToken),
+        )
+      ) {
+        ok(`search finds ${entry.slugToken}`);
+      } else {
+        fail(`search finds ${entry.slugToken}`);
+      }
+    }
+    await pagefind.destroy?.();
+  } catch (err) {
+    fail("search finds published task history", String(err));
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+}
+
+await assertPagefindDiscoversHistory();
+
 // --- Feeds ---
 function assertFeeds() {
   const rssPath = path.join(dist, "feed.xml");
@@ -581,6 +717,18 @@ function assertFeeds() {
     ok("RSS includes launch journal URL and kind");
   } else {
     fail("RSS includes launch journal URL and kind");
+  }
+
+  for (const entry of HISTORY_JOURNALS) {
+    const item = feed.items.find((candidate) => candidate.url === entry.canonicalUrl);
+    if (item?.kind === "journal" && item.featured === false) {
+      ok(`feeds include ${entry.slugToken}`);
+    } else {
+      fail(`feeds include ${entry.slugToken}`, JSON.stringify(item));
+    }
+    if (!rss.includes(entry.canonicalUrl)) {
+      fail(`RSS includes ${entry.slugToken}`);
+    }
   }
 
   if (rss.includes(DRAFT_SLUG) || jsonRaw.includes(DRAFT_SLUG)) {

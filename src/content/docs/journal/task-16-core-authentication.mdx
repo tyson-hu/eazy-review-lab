@@ -1,0 +1,67 @@
+---
+title: "Task 16: Adding Authentication without Gating Browse"
+description: "How Eazy Review introduced account state, protected Rate entry, and session-race guards around an anonymous catalog."
+draft: false
+kind: journal
+project: eazy-review
+publishedAt: "2026-09-04T22:59:09-05:00"
+tags:
+  - authentication
+  - account
+  - reliability
+featured: false
+aiGenerated: true
+humanReviewedAt: "2026-09-04T22:59:09-05:00"
+reviewedBy: Tyson Hu
+sourceRefs:
+  - label: "Task 16 pull request"
+    url: https://github.com/tyson-hu/Eazy-Review/pull/35
+  - label: "Task 16 merge commit"
+    url: https://github.com/tyson-hu/Eazy-Review/commit/75967c820dc950c66ed05fdd85f811f7c9fe9ce2
+  - label: "Task 16 acceptance evidence"
+    url: https://github.com/tyson-hu/Eazy-Review/blob/75967c820dc950c66ed05fdd85f811f7c9fe9ce2/docs/evidence/task-16-auth-account/RESULT.md
+---
+
+Drafted with AI, reviewed by Tyson Hu.
+
+This article covers the accepted core-auth
+scope and does not include password recovery or account deletion.
+
+## What I worked on
+
+Task 16 added email/password sign-up, sign-in, sign-out, session restoration,
+a minimal Account surface, and an authentication gate around Rate. It also
+isolated user-scoped caches and restored the intended destination after a
+successful sign-in.
+
+## Problem discovered
+
+Authentication changes asynchronously. A stale restore or profile response
+could otherwise overwrite a newer sign-in or sign-out state, and cached
+account data could survive across users. At the same time, requiring a session
+for Browse would violate the product's anonymous discovery rule.
+
+## Decision made
+
+The app kept the catalog public and placed the boundary at user-owned actions.
+Generation guards rejected stale auth work, sign-out settled local state, and
+navigation returned people to the protected flow they had chosen. Recovery,
+durable My Rating, and deletion stayed in later tasks.
+
+## Evidence captured
+
+Pull request #35 and its merge commit contain the implementation and review
+history. The evidence report records automated and web verification plus a
+corrected physical-iPhone checklist reported as passing. That evidence does
+not claim production authentication configuration.
+
+## Result
+
+Eazy Review gained account state without turning sign-in into a prerequisite
+for product discovery. The authenticated boundary was ready for durable,
+owner-only rating writes.
+
+## Next question
+
+How can My Rating persist reliably while Community Score remains server-owned
+and caches remain tied to the active user?
